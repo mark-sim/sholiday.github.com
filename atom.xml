@@ -1,0 +1,1706 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Stephen Holiday</title>
+ <link href="http://stephenholiday.com/atom.xml" rel="self"/>
+ <link href="http://stephenholiday.com/"/>
+ <updated>2014-07-17T14:41:21-04:00</updated>
+ <id>http://stephenholiday.com/</id>
+ <author>
+   <name>Stephen Holiday</name>
+   <email>stephen.holiday@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>My Backup Strategy</title>
+   <link href="http://stephenholiday.com/articles/2014/backup-strategy"/>
+   <updated>2014-07-13T00:00:00-04:00</updated>
+   <id>http://stephenholiday/articles/2014/backup-strategy</id>
+   <content type="html">&lt;p&gt;I remember the first time I had a hard drive fail on me. I was pretty upset. It
+was a 6.8 GB drive that I scavenged in a garage sale like all of my
+Frankenstein’s monster computers. I had lost many documents and pictures before
+with faulty floppy discs and accidental deletions, but never before had I lost
+so much in one fell swoop. I was pretty young at the time so the documents and
+Photoshopped pictures were far from masterpieces, but nevertheless they mattered
+to me.&lt;/p&gt;
+
+&lt;p&gt;Had I known about SpinRite at that time I may have been able to resuscitate the
+drive and save a few files. SpinRite has saved many files for my friends and
+families who do not have a backup plan. It’s awesome and you should try it.&lt;/p&gt;
+
+&lt;p&gt;After that day I vowed to never lose a file again. It took me many years to
+setup a backup system that works for me and I learned a few things in the
+process. It has saved my Canadian bacon more times then I’d care to admit.&lt;/p&gt;
+
+&lt;h2 id=&quot;theory&quot;&gt;Theory&lt;/h2&gt;
+&lt;p&gt;I’m a big fan of Scott Hanselman’s &lt;a href=&quot;http://www.hanselman.com/blog/TheComputerBackupRuleOfThree.aspx&quot;&gt;“3-2-1” backup strategy&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;3 copies&lt;/li&gt;
+  &lt;li&gt;2 different formats&lt;/li&gt;
+  &lt;li&gt;1 copy off-site&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Three copies may be a little extreme for some people, and that is fine, but when
+both my main machine and my main backup were acting up at the same time I was
+pretty happy to have another copy.&lt;/p&gt;
+
+&lt;p&gt;The second point regarding formats is an interesting one. My mother backs up all
+of our home movies to an external hard drive as well as DVDs she keeps off-site.
+She used to just have DVDs. However, optical media (especially if it’s from the
+same manufacture) will tend to degrade in the same way at a similar rate. While
+it’s helpful to have multiple copies in the case of scratches (though if you are
+backing up you probably aren’t leaving the media laying around), it doesn’t help
+if they both fail in the same way.&lt;/p&gt;
+
+&lt;p&gt;If your backup is beside you computer when you house burns down or when a
+burglar steals both your laptop and external hard drive it doesn’t really help.&lt;/p&gt;
+
+&lt;p&gt;Two more things I would add as a requirement for a good strategy:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Automatic&lt;/li&gt;
+  &lt;li&gt;Version History&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If my strategy was not mostly automatic, I’d have abandoned it years ago. At
+least one of your backups should be automatic to ensure it happens regularly.
+One of the benefits of automatic backup is you can often step up the frequency.
+If you only run your backup every Sunday and your drive fails on Saturday,
+you’ll be out a lot of work.&lt;/p&gt;
+
+&lt;p&gt;I also believe having a version history of your files is very important. I
+remember doing tedious data entry for a day and then accidentally saving over
+the file at the end of the day. I didn’t notice until the next day that my data
+was gone. It would have been extremely frustrating to through away all that
+work.&lt;/p&gt;
+
+&lt;p&gt;If my backup system had been running hourly and simply overwrote the file with
+the latest version, I would have lost all that work. However my backup system
+kept hourly versions for a week and weekly versions for a year.&lt;/p&gt;
+
+&lt;h2 id=&quot;stephens-strategy&quot;&gt;Stephen’s Strategy&lt;/h2&gt;
+&lt;p&gt;I use Apple’s &lt;a href=&quot;http://support.apple.com/kb/ht1427&quot;&gt;Time Machine&lt;/a&gt; on two
+external drives plus &lt;a href=&quot;http://www.code42.com/crashplan/&quot;&gt;CrashPlan&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Time Machine is simple and awesome. Whenever a drive is plugged in, OSX will
+automatically backup (with versions) all the data you ask it to. I also keep my
+backup drives (as I do with all my drives) encrypted with Apple’s FileVault.
+Apple does a great job of making full disk encryption really easy. I have two
+backup drives: one that stays in my apartment beside my laptop and another at my
+parents’ house. Whenever I go home to visit I run a backup from my laptop. It
+also keeps revision history of my files:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Hourly backups for 24 hours&lt;/li&gt;
+  &lt;li&gt;Daily backups for the past month&lt;/li&gt;
+  &lt;li&gt;Weekly backups for the previous months&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;But the best part of my strategy is CrashPlan. CrashPlan is an online backup
+service that I pay for. It is off-site and it has great encryption capabilities.
+I use my own encryption key with it so that the people at CrashPlan cannot even
+look at my files. It also backs up every five minutes!&lt;/p&gt;
+
+&lt;p&gt;CrashPlan is great when I’m working on my laptop while on the go away from my
+external hard drive. When I was in Tokyo I had one of the external drives with
+me but CrashPlan allowed me to keep an off-site backup of my photos in the case
+that my laptop and backup were destroyed or lost on the way back to Canada.&lt;/p&gt;
+
+&lt;p&gt;CrashPlan also keeps every five minute version forever under the settings I’ve
+chosen. This is probably unnecessary, but it doesn’t cost me anything extra.&lt;/p&gt;
+
+&lt;h2 id=&quot;bottom-line&quot;&gt;Bottom Line&lt;/h2&gt;
+&lt;p&gt;Have multiple copies, some off-site and make it automatic!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>How Project Rhino leverages Hadoop to build a graph of the music world</title>
+   <link href="http://stephenholiday.com/articles/2014/batch-graph-build-using-hadoop-and-titan"/>
+   <updated>2014-03-27T00:00:00-04:00</updated>
+   <id>http://stephenholiday/articles/2014/batch-graph-build-using-hadoop-and-titan</id>
+   <content type="html">&lt;p&gt;&lt;img src=&quot;/media/img/rhino-graph-build/stephen-symposium.jpg&quot; style=&quot;margin:10px;float:left&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This last week &lt;a href=&quot;http://tony-dong.com&quot;&gt;Tony Dong&lt;/a&gt;, &lt;a href=&quot;http://www.linkedin.com/pub/omid-mortazavi/41/a97/5b0&quot;&gt;Omid Mortazavi&lt;/a&gt;, &lt;a href=&quot;http://www.linkedin.com/in/vineetnayak&quot;&gt;Vineet Nayak&lt;/a&gt;
+and I presented &lt;a href=&quot;http://tryrhino.com&quot;&gt;Project Rhino&lt;/a&gt; at this years
+&lt;a href=&quot;https://uwaterloo.ca/engineering/events/electrical-and-computer-engineerings-capstone-design&quot;&gt;ECE Capstone Design Symposium&lt;/a&gt; at the University of Waterloo.&lt;/p&gt;
+
+&lt;p&gt;Project Rhino is a music search engine that allows you to ask questions about
+the music world in plain English. Check out a &lt;a href=&quot;http://vimeo.com/89340593&quot;&gt;demo video here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We noticed there is a ton of data available about the music world but that they
+were disconnected. There was no easy way to explore the relationships in the
+music world.&lt;/p&gt;
+
+&lt;p&gt;This project allows a user to express an English query, that is then transformed
+into a traversal over the music data we have collected. All of the data was
+retrieved from freely available Creative Commons sources. However,
+integrating the data from disparate sources is non-trivial.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here are some of the questions Project Rhino can answer:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Find artists similar to &quot;The Beatles&quot; and played in &quot;Waterloo, Ontario&quot;&lt;/li&gt;
+&lt;li&gt;Find artists from Canada and similar to &quot;Vampire Weekend&quot;&lt;/li&gt;
+&lt;li&gt;Find songs by artists from Australia and similar to artists from Germany&lt;/li&gt;
+&lt;li&gt;Show venues where artists born in 1970 and from Japan played&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Aside from the complexities of data integration, the sheer volume of data (100+
+GB of compressed JSON) makes this project challenging.&lt;/p&gt;
+
+&lt;p&gt;In this post I focus on one aspect of the ETL pipeline I developed for Project
+Rhino, the construction and insertion of the graph into our graph database.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/rhino-graph-build/titan-logo.png&quot; style=&quot;margin:10px;float:right&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;the-graph-database&quot;&gt;The Graph Database&lt;/h3&gt;
+
+&lt;p&gt;We used &lt;a href=&quot;http://thinkaurelius.github.io/titan/&quot;&gt;Titan&lt;/a&gt; on top of &lt;a href=&quot;https://cassandra.apache.org/&quot;&gt;Cassandra&lt;/a&gt; to store our graph. It’s
+a pretty cool project and worth checking out. They provide a nice graph
+abstraction and excellent graph traversal language called &lt;a href=&quot;https://github.com/tinkerpop/gremlin/wiki&quot;&gt;Gremlin&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;When we first came up with the idea for this project at &lt;a href=&quot;http://www.mortys.com/&quot;&gt;Morty’s Pub&lt;/a&gt;,
+we were going to build our own distributed graph database from scratch. Titan
+saved us a lot of pain.&lt;/p&gt;
+
+&lt;p&gt;The people who produce Titan have a batch graph engine built on top of Hadoop
+called &lt;a href=&quot;http://thinkaurelius.github.io/faunus/&quot;&gt;Faunus&lt;/a&gt;. It’s pretty cool but we didn’t end up using it for some
+of the reasons I’ll talk about later.&lt;/p&gt;
+
+&lt;h2 id=&quot;rhinos-batch-graph-build&quot;&gt;Rhino’s Batch Graph Build&lt;/h2&gt;
+
+&lt;p&gt;The final and most intensive stage of the pipeline is graph construction. This
+is when the data is combined to create the graph. The graph is made up of two
+components: nodes with properties (ex. an artist) and edges between nodes with
+properties (ex. &lt;code&gt;writtenBy&lt;/code&gt;). This stage outputs a list of graph nodes and then
+a list of graph edges. This process is managed by a series of Hadoop MapReduce
+jobs.&lt;/p&gt;
+
+&lt;h3 id=&quot;hadoop-vertex-format&quot;&gt;Hadoop Vertex Format&lt;/h3&gt;
+
+&lt;p&gt;The first step is to transform the intermediate form tables into nodes and
+edges. Since Hadoop requires that data be serialized between steps, I needed a
+way to represent the graph on disk. I chose to use a Thrift Struct.&lt;/p&gt;
+
+&lt;p&gt;Here’s the Thrift definition for a vertex in the ETL pipeline:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct TVertex {
+  1: optional i64 rhinoId,
+  2: optional i64 titanId,
+  3: optional map&amp;lt;string, Item&amp;gt; properties,
+  4: optional list&amp;lt;TEdge&amp;gt; outEdges
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;rhinoId&lt;/code&gt; is the ID used in the intermediate tables. This is the ID we
+assigned as part of the ETL process. &lt;code&gt;titanId&lt;/code&gt; refers to the identifier Titan
+generates for the vertex. The distinction is discussed in further detail in the
+Design Decisions section below.&lt;/p&gt;
+
+&lt;p&gt;The outEdges field is a list of graph edges with the current vertex as its
+source (or left hand of the arrow).&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;properties&lt;/code&gt; field is a map of string keys to typed value as described here:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;union Item {
+  1: i16 short_value;
+  2: i32 int_value;
+  3: i64 long_value;
+  4: double double_value;
+  5: string string_value;
+  6: binary bytes_value;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is the Thrift definition for an edge in the ETL pipeline.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct TEdge {
+    1: optional i64 leftRhinoId,
+    2: optional i64 leftTitanId,
+    3: optional i64 rightRhinoId,
+    4: optional i64 rightTitanId,
+    5: optional string label,
+    6: optional map&amp;lt;string, Item&amp;gt; properties
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;mapreduce-jobs&quot;&gt;MapReduce Jobs&lt;/h3&gt;
+
+&lt;h4 id=&quot;vertex-jobs&quot;&gt;Vertex Jobs&lt;/h4&gt;
+
+&lt;p&gt;The first set of jobs is responsible for converting the intermediate tables into
+Thrift. Here is an example of the conversions of two tables into its Thrift
+form.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;width:100%&quot;&gt;
+&lt;img src=&quot;/media/img/rhino-graph-build/vertex-jobs.png&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now all of the tables follow the same structure and we can treat all vertices
+the same way!&lt;/p&gt;
+
+&lt;h4 id=&quot;edge-jobs&quot;&gt;Edge Jobs&lt;/h4&gt;
+
+&lt;p&gt;The next set of jobs transforms intermediate edge tables into edges. In
+practice, vertex and edge conversion jobs can (and are) run simultaneously.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;width:100%&quot;&gt;
+&lt;img src=&quot;/media/img/rhino-graph-build/edge-jobs.png&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Note that instead of producing &lt;code&gt;TEdge&lt;/code&gt; structures, TVertex structures are
+produced. To facilitate bulk loading, edges are treated like vertices that have
+no properties. This allows the next stage to treat records from vertex jobs and
+edge jobs identically.&lt;/p&gt;
+
+&lt;h4 id=&quot;graph-combine-job&quot;&gt;Graph Combine Job&lt;/h4&gt;
+
+&lt;p&gt;The next stage is a single job that combines vertices and edges by joining them
+on &lt;code&gt;titanVertexId&lt;/code&gt;. As pictured, both vertex and edge records are combined
+together so that each vertex appears only once in the output.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;width:100%&quot;&gt;
+&lt;img src=&quot;/media/img/rhino-graph-build/graph-combine-job.png&quot; /&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;vertex-insert-job&quot;&gt;Vertex Insert Job&lt;/h4&gt;
+
+&lt;p&gt;The Vertex Insert Job is the first job that actually inserts data into the
+graph. There are two important phases of this job, the mapper and the reducer.
+The mapper, as shown below writes each vertex to Titan.&lt;/p&gt;
+
+&lt;p&gt;When it writes the vertex to Titan, it receives an opaque ID that Titan has
+assigned to the vertex. The mapping between &lt;code&gt;rhinoID&lt;/code&gt; and &lt;code&gt;titanId&lt;/code&gt; is written
+out so that it can be used in the reduce phase to be matched with all possible
+incoming edges.&lt;/p&gt;
+
+&lt;p&gt;Next, all of the outgoing edges are written out, grouping by target instead of
+source vertex. The key is the target (the right hand vertex) &lt;code&gt;rhinoID&lt;/code&gt; and the
+value now includes the source (the left hand vertex) &lt;code&gt;titanId&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;width:100%&quot;&gt;
+&lt;img src=&quot;/media/img/rhino-graph-build/vertex-insert-mapper.png&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In the reduce phase, all of the records with the same &lt;code&gt;rhinoId&lt;/code&gt; (including the
+record showing the mapping to Titan ID) are processed at the same time. The
+&lt;code&gt;titanId&lt;/code&gt; for the given Rhino ID will always appear first due to the use of a
+custom sort function not described here.&lt;/p&gt;
+
+&lt;p&gt;For each subsequent record (now all edges), the &lt;code&gt;rightTitanId&lt;/code&gt; is added to the
+edge and written out. At this point the edges could be written directly to Titan.
+I’ll talk about why we don’t later on.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;width:100%&quot;&gt;
+&lt;img src=&quot;/media/img/rhino-graph-build/vertex-insert-reducer.png&quot; /&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;edge-insert-job&quot;&gt;Edge Insert Job&lt;/h4&gt;
+
+&lt;p&gt;The edge insert job is fairly straightforward. The mapper reads in the edges one
+at a time and adds an edge between the source and target vertices. This is a map
+only job and there are no outputs other than the insertions into the graph.&lt;/p&gt;
+
+&lt;h3 id=&quot;design-decisions&quot;&gt;Design Decisions&lt;/h3&gt;
+
+&lt;h4 id=&quot;custom-batch-framework&quot;&gt;Custom Batch Framework&lt;/h4&gt;
+
+&lt;p&gt;I initially tried to use Titan’s own batch framework. Two problems arose. First,
+there was limited room for insert optimizations. Second, it was not compatible
+with the newer version of Hadoop that we were using.&lt;/p&gt;
+
+&lt;p&gt;This also allowed me to devise a custom serialization schema. I chose Thrift
+because of my previous experience with it and it was already being used for RPC.
+Alternatively we could have used something like Protocol Buffers or Avro.&lt;/p&gt;
+
+&lt;p&gt;The use of an &lt;code&gt;Item&lt;/code&gt; union over a plain byte string allowed for property values
+to be stored compactly on disk while maintain type-safety throughout the graph
+build process.&lt;/p&gt;
+
+&lt;h4 id=&quot;vertex-ids&quot;&gt;Vertex IDs&lt;/h4&gt;
+
+&lt;p&gt;One of the most (surprisingly) challenging issues I faced was identifying
+vertices. When a vertex is created in Titan, a vertex ID is generated by Titan
+through an opaque process. That is, the user does not know ahead of time what
+that ID could be. In the intermediate tables each vertex is given a unique ID
+referred to as the Rhino ID, however it is not known ahead of time what
+the Titan ID will be.&lt;/p&gt;
+
+&lt;p&gt;This becomes an issue when as part of a distributed insert, an edge is to be
+inserted between two vertices. While the edge contains the source and target
+(left and right hand vertices), looking up each vertex’s Titan ID is not
+straightforward.&lt;/p&gt;
+
+&lt;p&gt;I considered storing the Rhino ID as an indexed property on the vertex, however
+that requires extra storage that would be wasted after insertion was complete.
+More importantly, looking up a Rhino ID in the distributed graph could require a
+network hop to the node that has the Titan ID in question. Instead I opted to
+use the information already available and perform the insertion in two stages as
+described.&lt;/p&gt;
+
+&lt;h4 id=&quot;separate-vertex-and-edge-insert-jobs&quot;&gt;Separate Vertex and Edge Insert Jobs&lt;/h4&gt;
+
+&lt;p&gt;While the vertices could be inserted in the map phase and the edges in the
+reduce phase, I chose to separate them. Initially it was a single job, however
+it was difficult to reasons about the jobs and their performance.&lt;/p&gt;
+
+&lt;p&gt;Additionally, I needed finer granularity over the transaction size. Since the
+two inserts are separated, I can tune the edge insert job to do fewer inserts in
+a transaction because edge inserts require more memory as well as I/O bandwidth.
+This is reasonable given that inserting edges requires random lookups to obtain
+the source and target vertices. In the future, some optimizations can be made to
+partition the edge inserts so that they are more cache friendly.&lt;/p&gt;
+
+&lt;h4 id=&quot;transactions&quot;&gt;Transactions&lt;/h4&gt;
+
+&lt;p&gt;Each map task is its own transaction. This means that if a task fails, the
+segment of data it was working on will be replayed after the original failed
+transaction is rolled back. A Hadoop node can fail and the insert will recover
+and rerun the transaction on another node.&lt;/p&gt;
+
+&lt;p&gt;However the initial size of a map task was quite large, on the order of hundreds
+of megabytes of compressed data. Since the Titan client keeps the transaction in
+memory until it is committed, this was causing Out of Memory errors.&lt;/p&gt;
+
+&lt;p&gt;I set the maximum task size to be about 10 MB of compressed data for inserts.
+This did increase the scheduling overhead and the overall insertion time.
+However there were no longer Out of Memory errors.&lt;/p&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;I’ve put the code up on github so &lt;a href=&quot;https://github.com/sholiday/rhino-titan-hadoop&quot;&gt;check it out&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;Thanks to &lt;a href=&quot;http://tony-dong.com&quot;&gt;Tony Dong&lt;/a&gt; for editing this post.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>SMTP Email Relay for GMail (TLS) with Oozie Using Postfix</title>
+   <link href="http://stephenholiday.com/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop"/>
+   <updated>2013-08-21T00:00:00-04:00</updated>
+   <id>http://stephenholiday/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop</id>
+   <content type="html">&lt;p&gt;As part of &lt;a href=&quot;htttp://tryrhino.com&quot;&gt;Project Rhino&lt;/a&gt;, I’ve been setting up Hadoop
+along with &lt;a href=&quot;http://oozie.apache.org&quot;&gt;Oozie&lt;/a&gt; to run our ETL pipeline.&lt;/p&gt;
+
+&lt;p&gt;Oozie has a cool feature that will send you an email as part of a job flow.
+However the SMTP setup does not seem to support TLS (PK encryption for SMTP)
+which GMail and Outlook.com / Live.com require.&lt;/p&gt;
+
+&lt;p&gt;What I did was setup a Postfix email relay on one of the servers.
+This allows for Oozie to communicate unencrypted with the local SMTP server.
+Then Postfix sends the mail on to the actual SMTP server encrypted.&lt;/p&gt;
+
+&lt;p&gt;The team uses outlook.com to host the email for our domain (it’s free!).
+However this setup should work for any email provider that requires TLS.&lt;/p&gt;
+
+&lt;h2 id=&quot;postfix-setup&quot;&gt;Postfix Setup&lt;/h2&gt;
+&lt;p&gt;Install postfix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt-get install postfix
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then make a backup of your configuration (&lt;code&gt;/etc/postfix/main.cf&lt;/code&gt;) and change it
+to:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;/etc/postfix/main.cf&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# The first hop server (change to smtp.gmail.com for GMail)
+relayhost = [smtp.live.com]:587
+smtp_sasl_auth_enable = yes 
+
+# Location of the password database.
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+
+# CAs to trusted when verifying server certificate
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+# This trick is from
+# http://mhawthorne.net/posts/postfix-configuring-gmail-as-relay.html
+smtp_sasl_security_options =
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next we need to setup our authentication. We use &lt;code&gt;oozie@&lt;/code&gt; could be changed to
+any valid account you have. Make sure this matches the from field you set in the
+Oozie config later.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;/etc/postfix/sasl_passwd&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[smtp.live.com]:587  oozie@tryrhino.com:supersecret
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next we need to run this command to build the password DB:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;postmap /etc/postfix/sasl_passwd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then we can reload postfix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/etc/init.d/postfix reload
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may also need to change the permissions of the password files.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo chown postfix /etc/postfix/sasl_passwd*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;configuring-oozie&quot;&gt;Configuring Oozie&lt;/h2&gt;
+&lt;p&gt;When you are looking at the Oozie config, you’ll need to set the
+&lt;code&gt;oozie.email.from.address&lt;/code&gt; to match the one you put in the Postfix
+configuration.&lt;/p&gt;
+
+&lt;p&gt;Good luck!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Automate Your iPod/iPhone/iPad's Media</title>
+   <link href="http://stephenholiday.com/articles/2012/automate-your-ipod"/>
+   <updated>2012-12-19T00:00:00-05:00</updated>
+   <id>http://stephenholiday/articles/2012/automate-your-ipod</id>
+   <content type="html">&lt;p&gt;I have a lot of music in iTunes. More than 20k songs.
+Beyond that I have a ton of audiobooks, movies and TV shows in iTunes for
+consuming when I’m traveling.&lt;/p&gt;
+
+&lt;p&gt;Now my iPhone and iPad of room for substantially less media. Plus I doubt that
+I’ll need over a month of different music before I can sync to iTunes again.&lt;/p&gt;
+
+&lt;p&gt;I used to manually manage what songs, TV shows and movies I had on my devices
+but that became very annoying and time consuming.&lt;/p&gt;
+
+&lt;p&gt;I felt there must be a better way. And there was, Smart Playlists.&lt;/p&gt;
+
+&lt;p&gt;iTunes has a cool feature called Smart Playlists which allows you to specify a
+set of filters to create a playlist automatically.&lt;/p&gt;
+
+&lt;p&gt;You can create a smart playlist by going to **File -&amp;gt; New -&amp;gt; Smart Playlist…
+**&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/create-smart-playlist.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;three-stars&quot;&gt;Three Stars&lt;/h3&gt;
+&lt;p&gt;Let’s start with a simple playlist for music. I rate all my music so I only want
+things with at least 3 stars to appear on my iPhone.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/3-plus.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If that playlist is too big you can also opt to only include some number of
+songs or some size of songs based on a few criteria.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/3-plus-options.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;new-music&quot;&gt;New Music&lt;/h3&gt;
+&lt;p&gt;The 3+ Playlist works great for older music but what about when I get add new
+music that I have yet to rate?&lt;/p&gt;
+
+&lt;p&gt;I have another playlist that keeps the songs added in the last two months that I
+have yet to listen to. In case I add all of AC/DC I limit it to only 100 items
+so that my device isn’t overflowing with power ballads.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/100-most-recently-added.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;syncing-selected-music&quot;&gt;Syncing Selected Music&lt;/h3&gt;
+&lt;p&gt;We need to tell iTunes to sync only the playlist we created. Go into the music
+tab for your device in iTunes and select &lt;strong&gt;Sync selected playlists, artists,
+albums and genres&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/sync-selected.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then select the playlists you want to sync:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/sync-playlist.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;audiobooks&quot;&gt;Audiobooks&lt;/h3&gt;
+&lt;p&gt;I really enjoy listening to audiobooks but I hate having to remember to select
+which ones I’ve listened to and which one’s I want to add to my iPhone.&lt;/p&gt;
+
+&lt;p&gt;Thankfully Smart Playlists work for audiobooks too!&lt;/p&gt;
+
+&lt;p&gt;I have a playlist which includes unlistened audiobooks from the past year. You
+could easily setup your playlist to only include a GB of books if you wanted to.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/audiobook-playlist.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Similar to music sync, we need to tell iTunes to grab the audiobooks from our
+Smart Playlists.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/include-audiobooks.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tv-shows&quot;&gt;TV Shows&lt;/h3&gt;
+&lt;p&gt;I love &lt;a href=&quot;http://en.wikipedia.org/wiki/The_Wire&quot;&gt;The Wire&lt;/a&gt; and watched it on my
+iPad while traveling. Every time I finished the few episodes on my iPad, I felt
+it was silly that I had to go and manually tell iTunes I wanted the next few
+episodes.&lt;/p&gt;
+
+&lt;p&gt;With Smart Playlists, anytime I sync my iPad (which happens whenever it’s
+charging) watched episodes are deleted automatically and new ones are copied on.
+This ensures that I always have content to consume. This technique also removes
+last minute syncing I used to do before running to the train station.&lt;/p&gt;
+
+&lt;p&gt;Here’s the Smart Playlist for The Wire:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/the-wire.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Again, we need to tell iTunes to pickup on the playlist by going to the Movies
+tab and selecting the playlists from &lt;strong&gt;Include Movies from playlists&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;movies&quot;&gt;Movies&lt;/h2&gt;
+
+&lt;p&gt;Now this is a little trickier. The problem is that iTunes treats my TV Shows as
+movies so I can’t simply make a playlist filtered by “Movie” type. My first
+thought was to only include items that were of a minimum size but some standard
+definition movies are less than a GB and some HD TV episodes are more than a GB.
+I could go by duration but something like BBC Sherlock looks pretty movie like
+in length.&lt;/p&gt;
+
+&lt;p&gt;The solution I have is less automated. First I created a regular iTunes playlist
+that I manually put all of my movies on to. Then I created a Smart Playlist to
+select a few GB of unwatched movies. Take a look at it here:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/2012-12-19-automate-your-ipod/ipad-movies.png&quot; class=&quot;img-polaroid&quot; style=&quot;margin-top:10px;margin-bottom:10px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;Smart Playlists are a great way to automate the selection of your mobile media.
+Create Smart Playlists and never leave home without an unwatched episode.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Monitor Your Python App With FnordMetric and pyfnordmetric</title>
+   <link href="http://stephenholiday.com/articles/2012/monitor-your-python-app-with-fnordmetric"/>
+   <updated>2012-03-13T00:00:00-04:00</updated>
+   <id>http://stephenholiday/articles/2012/monitor-your-python-app-with-fnordmetric</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/paulasmuth/fnordmetric&quot;&gt;FnordMetric&lt;/a&gt; is a super cool
+(and sexy) real-time event monitoring app.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fnordmetric/fnordmetric-overview.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I’m currently using it for the next version of
+&lt;a href=&quot;http://stephenholiday.com/projects/fidofetch/&quot;&gt;fidofetch&lt;/a&gt;.
+It’s great for tracking events and monitoring background workers.&lt;/p&gt;
+
+&lt;p&gt;It also has a great way to watch how a user uses your application:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fnordmetric/fnordmetric-activity-overview.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can see what events are caused by a user and all kinds of cool stuff.&lt;/p&gt;
+
+&lt;p&gt;I have a fork of &lt;a href=&quot;https://github.com/sholiday/fnordmetric&quot;&gt;FnordMetric&lt;/a&gt; here
+with a basic change to unclutter the users screen a bit.&lt;/p&gt;
+
+&lt;h2 id=&quot;configuration&quot;&gt;Configuration&lt;/h2&gt;
+
+&lt;p&gt;FnordMetric is written in Ruby on top of event machine.
+It’s super easy to get running.&lt;/p&gt;
+
+&lt;p&gt;First you describe a gauge, basically a counter:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;gauge&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:logins_per_hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:tick&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hour&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Logins per Hour&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then you need an event handler:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:api_login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;incr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:logins_per_hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And finally some way to display it&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;widget&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;API&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Logins Per Hour&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:type&lt;/span&gt;             &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:timeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:gauges&lt;/span&gt;           &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:logins_per_hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:include_current&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:autoupdate&lt;/span&gt;       &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# refresh graph every minute&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can have multiple time series per chart, auto-refreshing of data, top-lists, bar charts and more.&lt;/p&gt;
+
+&lt;p&gt;There’s so many ways to display your data, a full blown example is &lt;a href=&quot;https://github.com/paulasmuth/fnordmetric/blob/master/doc/full_example.rb&quot;&gt;over here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-data-in&quot;&gt;Getting Data In&lt;/h2&gt;
+&lt;p&gt;There are a few ways to get data into FnordMetric.
+You can use the HTTP API, send data over a TCP connection or a Redis queue.&lt;/p&gt;
+
+&lt;p&gt;FnordMetric is actually backed by &lt;a href=&quot;http://redis.io/&quot;&gt;Redis&lt;/a&gt; so the fastest way
+to get data in is to talk directly to the backend.&lt;/p&gt;
+
+&lt;p&gt;For this I wrote a python module cleverly named
+&lt;a href=&quot;https://github.com/sholiday/pyfnordmetric&quot;&gt;pyfnordmetric&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Just &lt;code&gt;easy_install pyfnordmetric&lt;/code&gt; and start using the &lt;code&gt;Fnordmetric&lt;/code&gt; module like so:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;fnordmetric&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Fnordmetric&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Fnordmetric&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;localhost&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6379&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Redis server&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;saw_unicorn&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;tracking-users&quot;&gt;Tracking Users&lt;/h2&gt;
+&lt;p&gt;That’s pretty useful in it’s own right, but one of the cool features of
+FnordMetric is that it allows you to see what a specific visitor is doing on
+your site right now. For this there are a couple more features:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;session1234&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Stephen Holiday&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;session1234&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_gravatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;stephen.holiday@gmail.com&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;session1234&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That code will automatically grab a users &lt;a href=&quot;http://en.gravatar.com/&quot;&gt;Gravatar&lt;/a&gt; if
+they have one and display it on the FnordMetric window:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fnordmetric/fnordmetric-activity-feed.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;FnordMetric has been a great help in debugging issues with Fidofetch and I want 
+to thank the developers for their hard work.
+I’d also like to thank &lt;a href=&quot;https://github.com/scheibo&quot;&gt;Kirk Scheibelhut&lt;/a&gt; for
+telling me about the project.&lt;/p&gt;
+
+&lt;p&gt;There’s so much more you can do with FnordMetric.
+There is support for different charts, three dimensional data and other goodies.
+It’s definitely worth browsing around the repository for cool features.&lt;/p&gt;
+
+&lt;p&gt;I’m working on a few others tools to get more data into FnordMetric with posts
+in the works.&lt;/p&gt;
+
+&lt;p&gt;Let me know what you think.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Stack Overflow Word Trends by Day</title>
+   <link href="http://stephenholiday.com/articles/2011/stack-overflow-by-day"/>
+   <updated>2011-12-02T00:00:00-05:00</updated>
+   <id>http://stephenholiday/articles/2011/stack-overflow-by-day</id>
+   <content type="html">&lt;p&gt;Here’s a quick hack to see how different words are used over time on &lt;a href=&quot;http://stackoverflow.com/&quot;&gt;StackOverflow&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Inspired by Google’s &lt;a href=&quot;http://books.google.com/ngrams&quot;&gt;Ngram Viewer&lt;/a&gt; I hacked together this page to show how different words on Stack Overflow vary over time.&lt;/p&gt;
+
+&lt;p&gt;The y-axis is the percentage of times the word was used on that day. You can compare multiple words by using a comma.&lt;/p&gt;
+
+&lt;p&gt;Graph the occurrences of &lt;input id=&quot;gram1&quot; type=&quot;text&quot; name=&quot;gram1&quot; value=&quot;java, python, c++&quot; /&gt;
+ with smoothing of &lt;select id=&quot;smoothing&quot;&gt;
+&lt;option value=&quot;1&quot;&gt;1&lt;/option&gt;
+&lt;option value=&quot;2&quot;&gt;2&lt;/option&gt;
+&lt;option value=&quot;3&quot;&gt;3&lt;/option&gt;
+&lt;option value=&quot;5&quot; selected=&quot;True&quot;&gt;5&lt;/option&gt;
+&lt;option value=&quot;8&quot;&gt;8&lt;/option&gt;
+&lt;option value=&quot;13&quot;&gt;13&lt;/option&gt;
+&lt;/select&gt;
+&lt;input id=&quot;gram_submit&quot; type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;&lt;/p&gt;
+
+&lt;div id=&quot;placeholder&quot; style=&quot;width:800px;height:300px&quot;&gt;&amp;nbsp;&lt;/div&gt;
+
+&lt;p id=&quot;hoverdata&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-backend&quot;&gt;The Backend&lt;/h2&gt;
+&lt;p&gt;The backend is a Java app that uses Google’s &lt;a href=&quot;http://code.google.com/p/leveldb/&quot;&gt;LevelDB&lt;/a&gt; to store all the words and the frequencies per day. It’s not optimized very much at all and the data is definitely too verbose but it’s a quick hack.&lt;/p&gt;
+
+&lt;p&gt;I used the data from Stack Overflow &lt;a href=&quot;http://blog.stackoverflow.com/category/cc-wiki-dump/&quot;&gt;Data Dump&lt;/a&gt;. I wrote some quick Python scripts to parse the data and get all of the words used in posts (questions and answers).&lt;/p&gt;
+
+&lt;p&gt;I have data for 2,3,4-grams but I haven’t loaded it up into the server yet because I want to clean up server and the client first. While this site is on Amazon’s S3, I’m a student and my server is single core Celeron with 2 GB of RAM. &lt;/p&gt;
+
+&lt;h2 id=&quot;thoughts&quot;&gt;Thoughts?&lt;/h2&gt;
+&lt;p&gt;If you have any thoughts or suggestions, comment in the &lt;a href=&quot;http://news.ycombinator.com/item?id=3297851&quot;&gt;thread on HackerNews&lt;/a&gt; or send me an email (stephen.holiday@gmail.com).&lt;/p&gt;
+
+&lt;p&gt;&lt;span id=&quot;hnpoints&quot;&gt;This app got &amp;lt;iframe id=&#39;hnbutton&#39; src=&#39;http://hnapiwrapper.herokuapp.com/button.html?width=120&amp;amp;url=http://stephenholiday.com/articles/2011/stack-overflow-by-day/&amp;amp;title=Word Trends from Stack Overflow&#39; frameborder=&#39;0&#39; height=&#39;22&#39; width=&#39;90&#39;&amp;gt; &amp;lt;/iframe&amp;gt; on HN.&lt;/span&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Gender Prediction with Python</title>
+   <link href="http://stephenholiday.com/articles/2011/gender-prediction-with-python"/>
+   <updated>2011-06-23T00:00:00-04:00</updated>
+   <id>http://stephenholiday/articles/2011/gender-prediction-with-python</id>
+   <content type="html">&lt;p&gt;Sometimes contact information is incomplete but can be inferred from existing data.
+Gender is often missing from data but easy to determine based on first name.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-solutions&quot;&gt;Some Solutions&lt;/h2&gt;
+
+&lt;p&gt;One solution is to check names against existing data.
+A query can be run against correctly know valid name/gender pairs and the gender with the most occurrences of that name wins.&lt;/p&gt;
+
+&lt;p&gt;But what about new names and alternate spellings?&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-in-a-name&quot;&gt;What’s in a name?&lt;/h2&gt;
+
+&lt;p&gt;It turns out that there are features that are indicative of one gender or another.
+For example, it is more likely that a name ending in ‘a’ is female rather than male.
+There are also other patterns such as the last two letters of a name.&lt;/p&gt;
+
+&lt;p&gt;We could write a series of heuristics to make a determination but that does not seem like a scalable idea.
+I’d like to be able to apply this approach to other languages and not have to learn the ins and outs of each.&lt;/p&gt;
+
+&lt;h2 id=&quot;enter-machine-learning&quot;&gt;Enter ‘Machine Learning’&lt;/h2&gt;
+&lt;p&gt;What we need to do is figure out which features indicate which gender and how strongly they do so.&lt;/p&gt;
+
+&lt;p&gt;I think ML tends to scare a lot of people.
+When I’m recommending a ML solution to someone, I tend to call it a statistical approach to the problem. So I’m going to call this solution a statistical approach.&lt;/p&gt;
+
+&lt;p&gt;What we are doing is classifying the data into one of two categories, male or female.
+For this I chose one of my favourite classifiers, &lt;a href=&quot;http://en.wikipedia.org/wiki/Naive_bayes&quot;&gt;Naive Bayes&lt;/a&gt;.
+I’m a fan of Naive Bayes because it’s basis is simple to understand and preforms decently well (in my experience).&lt;/p&gt;
+
+&lt;p&gt;I’m a big fan of the &lt;a href=&quot;http://www.nltk.org/&quot;&gt;NLTK’s&lt;/a&gt; (Natural Language Toolkit) easy interface to classifiers such as Naive Bayes and it’s what I used for this project.&lt;/p&gt;
+
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;First, we’re going to need some data to train the classifier on to see which features indicate which gender and how much we can trust the feature.
+I grabbed training data from the US Census &lt;a href=&quot;http://www.census.gov/genealogy/names/names_files.html&quot;&gt;website&lt;/a&gt; and wrote an importer module for it in Python.&lt;/p&gt;
+
+&lt;p&gt;Second, we need a feature extractor to take a name and spit out features we think may indicate the gender well.
+I wrote a simple extractor that takes the last and last two letters and spits them out as a feature as well as if the last letter is a vowel:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-py&quot; data-lang=&quot;py&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;_nameFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upper&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&amp;#39;last_letter&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&amp;#39;last_two&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:],&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&amp;#39;last_is_vowel&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;aeiouy&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Third, we need to test the classifier.
+We need to be sure that we separate the training data set from the test data set.
+If we just wanted to do a lookup, a hash table would be much more efficient.
+We’re interested in the classifier’s ability to determine the gender based on names it has not encountered before.
+So we randomly shuffle the data and split. I chose to split 80% for training and 20% for testing but that’s something you can play with.&lt;/p&gt;
+
+&lt;p&gt;Fourth, we need to learn which features matter. The NLTK provides a nice method which will tell us which features were most useful in determining the gender. This way we can concentrate on features that really matter.&lt;/p&gt;
+
+&lt;h2 id=&quot;get-the-code&quot;&gt;Get The Code&lt;/h2&gt;
+
+&lt;p&gt;I’ve done a lot of the wrapper work for you and put it up on github.
+&lt;em&gt;Checkout&lt;/em&gt; the &lt;a href=&quot;https://github.com/sholiday/genderPredictor&quot;&gt;gender prediction code here&lt;/a&gt;. 
+If you run &lt;code&gt;genderPredictor.py&lt;/code&gt; it will automatically train and test the &lt;code&gt;genderPredictor&lt;/code&gt; module.
+You can also import &lt;code&gt;genderPredictor&lt;/code&gt; into your own code and run the methods manually.&lt;/p&gt;
+
+&lt;p&gt;The most useful method to use within your own code is &lt;code&gt;classify(name)&lt;/code&gt; which takes a name and spits out the gender.&lt;/p&gt;
+
+&lt;p&gt;You can modify &lt;code&gt;_nameFeatures&lt;/code&gt; to play around and test other feature ideas.
+If you find something that works better, please let me know and I’ll incorporate your idea and give you credit.&lt;/p&gt;
+
+&lt;p&gt;Hope this is useful and interesting; let me know what you think.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>FidoFetch Architecture</title>
+   <link href="http://stephenholiday.com/articles/2011/fidofetch-architecture"/>
+   <updated>2011-04-25T00:00:00-04:00</updated>
+   <id>http://stephenholiday/articles/2011/fidofetch-architecture</id>
+   <content type="html">&lt;h2 id=&quot;whats-fidofetch&quot;&gt;What’s FidoFetch&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://fidofetch.ca&quot;&gt;FidoFetch&lt;/a&gt; is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Rss&quot; title=&quot;RSS&quot;&gt;RSS&lt;/a&gt;/&lt;a href=&quot;http://en.wikipedia.org/wiki/ATOM&quot; title=&quot;ATOM&quot;&gt;ATOM&lt;/a&gt; news reader service much like Google Reader.
+There are too many news articles and blog posts every second to read it all.
+In fact, most of it is not something you care about.
+&lt;a href=&quot;http://fidofetch.ca&quot;&gt;FidoFetch&lt;/a&gt; watches which kinds of articles you like and only shows you things it thinks you will be interested in.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/fidoLogo.gif&quot; style=&quot;margin-left:10px;float:right&quot; /&gt;
+Of course, Fido isn’t really a super smart canine, he’s software I wrote.
+In fact, Fido isn’t really just one program, he’s a collection of many different programs doing different tasks.&lt;/p&gt;
+
+&lt;p&gt;In this article I’m going to take you through the backend architecture to FidoFetch.
+It’s been several iterations to arrive at this architecture, and I’m sure there will be many more.&lt;/p&gt;
+
+&lt;h2 id=&quot;why&quot;&gt;Why?&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/engineering-purple.gif&quot; style=&quot;margin-right:10px;float:left&quot; /&gt;
+Some people may not like to share information about the inner workings of their projects.
+I completely understand where they are coming from.
+However, I’ve been primarily self taught in the area of scalable architectures.
+What that really means is I’ve been reading about how &lt;a href=&quot;http://video.google.com/videoplay?docid=-6304964351441328559#&quot;&gt;other&lt;/a&gt; &lt;a href=&quot;http://www.niallkennedy.com/blog/uploads/flickr_php.pdf&quot;&gt;websites&lt;/a&gt; &lt;a href=&quot;http://highscalability.com/google-architecture&quot;&gt;build&lt;/a&gt; and &lt;a href=&quot;http://www.iamcal.com/talks/&quot;&gt;iterate&lt;/a&gt; on &lt;a href=&quot;http://highscalability.com/amazon-architecture&quot;&gt;their&lt;/a&gt; &lt;a href=&quot;http://highscalability.com/strategy-flickr-do-essential-work-front-and-queue-rest&quot;&gt;architectures&lt;/a&gt;.
+Their openness has allowed me to learn so much from their successes and failures.
+I really do believe this has helped me succeed so well on &lt;a href=&quot;http://stephenholiday.com/resume/&quot;&gt;my co-op work terms&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My hope is this article will help others learn from my mistakes and make their own really cool projects a reality.
+If you do find this article interesting or helpful, please let me know.&lt;/p&gt;
+
+&lt;h2 id=&quot;goals&quot;&gt;Goals&lt;/h2&gt;
+
+&lt;p&gt;When building a system, I think it’s useful to make the goals clear.
+Ideally they should have quantitative measurements associated with them (as PDENG would profess) so you know when you’ve met them.
+But, I didn’t know what numbers I wanted to reach, I just wanted to get a working prototype out.&lt;/p&gt;
+
+&lt;p&gt;Here were my main goals with the architecture of the system:&lt;/p&gt;
+
+&lt;h3 id=&quot;reading-articles-is-most-important&quot;&gt;1) Reading articles is most important&lt;/h3&gt;
+&lt;p&gt;Being able to read and rate articles should be quick and responsive.
+The user interface should not lag despite a large load on the server.
+Having the most up to date articles is not as important.&lt;/p&gt;
+
+&lt;h3 id=&quot;elastic-server-capacity&quot;&gt;2) Elastic Server Capacity&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/conditions-variable.gif&quot; style=&quot;margin-left:10px;float:right&quot; /&gt;
+I’m a student and while my co-op jobs have been quite good in terms of compensation, I don’t want to waste money on servers I don’t need.
+Right now this is just a personal project, not a business.
+So I only want to run the bare minimum of servers to run FidoFetch.&lt;/p&gt;
+
+&lt;p&gt;One easy way to do this is to figure out how much capacity I need and run the correct number of servers.
+But what happens if HackerNews, Digg or reddit finds out about FidoFetch?
+It’s a fairly computationally intensive application and having many more users all of a sudden could be traumatic to the server.&lt;/p&gt;
+
+&lt;p&gt;Another solution is to have the system scale based on it’s current usage.
+If the system detects a high load, it boots up another instance in a cloud.
+Getting more capacity through &lt;a href=&quot;http://aws.amazon.com/ec2/&quot;&gt;EC2&lt;/a&gt; or &lt;a href=&quot;http://www.rackspace.com/cloud/&quot;&gt;Rackspace&lt;/a&gt; isn’t hard at all to automate,
+the challenge is getting the software to make use of the additional capacity.&lt;/p&gt;
+
+&lt;h3 id=&quot;ability-to-try-different-recommendation-algorithms&quot;&gt;3) Ability to try different recommendation algorithms&lt;/h3&gt;
+&lt;p&gt;FidoFetch is part of a learning project for me.
+I don’t know what the best algorithm is for recommending articles in a news feed.
+But that’s part of the fun, it’s an experiment.&lt;/p&gt;
+
+&lt;p&gt;So, I need to be able to try many different algorithms side by side.
+This would dictate that the architecture not be specific to any specific type of algorithm.
+This is also a problem I dealt with at &lt;a href=&quot;http://about-tagged.com/&quot;&gt;Tagged&lt;/a&gt; during &lt;a href=&quot;http://stephenholiday.com/resume/&quot;&gt;my internship&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;let-others-design-the-reader&quot;&gt;4) Let others design the reader&lt;/h3&gt;
+&lt;p&gt;I’m not a great visual designer. If you look at some of my projects it will become quite apparent.
+Some of them look the same in &lt;a href=&quot;http://www.jikos.cz/~mikulas/links/screenshots/png.html&quot;&gt;Links&lt;/a&gt; as they do in a graphical web browser…&lt;/p&gt;
+
+&lt;p&gt;So clearly I shouldn’t be the designer for the reader.
+Many people can make much more beautiful interfaces that would benefit from my platform.
+To that end, FidoFetch must be able to be used under someone else’s reader app (be it JavaScript, HTML5, BlackBerry, iOS, offline/desktop, Android, etc…).&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;p&gt;## Queues ##
+&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/mailboxes.gif&quot; style=&quot;margin-right:10px;float:left&quot; /&gt;
+Goal #1 would require the ability to prioritize different parts of the system and hold unimportant computation for later.
+This speaks to me as a great place to use a queue.
+A queue would allow feed fetching and recommendation to happen behind the scenes when the server isn’t busy.&lt;/p&gt;
+
+&lt;p&gt;Goal #2 asks for the ability to scale server capacity and make use of the added capacity.
+A queue &lt;em&gt;could&lt;/em&gt; allow for many different machines to do distinct units of computation and then store the results.
+There could be a set of queues for different job types (fetching a feed, recommending an article etc.) and each message in the queue could be a specific job.
+A set of workers could consume the message/job, do the task and then report the results.&lt;/p&gt;
+
+&lt;p&gt;For FidoFetch, I have at least one worker running for each type of job (and thus queue).
+When more server capacity is created, I just have my system start workers on the new machines that connect to the queuing server.
+The need for more servers can be detected by analyzing the queue.
+Two common metrics are the number of items in the queue and the time it takes from entering the queue until the job is processed.
+Testing the number of items in the queue is really straight forward to implement and is what I use.&lt;/p&gt;
+
+&lt;h2 id=&quot;jobs&quot;&gt;Jobs&lt;/h2&gt;
+&lt;p&gt;I designed the jobs in a specific way in order to achieve the scalability I wanted.
+The key things are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;All messages representing jobs are JSON dictionaries representing the parameters for the job.&lt;/li&gt;
+  &lt;li&gt;A job may be processed more than once by the same or different worker at different times or simultaneously&lt;/li&gt;
+  &lt;li&gt;A job represents a small section of work that will take no more than 4 minutes.&lt;/li&gt;
+  &lt;li&gt;If a job exceeds its run time, it will be placed back into the queue and processed by another worker with a back-off time&lt;/li&gt;
+  &lt;li&gt;If a job needs to be rerun more than 10 times, it is removed from queue and placed in a collection of buried items&lt;/li&gt;
+  &lt;li&gt;Each job can put multiple jobs into other queues for further processing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;JSON Messages&lt;/strong&gt;: I chose to standardize on JSON for the message format because I use it everywhere else in my application and it has libraries in so many languages.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Duplicate Processing&lt;/strong&gt;: To make the queue more efficient and not waste time, I require only that messages are delivered.
+I don’t need a guarantee that jobs will only be processed once. This greatly complicates that architecture.
+It’s easier for to just write the software to handle duplicate runs by default.
+There’s not really any harm if a feed is fetched twice.
+In the case of recommending an article to a user, I have it set up in the database so that there are no duplicates on the &lt;em&gt;article_key&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Time Limits&lt;/strong&gt;: The time limit makes it easy for the queuing server to detect when there is an issue with a worker processing a job.
+If a job exceeds this time, the queue knows it’s ok to just put it in the queue again.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Back-off Time&lt;/strong&gt;: This one came from experience.
+It turned out that if a job failed for some reason or another and was placed back into the queue and run again immediately,
+it was likely to fail again. Often there was some resource that wasn’t working or being slow (a database or a third party feed).
+When the job was placed back into the queue, it would just fail again.&lt;/p&gt;
+
+&lt;p&gt;Had the job been held back for a few seconds there would not have been an issue.
+I had the queue wait a bit before reinserting the job into the queue.
+I had the wait time double each time the job failed.
+Ethernet does something similar when there is a packet collision.
+Except &lt;a href=&quot;http://computer.howstuffworks.com/ethernet8.htm&quot;&gt;Ethernet uses a random back-off&lt;/a&gt; time otherwise the two machines that detected the packet collision would just keep sending on the same intervals.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Retry Limit&lt;/strong&gt;: This one was also learned the hard way.
+For a while I had the database misconfigured and it would get very slow after a while (24 hours+).
+Eventually it would stop serving requests and the worker would detect the failure immediately and tell the queue it failed.
+The worker would get another job right away and try again. The job would fail and then be in back-off mode.&lt;/p&gt;
+
+&lt;p&gt;Once the timeout was complete all the jobs would come back again and hammer the database server even further.
+This made it very difficult to go into the server and restart the database.
+So I implemented a limit of retries. When the limit is reached, the jobs go into a special &lt;em&gt;buried&lt;/em&gt; queue.
+Once I fixed the problem (in this case restarting the database), I could just &lt;em&gt;kick&lt;/em&gt; the jobs back into the regular queue.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Chain of Jobs&lt;/strong&gt;: Now this part has been really helpful in keeping FidoFetch running.
+I’m going to need a separate section to explain this.
+For now it suffices to say that each worker has the ability to insert subsequent tasks in other queues for processing.&lt;/p&gt;
+
+&lt;h2 id=&quot;chain-of-jobs&quot;&gt;Chain of Jobs&lt;/h2&gt;
+&lt;p&gt;Chaining of jobs is a very important part of FidoFetch’s architecture.
+It’s a create model for writing distributed processing software in.
+It’s neither a new concept nor a complex one, but it is very cool (in my opinion).&lt;/p&gt;
+
+&lt;p&gt;In FidoFetch, the process to fetch a feed and then send it to a user’s to read list is broken into several parts.
+Six to be exact. Each part deals with a specific task that is separable from the others.
+It does not depend on what the other workers are currently doing.
+Essentially, the output of each job is the input of the next.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Do_Job3( Do_Job2( Do_Job1(user_key) ) )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The current job places the result of the job as a new job on the queue for the next job type.
+This can be thought of as a chain&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;user_key -&amp;gt; Worker1 -&amp;gt; Worker2 -&amp;gt; Worker3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, some jobs will actually have multiple return values that will create multiple jobs on the next queue.
+For example, returning a list of all the user’s who need to be notified about a new article will return multiple users.
+The actual notification of a user requires only the &lt;em&gt;user_key&lt;/em&gt; of that user and is independent of the other users that need to be notified.
+Thus multiple jobs are placed into the queue, one for each &lt;em&gt;user_key&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;By separating the overall task in multiple parts, we gain a few things:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Failure of one part does not require loosing the work so far&lt;/li&gt;
+  &lt;li&gt;Ability to distribute a seemingly single task into multiple pieces&lt;/li&gt;
+  &lt;li&gt;Ability to write different workers in different languages (maybe C++ for something that needs to be high performing)&lt;/li&gt;
+  &lt;li&gt;Ability to add more workers for a specific task that either happens more often or takes longer.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It’s extremely useful. Right now everything is written in Python but I do soon plan on writing some workers in C++ in the future.
+The ability to add workers for a specific task has also been especially useful.
+The feed fetching operation requires very little CPU but just time for the remote server to respond.
+If I had just one worker doing feed fetching, it would stall the whole process if one server was particularly slow.
+I run several feed fetching workers at the same time so faster feeds get processed quickly.&lt;/p&gt;
+
+&lt;h2 id=&quot;fidofetchs-chain&quot;&gt;FidoFetch’s Chain&lt;/h2&gt;
+&lt;p&gt;Now I’m going to delve into how I decided to split up the tasks.
+These are not all the job types that are in FidoFetch.
+There are some other tasks that get run in the background, but they are not in the main chain.
+I’ll cover those tasks later.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;Here’s FidoFetch’s job chain:&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/job-chain.png&quot; alt=&quot;FidoFetch&#39;s Job Chain&quot; /&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;entrance-points&quot;&gt;Entrance Points&lt;/h3&gt;
+&lt;p&gt;There are two ways to kick off the process. The first way is on login.
+When a user logs into FidoFetch, the system adds a job to update their feeds with the updateUserFeeds task type.
+There is probably already stuff for the user to read,
+but lets ensure they have lots of interesting stuff to read by rechecking all of their feeds.&lt;/p&gt;
+
+&lt;p&gt;The second way is through a &lt;a href=&quot;https://secure.wikimedia.org/wikipedia/en/wiki/Cron&quot;&gt;cron&lt;/a&gt; job.
+Wait a minute… weren’t we designing a &lt;em&gt;distributed&lt;/em&gt; system?
+Cron seems very non-distributed doesn’t it…&lt;/p&gt;
+
+&lt;p&gt;Well, yes. This is true.
+But I have reasons: 1) I want it to start automatically and 2) queuing the same job does not violate the principles we set in &lt;em&gt;Jobs&lt;/em&gt; section above.
+So if I have all the servers just queuing jobs, the system should be prepared for this.
+The system is, which we’ll talk about later in the &lt;em&gt;updateFeed&lt;/em&gt; worker section.&lt;/p&gt;
+
+&lt;p&gt;So back to the entrance point.
+Every 20 minutes (totally customizable), the system queues a job for each feed that there are subscribers (a list I maintain, lookups are in constant time).
+This happens with a python script. The twenty minutes is just a reasonable number I picked.&lt;/p&gt;
+
+&lt;h3 id=&quot;updateuserfeedsuserkey&quot;&gt;updateUserFeeds(user_key)&lt;/h3&gt;
+
+&lt;p&gt;The updateUserFeeds task’s name is somewhat of a misnomer.
+Technically it doesn’t update the feeds of that user.
+We didn’t design this who chaining system for nothing!&lt;/p&gt;
+
+&lt;p&gt;What actually happens in this job is quite simple.
+The worker is passed (as a part of the message) the user_key of a user.
+The key is an arbitrary string (I choose to use a hash of the username, but the worker doesn’t care).
+The worker then looks up in the database all of the feeds that the user is currently subscribed to (in constant time).&lt;/p&gt;
+
+&lt;p&gt;Then the worker takes a look at all the feeds (each is a constant time lookup in the database)
+and reduces the list to those that haven’t been updated in over 15 minutes.
+The 15 minutes is again arbitrary, but is a reasonable number for current operation.
+Then, for each feed remaining, the worker places a job in the queue for updateFeed().&lt;/p&gt;
+
+&lt;h3 id=&quot;updatefeedfeedkey&quot;&gt;updateFeed(feed_key)&lt;/h3&gt;
+
+&lt;p&gt;This worker does what it’s name implies. It updates the feed given to it.
+First it looks up in the database to see if the feed has been checked in the past 15 minutes.
+If it has, then the worker is done with the task.&lt;/p&gt;
+
+&lt;p&gt;The reason the worker looks up the feed’s last update time in the database again is to be consistent with our rules for jobs.
+Earlier we said that a task it not guaranteed to only be run once.
+This means that two different workers (maybe to different machines) may receive the job.
+To ensure that we don’t hit the remote server too often (and waste our time), we only check if the feed data is at least 15 minutes old.&lt;/p&gt;
+
+&lt;p&gt;If the feed hasn’t been updated recently, the worker fetches and parses the feed.
+In past implementations of FidoFetch I wrote my own RSS/ATOM processor.
+I think it’s something many naive developers have done.
+Don’t bother. While RSS and ATOM are &lt;em&gt;standards&lt;/em&gt;, there implementations are far from standardized across the web.
+There are so many different styles of generating feeds and so many malformed feeds.
+It’s not worth trying to figure out all the nuances of feed parsing.&lt;/p&gt;
+
+&lt;p&gt;This time I was smart, or rather a co-worker (a really awesome intern from a university in New Mexico) was for me.
+He pointed me in the direction of the &lt;a href=&quot;http://www.feedparser.org/&quot;&gt;Universal Feed Parser&lt;/a&gt;.
+It’s a feed parser in python that does an awesome job.
+It’s really quite an awesome piece of software.
+The interface is also quite intuitive and &lt;a href=&quot;http://faassen.n--tree.net/blog/view/weblog/2005/08/06/0&quot;&gt;&lt;em&gt;pythonic&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So the worker grabs the feed and checks if each article exists in the database already.
+The key for the articles is a hash of some of the meta information of the article.
+Often the guid or url of the article is used.
+This makes lookups very fast.&lt;/p&gt;
+
+&lt;p&gt;Now, for each article that was new, the worker saves the article data and queues a job in the prepareArticle(feed_key, article_key) queue.&lt;/p&gt;
+
+&lt;h3 id=&quot;preparearticlefeedkey-articlekey&quot;&gt;prepareArticle(feed_key, article_key)&lt;/h3&gt;
+
+&lt;p&gt;This workers is the first to do something a little more interesting than the previous ones.
+This worker is given an article for a given feed to work on.&lt;/p&gt;
+
+&lt;p&gt;It grabs the article from the database and the processes it.
+Internally it actually runs through a list of processors (which are just python modules I wrote).
+This is part of one of the requirements we discussed earlier, the ability to try multiple learning algorithms at the same time.&lt;/p&gt;
+
+&lt;p&gt;Different algorithms require different pre-processing of articles. A common one is tokenizing and generating n-grams.
+This processing is independent of the user the article is being recommended to and is static.
+That means that pre-processing an article is a perfect sub task to be done ahead of time.&lt;/p&gt;
+
+&lt;p&gt;Once the preparation is complete, it just enqueues another job into the notifySubscribers(feed_key, article_key) queue.&lt;/p&gt;
+
+&lt;h3 id=&quot;notifysubscribersfeedkey-articlekey&quot;&gt;notifySubscribers(feed_key, article_key)&lt;/h3&gt;
+
+&lt;p&gt;This worker is pretty simple.
+It looks up all the users who are subscribed to a given key.
+I have such a list stored under the feed_key in the database so this is a constant time operation.&lt;/p&gt;
+
+&lt;p&gt;Then, for each person in the list, the article is added to the recommendArticle(article_key, user_key) queue.&lt;/p&gt;
+
+&lt;h3 id=&quot;recommendarticlearticlekey-userkey&quot;&gt;recommendArticle(article_key, user_key)&lt;/h3&gt;
+
+&lt;p&gt;This worker is the main point in the application.
+This is what makes FidoFetch smart.
+This is where Fido decides if an article is something you’d be interested in.&lt;/p&gt;
+
+&lt;p&gt;This worker runs through each recommendation algorithm (each is a python module) and calculates the recommendation.
+It stores the recommendation in a articlesToRead list keyed by the user_key.&lt;/p&gt;
+
+&lt;p&gt;If this worker is run more than once, the worker catches this by seeing it’s already rated this article for this user.&lt;/p&gt;
+
+&lt;p&gt;This worker does not report to anything else. The chain is done!&lt;/p&gt;
+
+&lt;h2 id=&quot;other-tasks&quot;&gt;Other Tasks&lt;/h2&gt;
+
+&lt;p&gt;Not everything fits into the chain. There are a few tasks that need to be completed but don’t depend on other tasks.
+In other systems this may include cleaning up temporary files, updating server code etc.&lt;/p&gt;
+
+&lt;h3 id=&quot;regeneratemodelsuserkey&quot;&gt;regenerateModels(user_key)&lt;/h3&gt;
+
+&lt;p&gt;For many algorithms, there can be a huge performance boost in pre-generating some sort of model every once in a while.
+Not all algorithms can do this but a lot can.
+So each algorithm has the option to add itself to the list of things that should be run periodically.&lt;/p&gt;
+
+&lt;p&gt;These tasks tend to be really heavy.
+Regenerating just one of the models for my interests takes about 3 minutes if there is no other load.
+Putting this task in a distributed worker queue makes a lot of sense.&lt;/p&gt;
+
+&lt;h3 id=&quot;markarticlereadarticlekey-userkey&quot;&gt;markArticleRead(article_key, user_key)&lt;/h3&gt;
+
+&lt;p&gt;Once you read an article, there are a lot of things that change than just your articlesToRead list.
+There are other indexes that can quickly show what everyone else thought of a given article, what people think of certain feeds in general and so on.&lt;/p&gt;
+
+&lt;p&gt;Previously, all these indexes were updated as soon as you click read. But that left the interface feeling slow.
+Since reading articles is the primary use for FidoFetch, a snappy interface is important.
+Running these less important index updates asynchronously works great.&lt;/p&gt;
+
+&lt;h2 id=&quot;queuing-system&quot;&gt;Queuing System&lt;/h2&gt;
+&lt;p&gt;So we’ve discussed at length how FidoFetch uses queues, but what does FidoFetch use for it’s queuing service?&lt;/p&gt;
+
+&lt;p&gt;I evaluated several options for FidoFetch. Amazon’s &lt;a href=&quot;http://aws.amazon.com/sqs/&quot;&gt;Simple Queuing Service&lt;/a&gt;,
+SpringSource’s &lt;a href=&quot;http://www.rabbitmq.com/&quot;&gt;RabbitMQ&lt;/a&gt;, &lt;a href=&quot;http://www.zeromq.org/&quot;&gt;ZeroMQ&lt;/a&gt;,
+Apache’s &lt;a href=&quot;http://activemq.apache.org/&quot;&gt;ActiveMQ&lt;/a&gt; and even using a &lt;a href=&quot;http://lorenzodeleon.blogspot.com/2010/09/how-to-build-very-simple-distributed.html&quot;&gt;database as the queue&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once again one of my coworkers suggested a product he has used in the past, &lt;a href=&quot;http://kr.github.com/beanstalkd/&quot;&gt;beanstalkd&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;beanstalkd&quot;&gt;Beanstalkd&lt;/h3&gt;
+&lt;p&gt;Beanstalkd is a simple and straightforward worker queue. Now technically it is not a distributed worker queue.
+However, workers can connect to it from anywhere and start processing jobs.&lt;/p&gt;
+
+&lt;p&gt;My design requirements do not require the absence of any single point of failure. If this were to be the case,
+I would have to use one of the other queuing services. FidoFetch was designed to be scalable for my needs.&lt;/p&gt;
+
+&lt;p&gt;There are clients for Beanstalkd in many languages and it has the basic features I need.
+I use &lt;a href=&quot;https://github.com/earl/beanstalkc&quot;&gt;beanstalkc&lt;/a&gt; for python.&lt;/p&gt;
+
+&lt;p&gt;I also wrote a simple &lt;a href=&quot;http://stephenholiday.com/projects/beanstalk-ganglia/&quot;&gt;monitoring script&lt;/a&gt; for &lt;a href=&quot;http://ganglia.sourceforge.net/&quot;&gt;ganglia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-database&quot;&gt;The Database&lt;/h2&gt;
+&lt;p&gt;FidoFetch needs somewhere to store all the articles, subscriptions, rating data etc.
+The design of the system requires multiple servers be able to access the information in a scalable fashion.&lt;/p&gt;
+
+&lt;p&gt;Since the server farm needs to be elastic, the database needs to be able to grow and shrink in terms of nodes.&lt;/p&gt;
+
+&lt;h3 id=&quot;riak&quot;&gt;Riak&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;http://wiki.basho.com/&quot;&gt;Riak&lt;/a&gt; is the database that powers FidoFetch, there were a few reasons I choose this database:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Free (I’m a student…)&lt;/li&gt;
+  &lt;li&gt;Distributed&lt;/li&gt;
+  &lt;li&gt;Fast lookups on key&lt;/li&gt;
+  &lt;li&gt;Elastic (Nodes can leave an join the network without manual rebalancing)&lt;/li&gt;
+  &lt;li&gt;Fault tolerant (Nodes can die and come back, downloading only the changed data)&lt;/li&gt;
+  &lt;li&gt;Map/Reduce tools&lt;/li&gt;
+  &lt;li&gt;Intuitive API&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Riak is really quite awesome. It’s written in Erlang and is really straightforward to use.
+I do admit I had some trouble with the Map/Reduce functionality but I’ve managed to find workarounds.&lt;/p&gt;
+
+&lt;p&gt;I recommend you check out &lt;a href=&quot;http://wiki.basho.com/An-Introduction-to-Riak.html&quot;&gt;the riak wiki&lt;/a&gt; for more information.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;I’ve covered what I wanted to discuss about FidoFetch’s architecture.
+I hope you found it interesting despite the length.
+I hope that you will also find it useful or that it at least gets your brain churning.&lt;/p&gt;
+
+&lt;p&gt;So far FidoFetch’s architecture has been performing great. I expect there will be further iterations.&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading, please shoot me an &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#115;&amp;#116;&amp;#101;&amp;#112;&amp;#104;&amp;#101;&amp;#110;&amp;#046;&amp;#104;&amp;#111;&amp;#108;&amp;#105;&amp;#100;&amp;#097;&amp;#121;&amp;#064;&amp;#103;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;email&lt;/a&gt; with any thoughts.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Introduction To MapReduce</title>
+   <link href="http://stephenholiday.com/articles/2011/introduction-to-mapreduce"/>
+   <updated>2011-03-12T00:00:00-05:00</updated>
+   <id>http://stephenholiday/articles/2011/introduction-to-mapreduce</id>
+   <content type="html">&lt;p&gt;Sometimes datasets are a little larger than what we can easily process on a laptop.
+In these cases it’s often helpful to harness the power of many machines to do processing of data.&lt;/p&gt;
+
+&lt;h2 id=&quot;mapreduce&quot;&gt;MapReduce&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://secure.wikimedia.org/wikipedia/en/wiki/Mapreduce&quot;&gt;MapReduce&lt;/a&gt; is a programming paradigm invented by Google to make it easier to write
+distributed software using common programming constructs.&lt;/p&gt;
+
+&lt;p&gt;In python it’s not unusual to ‘map’ a function across a list:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-py&quot; data-lang=&quot;py&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Hi my&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;is&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;Stephen Holiday&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;swapcase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;hI MY&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;NAME&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;IS&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;sTEPHEN hOLIDAY&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Similarly you can reduce a list by iterating over it and returning a single value each time:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; 
+&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It turns out that these two concepts make it very easy for distributive systems to break up tasks.
+Since each map requires only the current item in the list, the above map operation could have occurred on 4 different machines.&lt;/p&gt;
+
+&lt;h2 id=&quot;contrived-example&quot;&gt;Contrived Example&lt;/h2&gt;
+&lt;p&gt;Let’s say we have a list of a million numbers that we wanted to sum together.
+Unfortunately they aren’t stored as integers but as strings.
+Let’s also say that converting these strings to numbers is a really intensive task.&lt;/p&gt;
+
+&lt;p&gt;Thankfully we have 4 machines that can do our work for us.
+In order to harness the power of the machines, we need to some how split up the tasks.&lt;/p&gt;
+
+&lt;p&gt;Converting a string to an integer does not require knowledge of the other strings that we wish to convert.
+It’s an isolated operation to convert the string. This means we can split up the list.&lt;/p&gt;
+
+&lt;p&gt;We can also note that summing the integers does not actually require knowing about all of the integers at once.
+We can apply the summing operation multiple times in order to get the right result.
+Addition is commutative and associative. This means that we can apply the addition in any order we want.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10
+=(1+2) + (3+(4+5)) + 6 + ((7+8) + (9+10))
+etc...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We could use a worker queue or something similar, but that really requires a lot of customization.
+Using a MapReduce infrastructure, we can easily deploy new jobs to the cluster.&lt;/p&gt;
+
+&lt;h3 id=&quot;map&quot;&gt;Map&lt;/h3&gt;
+
+&lt;p&gt;So our map function could be:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;map_convert_to_int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, let’s say we had some distributed map reduce framework (&lt;strong&gt;cough&lt;/strong&gt; hadoop), it could break up the list and send
+a portion of the list to each machine.&lt;/p&gt;
+
+&lt;p&gt;For simplicity, we’re only going to use the numbers 1-10, but this can easily be expanded.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;2&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;4&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;6&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;7&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;8&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;9&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;10&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;machine_1_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;2&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;7&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;machine_2_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;10&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;6&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;machine_3_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;5&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;machine_4_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;9&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;4&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;8&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So as you can see, each machine gets some subset of the list.
+The machine doesn’t care which ones it gets, the order, or the size since each map operation is independent.&lt;/p&gt;
+
+&lt;p&gt;Once each machine gets it’s list, (or as soon as it receives it’s first item) it can start running the map function.
+Each machine now has a list of integers.&lt;/p&gt;
+
+&lt;h3 id=&quot;reduce&quot;&gt;Reduce&lt;/h3&gt;
+&lt;p&gt;Now we need to sum up the numbers.&lt;/p&gt;
+
+&lt;p&gt;Our reducer could look like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;reduce_sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accumulator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accumulator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_value&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This would be run against the list, with an accumulator value.
+Since addition is commutative and associative, it doesn’t matter what subset or order we run the reducer.&lt;/p&gt;
+
+&lt;p&gt;So, each machine could run the reducer on it’s own list currently stored in memory and return the single sum.
+Then the master machine that started the job could just run the reducer on the list of results it got back.&lt;/p&gt;
+
+&lt;p&gt;Tada! Simple distributive programming.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;This article covers the basics of MapReduce.
+Different implementations have different additional features, but the basics are still there.&lt;/p&gt;
+
+&lt;p&gt;This article is just an introduction and later I will write more articles on practical uses of MapReduce.&lt;/p&gt;
+
+&lt;p&gt;I hope this was interesting to you, let me know what you think.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Mining Jobmine - Fall 2010 - Part 3</title>
+   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-3"/>
+   <updated>2011-03-01T00:00:00-05:00</updated>
+   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-3</id>
+   <content type="html">&lt;p&gt;&lt;em&gt;This is the third part in a multi-part series, read the first part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;here&lt;/a&gt; and the second part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;JobMine is the tool we use at the &lt;a href=&quot;http://uwaterloo.ca&quot;&gt;University of Waterloo&lt;/a&gt; for our co-op.
+For each job in JobMine there is a description of the job written by the employer.
+In this article I’ll dig into the job descriptions applying some of the techniques I talked about in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;earlier&lt;/a&gt; &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;articles&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;unigrams&quot;&gt;Unigrams&lt;/h2&gt;
+&lt;p&gt;Just like I did in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;first article&lt;/a&gt;, I tokenized descriptions and collected the most common ones.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-top25.png&quot;&gt;&lt;img height=&quot;417&quot; width=&quot;442&quot; alt=&quot;1-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-top25.png&quot; title=&quot;1-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ugh, that’s not very useful at all! The most common tokens seem to be those that are most common in English in general.
+Thankfully, we have lists of such common words. They’re called stop words.&lt;/p&gt;
+
+&lt;h2 id=&quot;stop-words&quot;&gt;Stop Words&lt;/h2&gt;
+&lt;p&gt;Stop words are common words that don’t really give any insight into the text, like ‘the’, ‘and’, ‘or’ or ‘but’.
+Often people trying to classify text or extract meaning remove stop words from the text.
+The idea is that removing the stop words reduces noise in the data and compacts feature space.&lt;/p&gt;
+
+&lt;p&gt;I looked into the effectiveness of stop words in my &lt;a href=&quot;http://stephenholiday.com/projects/twitter-sentiment-extraction/&quot;&gt;Twitter Sentiment Extraction&lt;/a&gt; project.&lt;/p&gt;
+
+&lt;p&gt;Now I need a list of stop words to remove.
+Since I’m a fan of the &lt;a href=&quot;http://www.nltk.org/&quot;&gt;NLTK&lt;/a&gt; (Natural Language Toolkit) for python, I’m going to use the built in stop word list.&lt;/p&gt;
+
+&lt;h3 id=&quot;nltk-stop-words&quot;&gt;NLTK Stop Words&lt;/h3&gt;
+&lt;p&gt;I’ve reproduced the list here so you can get an idea of what will be removed.
+Again, please checkout the &lt;a href=&quot;http://www.nltk.org/&quot;&gt;NLTK website&lt;/a&gt; for more information.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;i           their	    doing	above	each
+me          theirs	    a	    below	few
+my          themselves	an	    to	    more
+myself	    what	    the	    from	most
+we          which	    and	    up	    other
+our	        who	        but	    down	some
+ours	    whom	    if	    in	    such
+ourselves	this	    or	    out	    no
+you	        that	    because	on	    nor
+your	    these	    as	    off	    not
+yours	    those	    until	over	only
+yourself	am	        while	under	own
+yourselves	is	        of	    again	same
+he	        are	        at	    further	so
+him	        was	        by	    then	than
+his	        were        for	    once	too
+himself	    be	        with	here	very
+she	        been    	about	there	s
+her	        being   	against	when	t
+hers	    have    	between	where	can
+herself	    has	        into	why	    will
+it	        had	        through	how	    just
+its	        having	    during	all	    don
+itself  	do	        before	any	    should
+they    	does    	after	both	now
+them    	did
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;unigrams---stop-words-removed&quot;&gt;Unigrams - Stop Words Removed&lt;/h2&gt;
+&lt;p&gt;So I removed all tokens that were in the stop word list inside my tokenizer function.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-stopwords-top25.png&quot;&gt;&lt;img height=&quot;417&quot; width=&quot;442&quot; alt=&quot;1-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-stopwords-top25.png&quot; title=&quot;1-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ah, now that’s better. Removing those stop words really seems to help.
+I did not expect for ‘work’ to be the most common token in the job descriptions.
+‘Experience’ and ‘development’ were not surprises.&lt;/p&gt;
+
+&lt;h2 id=&quot;bigrams&quot;&gt;Bigrams&lt;/h2&gt;
+&lt;p&gt;That covers what I talked about in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;first article&lt;/a&gt;.
+Now I’m going to address the topics covered in the  the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;second article&lt;/a&gt;, bigrams and trigrams.&lt;/p&gt;
+
+&lt;p&gt;Without further ado, here are the most common bigrams:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-top25.png&quot;&gt;&lt;img height=&quot;403&quot; width=&quot;424&quot; alt=&quot;2-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-top25.png&quot; title=&quot;2-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Hmm, same problem as before. While some of the bigrams may be interesting (‘experience with’ or ‘knowledge of’),
+I think there’s some more interesting bigrams that are hidden in the noise.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-stopwords-top25.png&quot;&gt;&lt;img height=&quot;417&quot; width=&quot;442&quot; alt=&quot;2-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-stopwords-top25.png&quot; title=&quot;2-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The bigrams that don’t contain stop words seem to be much more interesting. Seems like stop words are working.&lt;/p&gt;
+
+&lt;h2 id=&quot;trigrams&quot;&gt;Trigrams&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;Previously&lt;/a&gt;, trigrams were not that interesting in the titles.
+I hypothesized that this was because the titles are so short, usually two to three words (I should run some stats on that…).
+Descriptions are often much longer so maybe they will be more interesting.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-top25.png&quot;&gt;&lt;img height=&quot;451&quot; width=&quot;427&quot; alt=&quot;3-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-top25.png&quot; title=&quot;3-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now let’s try removing stop words…&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-stopwords-top25.png&quot;&gt;&lt;img height=&quot;502&quot; width=&quot;455&quot; alt=&quot;3-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-stopwords-top25.png&quot; title=&quot;3-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There’s some weird stuff near the top of the range in the trigrams.
+The people who run JobMine (CECS) put a notice in the job descriptions of positions outside of Canada.
+It’s good to let people know about the possible issues with working internationally but it seems to mess with the data.
+We are really interested in what &lt;em&gt;employers&lt;/em&gt; write in the their job descriptions. So I’ll try to remove them.&lt;/p&gt;
+
+&lt;h2 id=&quot;trigrams-without-warning&quot;&gt;Trigrams without Warning&lt;/h2&gt;
+&lt;p&gt;So I modified my script to remove the CECS warning from the job descriptions and plotted both charts.
+(I really should have wrote my script to produce a chart at the end instead of sending the results to Excel)&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-top25.png&quot;&gt;&lt;img height=&quot;451&quot; width=&quot;427&quot; alt=&quot;3-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-top25.png&quot; title=&quot;3-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now let’s try removing stop words…&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-stopwords-top25.png&quot;&gt;&lt;img height=&quot;502&quot; width=&quot;455&quot; alt=&quot;3-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-stopwords-top25.png&quot; title=&quot;3-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I’ve censored one of the trigrams as it would have given away one of the companies on JobMine and I don’t want to get in trouble with the university.
+In the future I’m going to try and play with public data sets so I don’t have this issue.&lt;/p&gt;
+
+&lt;h2 id=&quot;quadgrams&quot;&gt;Quadgrams&lt;/h2&gt;
+&lt;p&gt;Trigrams seem to be interesting, how about setting &lt;em&gt;n&lt;/em&gt; to 4 (quadgrams?).
+Quick changes in the script and away we go…&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-top25.png&quot;&gt;&lt;img height=&quot;448&quot; width=&quot;403&quot; alt=&quot;3-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-top25.png&quot; title=&quot;3-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now let’s try removing stop words…&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-stopwords-top25.png&quot;&gt;&lt;img height=&quot;417&quot; width=&quot;402&quot; alt=&quot;3-gram Frequency in Descriptions (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-stopwords-top25.png&quot; title=&quot;3-gram Frequency in Descriptions Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As you can see, the larger the value of &lt;em&gt;n&lt;/em&gt;, the less frequent the top grams are.
+This makes sense as the chance that multiple employers will choose the exact same sequence of &lt;em&gt;n&lt;/em&gt; words in a job descriptions
+decreases with higher &lt;em&gt;n&lt;/em&gt;. This is kind of like the randomly typing monkeys problem.
+However, I wouldn’t want to compare the employers to randomly typing monkeys…&lt;/p&gt;
+
+&lt;h2 id=&quot;next-time&quot;&gt;Next Time&lt;/h2&gt;
+&lt;p&gt;Looking at the descriptions seemed interesting to me but I’m definitely not done messing with this dataset yet.
+Some other things I’m thinking of doing next include lengths of job descriptions, writing level (though that could be sticky) and maybe some other stats that step away from the text itself.&lt;/p&gt;
+
+&lt;p&gt;Hope you enjoyed this article, shoot me an email if you have something to say.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Mining Jobmine - Fall 2010 - Part 2</title>
+   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2"/>
+   <updated>2011-02-22T00:00:00-05:00</updated>
+   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-2</id>
+   <content type="html">&lt;p&gt;&lt;em&gt;This is the second part in a multi-part series, read the first part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;JobMine is the tool we use at the &lt;a href=&quot;http://uwaterloo.ca&quot;&gt;University of Waterloo&lt;/a&gt; for our co-op.
+In this article, I show some more insightful data based on n-grams.&lt;/p&gt;
+
+&lt;h2 id=&quot;n-grams&quot;&gt;&lt;em&gt;n&lt;/em&gt;-grams&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://secure.wikimedia.org/wikipedia/en/wiki/N-gram&quot;&gt;&lt;em&gt;n&lt;/em&gt;-grams&lt;/a&gt; are sequences of n consecutive words.
+They are quite simple but can provide a lot of insight into a collection of text.
+Let’s take tweets from twitter as an example.
+If a tweet was ‘I don’t like customer service’ then the tokenizer would produce a list ‘I, don’t, like, customer, service’.
+The classifier would then ignore the fact that don’t and like are connected and only have the correct meaning when they are considered together.
+The classifier may see the ‘like’ token and classify the tweet as positive when clearly it is negative.
+In order to rectify this, the features (and subsequently the classifier) must take into account the positions of words relative to each other.
+A simple way to do this is with &lt;em&gt;n&lt;/em&gt;-grams.&lt;/p&gt;
+
+&lt;h2 id=&quot;most-popular-words-in-titles&quot;&gt;Most Popular Words in Titles&lt;/h2&gt;
+&lt;p&gt;In the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;first article&lt;/a&gt; I used 1-grams or &lt;em&gt;uni-grams&lt;/em&gt; from the title.&lt;/p&gt;
+
+&lt;p&gt;The chart is reproduced here:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top25.png&quot;&gt;&lt;img height=&quot;434&quot; width=&quot;400&quot; alt=&quot;1-gram Frequency in Titles (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top25.png&quot; title=&quot;1-gram Frequency in Titles Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now that is all very interesting but it does not provide me with enough detail.
+I know most jobs in the categories I’m looking for involve software, but how many are listed as “software tester” and how many are “software developer”?&lt;/p&gt;
+
+&lt;h2 id=&quot;bigrams&quot;&gt;Bigrams&lt;/h2&gt;
+&lt;p&gt;So I ran through the titles and collected the top 25 bigrams…&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/2gram-top25.png&quot;&gt;&lt;img height=&quot;423&quot; width=&quot;376&quot; alt=&quot;2-gram Frequency in Titles (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/2gram-top25.png&quot; title=&quot;2-gram Frequency in Titles Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As you can see, the highest frequency n-gram is “software developer”.
+Bigrams can obviously provide a lot more information than single words.
+I also find the distribution very interesting, it seems similar to that of the &lt;a href=&quot;/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;earlier article&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If I had more data, I’d really like to show the charts for the different job levels (In JobMine there are Junior, Intermediate and Senior classes on jobs).&lt;/p&gt;
+
+&lt;h2 id=&quot;trigrams&quot;&gt;Trigrams&lt;/h2&gt;
+&lt;p&gt;Bigrams were definitely more descriptive, so how about trigrams?&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/3gram-top50.png&quot;&gt;&lt;img height=&quot;680&quot; width=&quot;376&quot; alt=&quot;3-gram Frequency in Titles (Top 50)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/3gram-top50.png&quot; title=&quot;3-gram Frequency in Titles Top 50&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Hmm, not really that interesting.
+Since titles are short, the number of trigrams that reoccur in titles is small.&lt;/p&gt;
+
+&lt;h2 id=&quot;next-time&quot;&gt;Next Time&lt;/h2&gt;
+&lt;p&gt;So we’ve looked at the titles, but what about the job descriptions themselves?&lt;/p&gt;
+
+&lt;p&gt;The next article will go into the meat of the job descriptions.
+Read it &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-3&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Mining Jobmine - Fall 2010 - Part 1</title>
+   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1"/>
+   <updated>2011-02-03T00:00:00-05:00</updated>
+   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-1</id>
+   <content type="html">&lt;p&gt;JobMine is the tool we use at the &lt;a href=&quot;http://uwaterloo.ca&quot;&gt;University of Waterloo&lt;/a&gt; for our co-op.
+In the system, there are thousands of job postings for various positions.
+Having access to a big database always gets my brain churning with possible alternative uses for the data contained within.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;First, I should credit &lt;a href=&quot;http://www.lisazhang.ca/&quot;&gt;Lisa Zhang&lt;/a&gt; with the inspiration for this idea (and the title),
+she did some really cool stuff with JobMine and you should check her blog out.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;most-popular-words-in-titles&quot;&gt;Most Popular Words in Titles&lt;/h2&gt;
+&lt;p&gt;The first thing we (students) look at when browsing JobMine are the job titles.
+So naturally the titles affect which jobs we click through to read and then apply to.
+The job titles have a lot of weight on our application process.&lt;/p&gt;
+
+&lt;p&gt;I should note that I only analyzed the jobs in my field (jobs in the Computer Engineering or Software Engineering categories).
+I also had some additional filters on so this is not exactly a perfect sample, but I think it’s interesting nonetheless.&lt;/p&gt;
+
+&lt;p&gt;So I went through the jobs, grabbed the title and ran a custom tokenizer to extract the grams.
+Here is a chart of the most popular words in job titles.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top25.png&quot;&gt;&lt;img height=&quot;434&quot; width=&quot;400&quot; alt=&quot;1-gram Frequency in Titles (Top 25)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top25.png&quot; title=&quot;1-gram Frequency in Titles Top 25&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And here are the top 100:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;em&gt;Click on the image for a bigger version&lt;/em&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top100.png&quot;&gt;&lt;img height=&quot;817&quot; width=&quot;400&quot; alt=&quot;1-gram Frequency in Titles (Top 100)&quot; src=&quot;http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top100.png&quot; title=&quot;1-gram Frequency in Titles Top 100&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;discussion&quot;&gt;Discussion&lt;/h2&gt;
+
+&lt;p&gt;So this interesting but not terribly surprising.
+It’s logical that the top word is “software” and the next “developer”.
+Something I found interesting was the choice of “engineer” versus “engineering”.
+Engineering occurs more frequent than engineer by a factor of almost 20 times.
+Technically in Ontario, having a job title of something engineer is against PEO and you could be prosecuted for it (according to my Engineering Ethics and Law class).
+Perhaps this is the reason for the difference.
+On a side note, “Software Engineering” has always looked awkward on a resume to me.&lt;/p&gt;
+
+&lt;p&gt;I was surprised by the low number of QA jobs, but then again, I think I had the filter to remove junior jobs and they tend to be more QA oriented.&lt;/p&gt;
+
+&lt;p&gt;There are definitely some interesting things that can be taken from this analysis but there is still much more to look at.
+My &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part2&quot;&gt;next article&lt;/a&gt; continues the analysis of titles with different n-gram sizes.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>New Site - Hello Hyde!</title>
+   <link href="http://stephenholiday.com/articles/2010/new-site"/>
+   <updated>2010-11-21T00:00:00-05:00</updated>
+   <id>http://stephenholiday/articles/2010/new-site</id>
+   <content type="html">&lt;p&gt;I’ve switched to a new method of creating this site, now I’m using &lt;a href=&quot;http://ringce.com/hyde&quot;&gt;Hyde&lt;/a&gt;…&lt;/p&gt;
+
+&lt;h2 id=&quot;before&quot;&gt;Before&lt;/h2&gt;
+&lt;p&gt;I used to write all my site content in a giant PHP file with if statements for which page to show.&lt;/p&gt;
+
+&lt;p&gt;I admit, it was ugly.&lt;/p&gt;
+
+&lt;p&gt;First off, everything was in one file and was a mess.
+The real reason for using PHP was so I wouldn’t have to replicate all the boilerplate HTML on every page.
+I didn’t like the fact that I was using PHP just to switch pages, but hey it worked.&lt;/p&gt;
+
+&lt;h2 id=&quot;problems&quot;&gt;Problems&lt;/h2&gt;
+
+&lt;p&gt;I didn’t want to go with a full blown blogging/cms framework like Drupal or Wordpress.
+I just wanted a dead simple way of showing people what cool projects I was working on.&lt;/p&gt;
+
+&lt;p&gt;I used to blog, 6 years ago. But I don’t want to blog. A blogger should produce quality content regularly.
+I want to build things and create cool things. Blogging just uses up my time.&lt;/p&gt;
+
+&lt;p&gt;But, I still sometimes Have something to say in a blog like format. And this is what you are looking at.
+The site has a static focus. Things don’t update all the time, but content does change.
+That’s one of the reasons this section is ‘Articles’ and not ‘Blog’.&lt;/p&gt;
+
+&lt;h2 id=&quot;make-a-wish&quot;&gt;Make a wish&lt;/h2&gt;
+&lt;p&gt;There had to be a better way than an ugly PHP file.
+So I did what most people do when they wish a piece of software, I googled it.&lt;/p&gt;
+
+&lt;p&gt;And magically someone had built it. It was called &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyl&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Jekyl is awesome. But it’s written in Ruby. And I like python so I made a wish to google again and found my answer…&lt;/p&gt;
+
+&lt;h2 id=&quot;enter-hyde&quot;&gt;Enter Hyde&lt;/h2&gt;
+&lt;p&gt;And that answer was &lt;a href=&quot;http://ringce.com/hyde&quot;&gt;Hyde&lt;/a&gt;. It was essentially Jekyl but in Python! Perfect name.&lt;/p&gt;
+
+&lt;p&gt;So instead of trying to rehash why Hyde is awesome I’ll point you to &lt;a href=&quot;http://stevelosh.com/blog/2010/01/moving-from-django-to-hyde/&quot;&gt;Steve Losh&lt;/a&gt;’s post. &lt;/p&gt;
+</content>
+ </entry>
+ 
+ 
+</feed>

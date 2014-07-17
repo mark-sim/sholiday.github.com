@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Notes - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/articles">Articles</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/notes">Notes</a></li>
+                <li><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <h1 id="notes">Notes</h1>
+
+<p>A collections of notes on papers, tech talks and articles that I’ve found
+interesting.</p>
+
+<p>My goal is to extract the ideas I found particularly interesting so I can better
+internalize and remember them. These are not supposed to be summaries.</p>
+
+<p><a href="#showall" onclick="$('.collapse').collapse('show');">Show All</a> |
+<a href="#hideall" onclick="$('.collapse').collapse('hide');">Hide All</a></p>
+
+<div class="panel-group" id="accordion">
+	
+	
+	
+		
+			<h2>analytics</h2>
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-1">
+        		Dremel: Interactive Analysis of Web-Scale Datasets</a>
+        </strong> [Google, 2010]</h3>
+    </div>
+    <div id="collapse-1" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/36632.pdf">Paper</a>]</li>
+  <li>VLDB’10 [<a href="http://sergey.melnix.com/pub/melnik_VLDB10.ppt">Slides</a>]</li>
+  <li><strong>Goal</strong>: Support fast ad-hoc queries for analysis</li>
+  <li>Noticed: A cluster with thousands of discs can have high throughput and OK latency</li>
+  <li>Major Points:
+    <ol>
+      <li>Column Oriented Storage
+        <ul>
+          <li>They propose a nested columnar storage which can compactly store diverse
+schemas in Protocol Buffers.</li>
+          <li>The SQL-like query language has support for this nesting</li>
+          <li>Columnar storage allows them to only access the columns relevant to
+the query</li>
+        </ul>
+      </li>
+      <li>Serving Tree for distributed query execution
+        <ul>
+          <li>Like a distribute search engine</li>
+          <li>The query starts at the root and is transformed into smaller queries
+to be run on children</li>
+          <li>Each child further transforms the query for execution</li>
+          <li>The aggregate results bubble up</li>
+          <li>They use similar techniques to retry stragglers on new nodes and can
+return early with approximate results if configured</li>
+        </ul>
+      </li>
+      <li>SQL-like language</li>
+    </ol>
+  </li>
+  <li>They can operate on data in place</li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+			<h2>consensus</h2>
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-2">
+        		Raft: In Search of an Understandable Consensus Algorithm</a>
+        </strong> [Stanford, 2014]</h3>
+    </div>
+    <div id="collapse-2" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://www.usenix.org/system/files/conference/atc14/atc14-paper-ongaro.pdf">Paper</a>] as it appears in ATC’14</li>
+  <li>[<a href="http://ramcloud.stanford.edu/raft.pdf">Extended Paper</a>] with notes on implementation</li>
+  <li>[<a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro">ATC’14</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/atc14/ongaro.mp4">Video</a>]</li>
+  <li>[<a href="http://pdos.csail.mit.edu/dsrg/blog/2013/05/23/raft/">Notes</a>]
+by MIT’s Distributed Systems Reading Group with some interesting thoughts</li>
+  <li><a href="http://thesecretlivesofdata.com/raft/">Here</a> is a great visualization /
+tutorial on the basics of Raft</li>
+  <li>The goal of Raft is to easy to understand (or at least easier than Paxos)
+    <ul>
+      <li>I did find it to be pretty easy to understand</li>
+    </ul>
+  </li>
+  <li>They note that replicated state machines are implemented with a replicated log</li>
+  <li>Raft is based around a replicated log with leader election</li>
+  <li>Leader election is controlled by the epoch (they call it term) and the log
+length.</li>
+  <li>Each server votes for no more than one candidate per epoch (term)</li>
+  <li>Split votes are mitigated using a randomized timeout to start an election
+    <ul>
+      <li>i.e. the duration a member waits before assuming the leader is unavailable
+is randomly chosen</li>
+      <li>if a split vote does occur than the participants wait for their individual
+(re-randomzied) timeouts</li>
+      <li>there is no increasing back-off as in TCP</li>
+    </ul>
+  </li>
+  <li>Notes from MIT’s DSRG:
+    <ul>
+      <li>One of the members wrote an implementation and said it “just worked”</li>
+      <li>Once you add all the features you need for a production system, they feel
+it is approximately the same complexity as Paxos</li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+			<h2>database</h2>
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-3">
+        		Dynamo: Amazon's Highly Available Key-value Store</a>
+        </strong> [Amazon, 2007]</h3>
+    </div>
+    <div id="collapse-3" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>
+    <p>[<a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Paper</a>]</p>
+  </li>
+  <li>Noticed:
+    <ul>
+      <li>Most applications only needed primary key access to data</li>
+      <li>They needed availability, not consistency</li>
+      <li>Originally developed in service of the shopping cart</li>
+      <li>No operations spanning keys</li>
+    </ul>
+  </li>
+  <li>High Level Features
+    <ul>
+      <li>Decentralized
+        <ul>
+          <li>They say this was to make it simpler, interestingly Bigtable authors used
+a single master approach for simplicity. Not exactly a fair comparison
+though.</li>
+        </ul>
+      </li>
+      <li>Optimized for small objects (less than 1 MB)</li>
+      <li>Nodes can be added or removed without manual partitioning
+        <ul>
+          <li>Though nodes are supposed to be added with a tool</li>
+        </ul>
+      </li>
+      <li>Incremental scalability
+        <ul>
+          <li>Can add one node at a time, not some multiple of N</li>
+        </ul>
+      </li>
+      <li>Symmetry
+        <ul>
+          <li>No distinguished nodes</li>
+          <li>Any node can handle a get or put
+            <ul>
+              <li>Forwards it to the responsible node</li>
+              <li>Some clients opt to be intelligent and talk to the responsible node
+directly</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Dynamo is a “zero-hop DHT”
+    <ul>
+      <li>Consistent hashing</li>
+      <li>They use v-nodes
+        <ul>
+          <li>Load from a failed node is evenly dispersed</li>
+          <li>The number of v-nodes assigned to a machine can be set based on the
+specific heterogeneous server</li>
+          <li>Preference List: List of nodes responsible for storing a key
+            <ul>
+              <li>Not stored obviously, calculated</li>
+              <li>Contains more than N nodes for availability</li>
+              <li>List skips any physical node already in the list</li>
+              <li>If the first N nodes are healthy, only the first N nodes will receive a
+write or a read</li>
+              <li>Any of the first N nodes can act as Coordinator
+                <ul>
+                  <li>Coordinator is responsible for replicating to the N-1 next nodes on
+the ring</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Data Versioning
+    <ul>
+      <li>They use vector clocks
+        <ul>
+          <li>I <em>love</em> vector clocks. My first experience with them was when I used Riak
+(a Dynamo based KV-store).</li>
+        </ul>
+      </li>
+      <li>On a read, a client may receive multiple conflicting versions and the
+associated vector clocks (inside of a version context).
+        <ul>
+          <li>The client can decide how to reconcile the conflict
+            <ul>
+              <li>In practice, I’ve found that this means creating a Model or DAO to
+ensure consistent conflict resolution across a code base.</li>
+            </ul>
+          </li>
+          <li>The client sends the new version along with the context the server gave it
+            <ul>
+              <li>This is to make clear which version the client is updating</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Since usually only the first N nodes in the preference list write data, the
+vector clock will not be that long. Though it will still grow as the cluster
+changes over time (and with failures)
+        <ul>
+          <li>Their vector clocks include a timestamp with the per node logical
+timestamp</li>
+          <li>When the vector clock reaches a threshold size, they remove the oldest
+vector entry</li>
+          <li>
+            <p>I found it interesting that they wouldn’t remove based on time. My concern
+is that if the cluster as a whole becomes unstable (say power failure or
+core switch failure) the vector clock could grow rapidly but old versions
+would be difficult to merge later.</p>
+
+            <p>Perhaps they do not remove the <em>oldest</em> version if it’s <em>recent</em>.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Consistency
+    <ul>
+      <li><em>Standard</em> quorum based <code>(R, W, N) </code>
+        <ul>
+          <li>I say <em>standard</em> but that is partially from my experience with Cassandra</li>
+        </ul>
+      </li>
+      <li><code>R</code> and <code>W</code> are client tunable</li>
+      <li>Some applications use <code>R=1, W=N</code> for an authoritative persistent cache</li>
+      <li>They use a <em>sloppy</em> quorum
+        <ul>
+          <li>The first N healthy nodes are used, not the first N nodes in the list</li>
+        </ul>
+      </li>
+      <li>Hinted Handoff
+        <ul>
+          <li>A client can set W to 1 and as long as 1 node confirms the right it will
+be considered a success</li>
+          <li>When more nodes come back online, hinted handoff is used to deliver the
+data to the responsible node</li>
+          <li>This is a separate local DB that includes metadata about where to send it</li>
+          <li>This works especially well with cross DC where links could fail
+temporarily cutting off a huge portion of the cluster</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Replica Synchronization
+    <ul>
+      <li>Use a Merkle tree to minimize traffic required to compare v-nodes</li>
+      <li>Care must be taken to not change the range of keys serviced by a v-node too
+much as that requires recomputing many Merkle trees</li>
+      <li><strong>Question</strong>: Could the Merkle tree be constructed in such away that only a
+smaller portion of the tree needs to be recalculated?</li>
+      <li>Read repair
+        <ul>
+          <li>When the coordinator sends a read for a key to the other nodes, it waits a
+bit to receive late replies
+            <ul>
+              <li>Even if it has received enough replies to satisfy the clients <code>R</code></li>
+            </ul>
+          </li>
+          <li>It compares the versions returned and updates stale replicas</li>
+          <li>This takes load off the anti-entropy protocol</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Membership
+    <ul>
+      <li>Noticed: Not being able to reach a node doesn’t usually mean it will never
+come back.</li>
+      <li>Have explicit membership addition and removal</li>
+      <li>Gossip-based protocol for membership history propagation
+        <ul>
+          <li>History, not list. Otherwise how do you know who is right?</li>
+          <li>Each node contacts a random node every second to compare membership
+histories</li>
+        </ul>
+      </li>
+      <li>When a node is added, other nodes will notice the change in the ring and
+offer to send the appropriate data to the new node</li>
+    </ul>
+  </li>
+  <li>Failure Detection
+    <ul>
+      <li>Local notion of failure is fine
+        <ul>
+          <li>If a node can’t reach a given peer it doesn’t matter to it if the rest of
+the cluster can</li>
+        </ul>
+      </li>
+      <li>Without client requests nodes don’t really care which nodes are up or down
+        <ul>
+          <li>This assumes the data is stored durably somewhere</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Partitioning and Placement strategies
+    <ul>
+      <li>They wanted to separate partitioning from placement</li>
+    </ul>
+
+    <ol>
+      <li><em>T random tokens per node and partition nodes by token value</em>
+        <ul>
+          <li>When a node joins, a lot of nodes have to scan their data to send the
+ required data</li>
+          <li>Merkle trees must be recalculated for many nodes</li>
+          <li>Snapshots are hard</li>
+          <li>I hadn’t thought of this aspect of managing the cluster, even though
+I’ve snapshotted Cassandra clusters</li>
+        </ul>
+      </li>
+      <li><em>T random tokens per node and equal sized partitions</em>
+        <ul>
+          <li>“A partition is placed on the first N unique nodes that are encountered
+  while walking … [the] ring clockwise from the end of the partition”</li>
+        </ul>
+      </li>
+      <li><em>Q/S tokens per node, equal sized partitions</em></li>
+    </ol>
+
+    <ul>
+      <li>Strategy 3 was chosen for faster bootstrapping / recovery and for easy
+snapshots</li>
+      <li>However, coordination is required for changes of node membership</li>
+    </ul>
+  </li>
+  <li>Misc.
+    <ul>
+      <li>Reads and Writes create a state machine on the node (one-to-one)
+        <ul>
+          <li>I thought this was a cool way to organize a potentially complex flow of
+operation (once you factor in the preference list and retries). Sure beats
+a ton of flags about state.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-4">
+        		Spanner: Google's Globally-Distributed Database</a>
+        </strong> [Google, 2012]</h3>
+    </div>
+    <div id="collapse-4" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf">Paper</a>]</li>
+  <li>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/corbett.mp4">Video</a>]</li>
+  <li>Features:
+    <ul>
+      <li>Designed for cross DC replication.</li>
+      <li>Spanner is a multi-versioned database.
+        <ul>
+          <li>Each piece of data is assigned a timestamp.</li>
+        </ul>
+      </li>
+      <li>Spanner provides external consistency.
+        <ul>
+          <li>That is, transactions occur in the order that they happened in the real world.</li>
+        </ul>
+      </li>
+      <li>SQL-based query language</li>
+    </ul>
+  </li>
+  <li>TrueTime: Exposes uncertainty in the clock by representing time as an interval.
+    <ul>
+      <li><code>TT.now()</code> returns <code>[earliest, latest]</code>
+        <ul>
+          <li><code>earliest</code> - The earliest possible timestamp for the current time.</li>
+          <li><code>latest</code> - The latest possible timestamp for the current time.</li>
+        </ul>
+      </li>
+      <li>This means that TrueTime is guarantying that the current time is somewhere in the interval <code>[earliest, latest]</code>.</li>
+      <li>They use a combination of GPS clocks and atomic clocks.</li>
+      <li>The size of the interval is generally less than 10 ms.
+        <ul>
+          <li>Since we are working with distributed consensus across the world, 10 ms is pretty small.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Transactions with TrueTime:</p>
+
+    <blockquote>
+      <p>“We believe it is better to have application programmers deal with performance problems due to overuse of transactions as bottlenecks arise, rather than always coding around the lack of transactions.”</p>
+    </blockquote>
+
+    <ul>
+      <li>The system slows down the transaction until the system to ‘wait out’ the uncertainty of the clock.</li>
+      <li>Example of a transaction (2PL)
+        <ol>
+          <li>Acquire locks</li>
+          <li>Call <code>TT.now()</code>, Let <code>s = TT.now().latest</code>.</li>
+          <li>Do work.</li>
+          <li>Wait until <code>TT.now().earliest &gt; s</code>.</li>
+        </ol>
+      </li>
+      <li>Example of a transaction (with 2PC)
+        <ol>
+          <li>Acquire locks</li>
+          <li>Compute <em>s</em></li>
+          <li>Participants start logging</li>
+          <li>Finish logging, send Prepared to Coordinator with s</li>
+          <li>Coordinator computes overall s</li>
+          <li>Coordinator releases locks, sends Committed and the overall s value to Participants</li>
+          <li>Participants release locks</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-5">
+        		Bigtable: A Distributed Storage System for Structured Data</a>
+        </strong> [Google, 2006]</h3>
+    </div>
+    <div id="collapse-5" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="http://research.google.com/archive/bigtable-osdi06.pdf">Paper</a>]</li>
+  <li>[<a href="https://www.usenix.org/legacy/event/osdi06/tech/chang.html">OSDI’06</a>]</li>
+  <li><a href="https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/">SSTable / Log Structured Storage blog post</a>
+by my code hero Ilya Grigorik (also from UWaterloo!)</li>
+  <li><a href="http://burtonator.wordpress.com/2008/10/12/google-bigtable-compression-zippy-and-bmdiff/">Blog post on Bigtable’s Compression</a></li>
+</ul>
+
+<p>Since I actually read a lot about Cassandra and other database systems before
+looking into Bigtable, I had to force myself to realize that some of those
+systems drew inspiration from Bigtable. Not the other way around.</p>
+
+<p>I used Bigtable when I was an intern at Google (and was lucky enough to meet
+some of the the current team). However I hadn’t read the paper at that time. I
+wish I had.</p>
+
+<p>As an aside, I think this paper has a great topological sort of information.</p>
+
+<ul>
+  <li>Bigtable treats data as uninterpreted strings
+    <ul>
+      <li>Though there is some support for Protocol Buffers in debug output</li>
+    </ul>
+  </li>
+  <li>Simplified the problem:
+    <ol>
+      <li>Do not have multiple copies of the same data
+        <ul>
+          <li>GFS does replication</li>
+          <li>At the time of writing there were know views or secondary indices</li>
+        </ul>
+      </li>
+      <li>User dictates whether to stay on disk or in memory</li>
+      <li>No complex queries (they don’t need to optimize them)</li>
+    </ol>
+  </li>
+  <li>Data Model and Organization
+    <ul>
+      <li><code>(row:string, column:string, time:int64) -&gt; string</code></li>
+      <li>Columns can be filtered with a regular expression</li>
+      <li>Column keys are grouped into sets of Column Families
+        <ul>
+          <li>Column Families are stored in their own SSTable</li>
+          <li>They are compressed together, higher compression ratio</li>
+          <li>Has similar benefits to traditional column stores
+            <ul>
+              <li>Does not need to load data for unrequested column families</li>
+              <li>I believe Cassandra at one point required that the entire row fit
+in main memory.</li>
+            </ul>
+          </li>
+          <li>Access control is at the Column Family level
+            <ul>
+              <li>I found this surprising but neat</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Reads/Writes under the same row key are atomic</li>
+      <li>Rows are sorted in lexicographical order
+        <ul>
+          <li>A client could choose to hash if they wanted random placement</li>
+          <li>Sorted rows allows for cheap scans</li>
+        </ul>
+      </li>
+      <li>A range of rows is stored in a <em>tablet</em>
+        <ul>
+          <li>At most one tablet server is the owner of a tablet at a time</li>
+        </ul>
+      </li>
+      <li>GC for cells versions (timestamps) can happen automatically
+        <ul>
+          <li>Either number of versions or age</li>
+        </ul>
+      </li>
+      <li>Cells can be used as atomic integer counters</li>
+    </ul>
+  </li>
+  <li>User supplied scripts can be run on the tablet servers
+    <ul>
+      <li>Written in Sawzall</li>
+    </ul>
+  </li>
+  <li>MapReduce adapters for Bigtable</li>
+  <li>Tablets
+    <ul>
+      <li>Tablets and logs stored on GFS</li>
+      <li>Tablet splits are initiates by the tablet server
+        <ul>
+          <li>Commits the split by adding the new tablet in the METADATA table</li>
+          <li>Then it notifies the master</li>
+          <li>Read and writes can continue while tablets are split and merged
+            <ul>
+              <li>(Presumably with the log / memtable)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Based on a Log Structured Merge Tree
+        <ul>
+          <li>Memtable gets all the writes
+            <ul>
+              <li>Writes are placed in the commit log first, of course</li>
+              <li>Periodically transformed into an SSTable and written to disc</li>
+              <li>They use copy-on-write semantics to allow parallel reads and
+writes</li>
+            </ul>
+          </li>
+          <li>Tombstone records are used for deleted data
+            <ul>
+              <li>These are GCed at a later time (called a <em>Major Compaction</em>)</li>
+            </ul>
+          </li>
+          <li>Bloom filters are used to limit the number of seeks in service of a
+request for a nonexistent key
+            <ul>
+              <li>Otherwise would need to hit every SSTable for the tablet</li>
+            </ul>
+          </li>
+          <li>Every so ofterm there is a <em>merging compaction</em> that combines the
+memtable and some of the SSTables into a single SSTable</li>
+        </ul>
+      </li>
+      <li>The metadata tablet lists all of the SSTables for a tablet as well as
+pointers to commit logs that could contain data not in the SSTables yet
+(called <em>redo points</em>)
+        <ul>
+          <li>The logs could contain data written to a memtable but not transformed
+to an SSTable before dieing</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>SSTable Format (concept described in the blog post)
+    <ul>
+      <li>Typical block size is 64KB, configurable</li>
+      <li>Compression is by block
+        <ul>
+          <li>SSTables are by column family so similar data will likely be in the
+same SSTable
+            <ul>
+              <li>They use the example of a collection of HTML pages from the same
+site with the same boilerplate HTML</li>
+            </ul>
+          </li>
+          <li>Typically they use
+<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.11.8470&amp;rep=rep1&amp;type=pdf">Bentley McIlroy’s scheme</a>
+to compress “long common strings across a large window” and then
+Zippy (open sourced as Snappy)</li>
+        </ul>
+      </li>
+      <li>SSTable index is stored at the end of the file</li>
+      <li>Index is loaded into memory when opened
+        <ul>
+          <li>Means 1 seek to read a value</li>
+        </ul>
+      </li>
+      <li>SSTable can be mapped into memory</li>
+      <li>Since SSTables are immutable:
+        <ul>
+          <li>No synchronization required to read SSTables</li>
+          <li>Removing deleted data is just a question of GC’ing old SSTables</li>
+          <li>Tables can be split easily
+            <ul>
+              <li>Child tables can share the SSTables of the parent</li>
+              <li>Dealing with compactions in this situation is not discussed. My
+guess is that they will be filtered by the row range of the
+tablet. During a major compaction I assume there is a reference
+count in the metadata tablet and it will not be deleted if there
+are other references to it.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Chubby provides coordination required
+    <ul>
+      <li>One active Bigtable master</li>
+      <li>Directory of tablet servers</li>
+      <li>Stores schema and ACL
+        <ul>
+          <li>The ACL is checked for every read / write</li>
+          <li>This is almost always in the client’s Chubby cache</li>
+        </ul>
+      </li>
+      <li>Root tablet (metadata tablet) is stored in Chubby</li>
+    </ul>
+  </li>
+  <li>Master
+    <ul>
+      <li>Clients do not need to talk to the master, they can go straight to Chubby</li>
+      <li>If the master detects a tablet is unassigned, the master instructs a
+tablet server to load the tablet</li>
+      <li>Master kills itself if it’s Chubby session expires</li>
+    </ul>
+  </li>
+  <li>Caches
+    <ol>
+      <li>Scan Cache: high level cache for key-value pairs (Temporal Locality)</li>
+      <li>Block Cache: for the SSTable blocks read from GFS (Spacial Locality)</li>
+    </ol>
+  </li>
+  <li>Commit Log
+    <ul>
+      <li>They don’t want a commit log for each tablet
+        <ul>
+          <li>because there would be too many files been written to concurrently</li>
+          <li>I was surprised this was an issue</li>
+        </ul>
+      </li>
+      <li>One commit log per tablet server
+        <ul>
+          <li>Mutations for different tablets will appear in the same log</li>
+          <li>If a tablet server fails and the other nodes split the tablets among
+themselves then there would be a ton of reads for the entirety of the
+same log</li>
+          <li>Instead, the master gets a bunch of servers to sort the commit log by
+tablet
+            <ul>
+              <li>The split is the same 64MB GFS block size</li>
+            </ul>
+          </li>
+          <li>Now that the commit log is sorted, each server only needs to read the
+  portions of the log that pertain to the tablet they are loading</li>
+        </ul>
+      </li>
+      <li>Each tablet server has two writing threads that write to their own logs
+        <ul>
+          <li>If one log file is slow, it can switch to the other thread</li>
+          <li>There are tablet assigned sequence numbers to deal with an duplicated
+entries</li>
+          <li>I thought this was a cool idea!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-6">
+        		Finding a needle in Haystack: Facebook’s photo storage</a>
+        </strong> [Facebook, 2010]</h3>
+    </div>
+    <div id="collapse-6" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf">Paper</a>]</li>
+  <li>
+    <p><a href="https://www.facebook.com/note.php?note_id=76191543919">Facebook Engineering Blog Post</a></p>
+  </li>
+  <li>Facebook found that their CDNs were great for handling the really popular
+photos but the long tail of access was huge. They couldn’t just cache
+everything.</li>
+  <li>In their existing NAS/NFS based system, “disk IOs for metadata was the
+limiting factor for [their] read throughput.”
+    <ul>
+      <li>They optimized to get down to about 3 disk ops to read an image</li>
+      <li>Haystack can generally get it down to 1</li>
+    </ul>
+  </li>
+  <li>Architecture
+    <ul>
+      <li><strong>Store</strong>: Persistent storage of photos
+        <ul>
+          <li>The storage on a single machine is segmented into <em>physical volumes</em> (~100
+with each holding about 100 GB)
+            <ul>
+              <li>Each physical volume is basically a large file
+                <ul>
+                  <li>It’s append only</li>
+                  <li>Each needle (the photo) also contains a checksum, the key, and
+a cookie
+                    <ul>
+                      <li>Cookie is used to verify requests come from a Directory generated
+URL to avoid brute forcing</li>
+                      <li>Though a user could still pass the URL to someone not permitted to
+see the photo</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>An in memory index allows the server to look up the image with
+approximately one disc operation (with the offset)
+            <ul>
+              <li>The index could be built from the file, but a check-pointed version is
+written to disk asynchronously (then only part of the file needs to be
+read)</li>
+            </ul>
+          </li>
+          <li>Deleted photos are marked in the needle (in the file)
+            <ul>
+              <li>A deleted photo still can cause a read of the needle but the server
+checks the needle for the deleted flag and updates it’s in memory index</li>
+            </ul>
+          </li>
+          <li>They use XFS - great for preallocating the physical volume file
+            <ul>
+              <li>1 GB extents and 256 kilobyte RAID stripes to minimize the number of
+times a needle lookup crosses a boundary (thus requiring more disk ops)</li>
+            </ul>
+          </li>
+          <li><strong>Logical volumes</strong> are made up of physical volumes on distinct machines
+            <ul>
+              <li>Each physical volume in the logical volume contains the same photos</li>
+              <li>Volumes are marked read-only at the granularity of a machine</li>
+            </ul>
+          </li>
+          <li>While the paper doesn’t state it, it seems to me that these machines could
+be heterogeneous with different numbers of physical volumes per node</li>
+          <li><strong>Directory</strong></li>
+          <li>Mapping of logical -&gt; physical volumes</li>
+          <li>Mapping of which logical volume each photo is on</li>
+          <li>Constructs a URL which allows the system to determine how to get the image
+without further interaction of the directory</li>
+          <li>When a write comes in, server asks the directory for a write-enabled
+logical volume. The server decides on a photo ID and uploads it to each
+physical volume in the logical volume</li>
+          <li>Directory load balances
+            <ul>
+              <li>writes across logical volumes</li>
+              <li>reads across physical volumes</li>
+            </ul>
+          </li>
+          <li>Data stored in replicated database (presumably MySQL) with memcached</li>
+          <li><strong>Cache</strong></li>
+          <li>Internal CDN</li>
+          <li>Shelters them when CDN nodes fail</li>
+          <li>Only caches a photo if:
+            <ol>
+              <li>request comes from the user, not CDN, <em>and</em></li>
+              <li>photo is read from a write-enabled volume</li>
+            </ol>
+          </li>
+          <li>They only need to protect write-enabled stores because read stores can
+handle the read fine. Mixing read and write on the same store is slow.</li>
+          <li>Most photos are read soon after uploading (i.e. in a write-enabled store)
+            <ul>
+              <li>They want to implement active push to the cache for new uploads</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Recovery
+    <ul>
+      <li>Have a system that regularly test the volumes
+        <ul>
+          <li>Marks them as read-only if there is repeated issues</li>
+          <li>Then a human manually address the problem</li>
+        </ul>
+      </li>
+      <li>Bulk syncs occur when they need to reset the data on a machine
+        <ul>
+          <li>Takes a very long time, but only happens a few times a month</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Compaction
+    <ul>
+      <li>Online operation to reclaim space from deleted / <em>modified</em> photos
+        <ul>
+          <li>“Over the course of a year, about 25% of photos get deleted”</li>
+          <li>Photos are never overwritten, just the latest version is considered
+the current version</li>
+        </ul>
+      </li>
+      <li>Store machine copies the needles that are not deleted or duplicates to a new
+file</li>
+      <li>Deletes go to both files</li>
+      <li>Once op is complete, blocks modifications and atomically swaps the files and
+in-memory index</li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+			<h2>graph</h2>
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-7">
+        		PowerGraph: Distributed Graph-Parallel Computation on Natural Graphs</a>
+        </strong> [CMU, 2012]</h3>
+    </div>
+    <div id="collapse-7" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="http://graphlab.org/files/osdi2012-gonzalez-low-gu-bickson-guestrin.pdf">Paper</a>]</li>
+  <li>
+    <p>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/gonzalez">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/gonzalez.mp4">Video</a>]</p>
+  </li>
+  <li>Partitioning a natural graph is hard.
+    <ul>
+      <li>Random partitioning of vertices leads to most edges crossing machine boundaries.</li>
+      <li>This means that there is a ton of communication between machines.</li>
+    </ul>
+  </li>
+  <li>GAS Decomposition - They recognized most graph algos had a similar steps.
+    <ul>
+      <li>Gather: Accumulate information about the neighborhood</li>
+      <li>Apply: Apply the accumulated value to center vertex</li>
+      <li>Scatter: Update adjacent edges and vertices</li>
+    </ul>
+  </li>
+  <li>Replicate the vertex across the nodes such that no edge crosses a machine boundary.
+    <ul>
+      <li>Now we can run the vertex program in parallel, only needing to synchronize at the apply step.</li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-8">
+        		GraphChi: Large-Scale Graph Computation on Just a PC</a>
+        </strong> [CMU, 2012]</h3>
+    </div>
+    <div id="collapse-8" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-126.pdf">Paper</a>]</li>
+  <li>
+    <p>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/kyrola">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/kyrola.mp4">Video</a>]</p>
+  </li>
+  <li>Big Graph Problems are not the same as Big Data Problems
+    <ul>
+      <li>The actual data can fit on a hard drive.</li>
+    </ul>
+  </li>
+  <li><strong>Main Problem</strong>: Random access on a drive is slow</li>
+  <li>Parallel Sliding Windows: Load/Process/Store all of the data of the adjacent edges at the same time.
+    <ul>
+      <li>Graph is stored as in-edges.</li>
+      <li>Split the vertices across P shards (each a file on disk, each file has all the incoming edges to that vertex).</li>
+      <li>Sort the edges in each file by the source vertex.</li>
+      <li>Let’s try and load the sub-graph of shard 1:
+        <ol>
+          <li>Load the first file, now we have all of the in-edges for the subgraph.</li>
+          <li>Since the other files are sorted by source vertex, all of the out-edges will be at the start of the other shards! We load those.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>In total, <code>P^2</code> reads and writes for a full pass on the graph.
+  But P is relatively small. Thus few random reads.</li>
+  <li><strong>Main Takeway</strong>: Sometimes by using algorithms and datastructures more cleverly we can achieve similar performance on a single machine.</li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+			<h2>storage</h2>
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-9">
+        		The Google File System</a>
+        </strong> [Google, 2003]</h3>
+    </div>
+    <div id="collapse-9" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<p>This paper is one of my favorites and is pretty easy to read.</p>
+
+<ul>
+  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf">Paper</a>]</li>
+  <li><a href="http://www.cs.utexas.edu/users/lorenzo/corsi/439/notes/Lecture13.pdf">Lecture slides</a>
+ from UTexas CS439</li>
+  <li>Observed:
+    <ol>
+      <li>“Failures are the norm rather than the exception”</li>
+      <li>Most files are huge
+        <ul>
+          <li>GBs or TBs, not KB</li>
+          <li>Even if a dataset is comprised of KB sized objects humans prefer to
+combine them into a large file</li>
+        </ul>
+      </li>
+      <li>Most files are appended, not random writes</li>
+    </ol>
+  </li>
+  <li>Architecture
+    <ul>
+      <li>master
+        <ul>
+          <li>contains metadata for the files including:
+            <ul>
+              <li>namespace</li>
+              <li>permissions</li>
+              <li>file -&gt; chunk mapping</li>
+              <li>locations of chunks</li>
+            </ul>
+          </li>
+          <li>in charge of activities such as:
+            <ul>
+              <li>GC</li>
+              <li>Chunk Lease</li>
+              <li>Chunk Migration</li>
+            </ul>
+          </li>
+          <li>single master to simplify design</li>
+          <li>all metadata is kept in memory</li>
+        </ul>
+      </li>
+      <li>chunkservers</li>
+      <li>chunks
+        <ul>
+          <li>files are divided into fixed size chunks</li>
+          <li>identified by 64 bit handle</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Read Example:
+    <ol>
+      <li>
+        <p>Given a filename and offset, the client calculates the chunk index within
+the file.</p>
+
+        <p>This is possible as chunk size is fixed.</p>
+      </li>
+      <li>Client sends master request with filename and chunk index.</li>
+      <li>Master replies with the chunk handle and locations of replicas</li>
+      <li>Client caches this chunk handle and location information</li>
+      <li>Client sends a read request to a chunkserver with the chunk handle and
+the byte range required.</li>
+    </ol>
+
+    <ul>
+      <li>The client doesn’t need to talk with the master until the cache expires</li>
+    </ul>
+  </li>
+  <li>Operation Log
+    <ul>
+      <li>namespaces and file-chunk mapping are persisted the the
+<em>operation log</em></li>
+      <li>
+        <p>the locations of chunks is determined by asking the chunkservers
+on startup</p>
+
+        <blockquote>
+          <p>“Another way to understand this design decision is to realize
+that a chunkserver has the final word over what chunks
+it does or does not have on its own disks. There is no point
+in trying to maintain a consistent view of this information
+on the master.”</p>
+        </blockquote>
+      </li>
+      <li>checkpointed and truncated to keep the log small</li>
+    </ul>
+  </li>
+  <li>Mutations (two kinds)
+    <ol>
+      <li>write
+        <ul>
+          <li>write to a specified location in the file</li>
+        </ul>
+      </li>
+      <li>record append
+        <ul>
+          <li>append a record “atomically at least once” wherever GFS wants</li>
+          <li>GFS can insert duplicates or padding
+            <ul>
+              <li>padding is filtered by client library</li>
+              <li>duplicates are filtered by the application</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>Chunk consistency guaranteed by:
+    <ol>
+      <li>applying mutations to a chunk in the same order on all replicas
+        <ul>
+          <li>The master grants a chunkserver a lease to a replica, deemed the
+primary.</li>
+        </ul>
+      </li>
+      <li>chunk version numbers to differentiate between stale replicas</li>
+    </ol>
+  </li>
+  <li>Write Example
+    <ol>
+      <li>Client asks master for the primary replica.
+Master grants a lease to a replica if there is no primary.</li>
+      <li>Master replies with the primary and the replicas.
+It need not contact the master again until the primary expires or is
+unavailable.</li>
+      <li>Client sends data to all replicas in any order.
+Chunkservers cache data to separate data flow from control flow.</li>
+      <li>Replicas acknowledge receipt to client.</li>
+      <li>Client sends write request to primary once all acknowledgments are in.</li>
+      <li>Primary assigns consecutive serial numbers to all mutations received.</li>
+      <li>Primary forwards write request to all replicas.</li>
+      <li>Replicas apply mutations in the same serial order.</li>
+      <li>Replicas tell the primary that they have completed the mutation.</li>
+      <li>Primary replies to the client.
+        <ul>
+          <li><strong>Note</strong>: The paper notes that if an application requests a write that
+spans two chunks, the client library breaks the write into smaller writes.
+However, other clients may write in between the smaller writes leaving a
+consistent yet undefined state. See atomic append for a solution.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>Data Flow Pipelining
+    <ul>
+      <li>This idea was especially interesting to me!</li>
+      <li>They wanted to utilize both the inbound and outbound bandwidth of their
+machines</li>
+      <li>Data is pushed along a chain of chunkservers instead of some tree like
+topology</li>
+      <li>Each chunkserver in the chain chooses the closest chunkserver to forward
+the data</li>
+      <li>The data is forwarded as soon as the first packets are received, not once
+the whole data part is received</li>
+    </ul>
+  </li>
+  <li>Atomic Append
+    <ul>
+      <li>Similar to the write example:
+        <ol>
+          <li>Client sends data to replicas of the <em>last</em> chunk of the file.</li>
+          <li>Sends append request to primary.</li>
+          <li>Primary determines if appending would exceed the chunk size.
+            <ul>
+              <li>If it would, is pads the chunk out to the chunk size, telling the
+replicas the same. Then notifies the client to retry on the next
+chunk.</li>
+              <li>Otherwise, the primary appends the data and tells the replicas to
+write the data to the same offset.</li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+      <li><strong>Note</strong>: If there is a failure, worst case is that a replica has written
+extra data. Therefore the next append will be after that hypothetical
+offset to protect the data. This means that the files are not bytewise
+identical. The client is left to deal with this inconsistent region.</li>
+    </ul>
+  </li>
+  <li>Snapshots
+    <ul>
+      <li>Almost instantly</li>
+      <li>Uses copy-on-write</li>
+      <li>Master revokes outstanding leases on chunks for affected files.
+        <ul>
+          <li>Any further interaction requires intervention of the master which
+can then create a new copy of the chunk.</li>
+        </ul>
+      </li>
+      <li>Master duplicates metadata for file or directory tree
+        <ul>
+          <li>This copy still points to the old chunks</li>
+        </ul>
+      </li>
+      <li>Example write to snapshotted chunk
+        <ol>
+          <li>Client asks master for primary</li>
+          <li>Master notices that the reference count for the chunk is &gt; 1.
+Master creates a new chunk handle for the existing chunk.</li>
+          <li>Master asks each replica of the existing chunk to copy the data to a
+new chunk with the given handle.
+            <ul>
+              <li>This is done on the same machine to reduce network usage</li>
+            </ul>
+          </li>
+          <li>Request is now handled as before.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>Data Integrity
+    <ul>
+      <li>Since each chunk replica is not guaranteed to be bytewise identical, each
+chunkserver is responsible for verify it’s chunks.</li>
+      <li>Each 64 KB block is given a checksum.</li>
+      <li>On a read the chunkserver verifies the checksum of the required blocks.
+        <ul>
+          <li>The chunkserver will not propagate unverified data.</li>
+          <li>If the checksum does not match, the server notifies the master.</li>
+          <li>The master will clone the chunk from another replica</li>
+        </ul>
+      </li>
+      <li>The checksum is optimizes for writes at the end of the block
+        <ul>
+          <li>i.e they can incrementally update the checksum with just the new data</li>
+        </ul>
+      </li>
+      <li>Chunkservers periodically verify rarely read chunks.</li>
+    </ul>
+  </li>
+  <li>MISC:
+    <ul>
+      <li>They don’t have file caches on chunkservers or client
+as most use cases stream through the file.</li>
+      <li>Their lazy GC is simple and takes care of complex situations</li>
+      <li>Did not use erasure codes / parity codes at the time, but they figure it
+would not be hard given that load is mostly by appends and reads.</li>
+      <li>Shadow masters can provide read-only access to the files while the primary
+master is down. These shadow masters also poll chunkservers for their
+available chunks.</li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-10">
+        		Erasure Coding in Windows Azure Storage</a>
+        </strong> [Microsoft, 2012]</h3>
+    </div>
+    <div id="collapse-10" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://research.microsoft.com/pubs/179583/LRC12-cheng%20webpage.pdf">Paper</a>]</li>
+  <li>
+    <p>[<a href="https://www.usenix.org/conference/atc12/technical-sessions/presentation/huang">ATC’12</a>] [<a href="https://c59951.ssl.cf2.rackcdn.com/atc12/huang.mp4">Video</a>]</p>
+  </li>
+  <li>Given a file, if we break it into 6 chunks we can achieve reliability with 3 parity chunks.
+    <ul>
+      <li>The overhead is then 1.5x <code>(6 + 3)/6 = 1.5</code>.</li>
+    </ul>
+  </li>
+  <li>We can break the file into 12 chunks and we need 4 parity chunks.
+    <ul>
+      <li>The overhead is then 1.33x <code>(12 + 4)/12 = 1.33</code>.</li>
+    </ul>
+  </li>
+  <li>Now, when there is a missing block, you need to retrieve 12 blocks instead of 6.
+    <ul>
+      <li>This means 2x disk and network IO.</li>
+    </ul>
+  </li>
+  <li>They note that traditional erasure codes assume that 1 failure is as likely as 2 failures.
+    <ul>
+      <li>However, 1 failure is a lot less likely than 2 failures at the same time.</li>
+    </ul>
+  </li>
+  <li>There solution is to break the file into two block of 6 chunks.
+    <ul>
+      <li>They create 2 file parity blocks as before.</li>
+      <li>Then they create 1 parity block for each half.</li>
+      <li>This means, when there is a single block missing, they only need to retrieve 6 blocks instead of 12.</li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+</div>
+
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/Notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>

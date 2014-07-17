@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Twitter Sentiment Extraction - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/articles">Articles</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/notes">Notes</a></li>
+                <li><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header"><h1>Twitter Sentiment Extraction</h1></div>
+
+<div id="post">
+<p>In Testing - <em>Analyzes tweets for positive and negative customer service experiences</em></p>
+
+<h2 id="what-is-it">What is it?</h2>
+<p>The Twitter Sentiment Extraction project is a tool that, given a tweet, will tell you whether it is positive or negative.
+Most of my testing has been in the area of tweets about positive and negative customer service.</p>
+
+<p>One great application of the tool would be for a company to watch for tweets containing their name and alert for negative customer service experiences.
+Then someone from the company could investigate and try to track down the user and fix the problem.</p>
+
+<h2 id="when">When</h2>
+<p>In late 2010 I had been researching <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Natural_language_processing">Natural Language Processing (NLP)</a> and how I could apply it.
+I’ve been reading the <a href="http://www.nltk.org/book">NLP with Python Book</a> and it has been giving me some great ideas.</p>
+
+<p>One of the really interesting parts of NLP for me is sentiment classification. I wanted to know how accurate classification of sentiment could be.</p>
+
+<h2 id="technology">Technology</h2>
+<ul>
+  <li><a href="http://www.nltk.org/">NLTK (Natural Language Toolkit)</a></li>
+  <li>Python for the glue</li>
+  <li>The twitter search api</li>
+</ul>
+
+<h2 id="details">Details</h2>
+<p>The main component that I was working on was the feature extractors.
+These are functions that take in a raw tweet and output features of the tweet.
+I’ve tried several different combinations of feature extractors, some ideas I used:</p>
+
+<ul>
+  <li>n-grams</li>
+  <li>stemmers</li>
+  <li>feature limiting</li>
+</ul>
+
+<h2 id="success">Success?</h2>
+<p>So far with only 300 tweets of training data I was able to achieve about a 81% accuracy of classify sentiment.
+I think with more training data the accuracy would increase.</p>
+
+<h2 id="improvements">Improvements</h2>
+<p>I think the biggest issue with my tests was the limited amount of training data.
+I had to manually classify the tweets for the training data and 300 was enough for my patience.</p>
+
+<p>My next step is to get more training data, perhaps using Amazon’s <a href="https://www.mturk.com/mturk/welcome">Mechanical Turk</a> to get much more training data.</p>
+
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/Notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>

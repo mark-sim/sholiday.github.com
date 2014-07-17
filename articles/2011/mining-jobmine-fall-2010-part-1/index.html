@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Mining Jobmine - Fall 2010 - Part 1 - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/articles">Articles</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/notes">Notes</a></li>
+                <li><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header"><h1>Mining Jobmine - Fall 2010 - Part 1</h1></div>
+
+<div id="post">
+<p>JobMine is the tool we use at the <a href="http://uwaterloo.ca">University of Waterloo</a> for our co-op.
+In the system, there are thousands of job postings for various positions.
+Having access to a big database always gets my brain churning with possible alternative uses for the data contained within.</p>
+
+<p><em>First, I should credit <a href="http://www.lisazhang.ca/">Lisa Zhang</a> with the inspiration for this idea (and the title),
+she did some really cool stuff with JobMine and you should check her blog out.</em></p>
+
+<h2 id="most-popular-words-in-titles">Most Popular Words in Titles</h2>
+<p>The first thing we (students) look at when browsing JobMine are the job titles.
+So naturally the titles affect which jobs we click through to read and then apply to.
+The job titles have a lot of weight on our application process.</p>
+
+<p>I should note that I only analyzed the jobs in my field (jobs in the Computer Engineering or Software Engineering categories).
+I also had some additional filters on so this is not exactly a perfect sample, but I think it’s interesting nonetheless.</p>
+
+<p>So I went through the jobs, grabbed the title and ran a custom tokenizer to extract the grams.
+Here is a chart of the most popular words in job titles.</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top25.png"><img height="434" width="400" alt="1-gram Frequency in Titles (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top25.png" title="1-gram Frequency in Titles Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>And here are the top 100:</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top100.png"><img height="817" width="400" alt="1-gram Frequency in Titles (Top 100)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/1gram-top100.png" title="1-gram Frequency in Titles Top 100" /></a></p>
+  </blockquote>
+</blockquote>
+
+<h2 id="discussion">Discussion</h2>
+
+<p>So this interesting but not terribly surprising.
+It’s logical that the top word is “software” and the next “developer”.
+Something I found interesting was the choice of “engineer” versus “engineering”.
+Engineering occurs more frequent than engineer by a factor of almost 20 times.
+Technically in Ontario, having a job title of something engineer is against PEO and you could be prosecuted for it (according to my Engineering Ethics and Law class).
+Perhaps this is the reason for the difference.
+On a side note, “Software Engineering” has always looked awkward on a resume to me.</p>
+
+<p>I was surprised by the low number of QA jobs, but then again, I think I had the filter to remove junior jobs and they tend to be more QA oriented.</p>
+
+<p>There are definitely some interesting things that can be taken from this analysis but there is still much more to look at.
+My <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part2">next article</a> continues the analysis of titles with different n-gram sizes.</p>
+
+
+</div>
+
+<div id="related">
+  <h3><em>Related Posts</em></h2>
+  	<ul class="list-group">
+    
+      <li class="list-group-item"><a href="/articles/2014/backup-strategy"><strong>My Backup Strategy</strong></a></li>
+    
+      <li class="list-group-item"><a href="/articles/2014/batch-graph-build-using-hadoop-and-titan"><strong>How Project Rhino leverages Hadoop to build a graph of the music world</strong></a></li>
+    
+      <li class="list-group-item"><a href="/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop"><strong>SMTP Email Relay for GMail (TLS) with Oozie Using Postfix</strong></a></li>
+    
+    </ul>
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/Notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>

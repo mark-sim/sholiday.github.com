@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>FidoFetch Architecture - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/articles">Articles</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/notes">Notes</a></li>
+                <li><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header"><h1>FidoFetch Architecture</h1></div>
+
+<div id="post">
+<h2 id="whats-fidofetch">What’s FidoFetch</h2>
+
+<p><a href="http://fidofetch.ca">FidoFetch</a> is a <a href="http://en.wikipedia.org/wiki/Rss" title="RSS">RSS</a>/<a href="http://en.wikipedia.org/wiki/ATOM" title="ATOM">ATOM</a> news reader service much like Google Reader.
+There are too many news articles and blog posts every second to read it all.
+In fact, most of it is not something you care about.
+<a href="http://fidofetch.ca">FidoFetch</a> watches which kinds of articles you like and only shows you things it thinks you will be interested in.</p>
+
+<p><img src="http://stephenholiday.com/media/img/fidofetch-architecture/fidoLogo.gif" style="margin-left:10px;float:right" />
+Of course, Fido isn’t really a super smart canine, he’s software I wrote.
+In fact, Fido isn’t really just one program, he’s a collection of many different programs doing different tasks.</p>
+
+<p>In this article I’m going to take you through the backend architecture to FidoFetch.
+It’s been several iterations to arrive at this architecture, and I’m sure there will be many more.</p>
+
+<h2 id="why">Why?</h2>
+<p><img src="http://stephenholiday.com/media/img/fidofetch-architecture/engineering-purple.gif" style="margin-right:10px;float:left" />
+Some people may not like to share information about the inner workings of their projects.
+I completely understand where they are coming from.
+However, I’ve been primarily self taught in the area of scalable architectures.
+What that really means is I’ve been reading about how <a href="http://video.google.com/videoplay?docid=-6304964351441328559#">other</a> <a href="http://www.niallkennedy.com/blog/uploads/flickr_php.pdf">websites</a> <a href="http://highscalability.com/google-architecture">build</a> and <a href="http://www.iamcal.com/talks/">iterate</a> on <a href="http://highscalability.com/amazon-architecture">their</a> <a href="http://highscalability.com/strategy-flickr-do-essential-work-front-and-queue-rest">architectures</a>.
+Their openness has allowed me to learn so much from their successes and failures.
+I really do believe this has helped me succeed so well on <a href="http://stephenholiday.com/resume/">my co-op work terms</a>.</p>
+
+<p>My hope is this article will help others learn from my mistakes and make their own really cool projects a reality.
+If you do find this article interesting or helpful, please let me know.</p>
+
+<h2 id="goals">Goals</h2>
+
+<p>When building a system, I think it’s useful to make the goals clear.
+Ideally they should have quantitative measurements associated with them (as PDENG would profess) so you know when you’ve met them.
+But, I didn’t know what numbers I wanted to reach, I just wanted to get a working prototype out.</p>
+
+<p>Here were my main goals with the architecture of the system:</p>
+
+<h3 id="reading-articles-is-most-important">1) Reading articles is most important</h3>
+<p>Being able to read and rate articles should be quick and responsive.
+The user interface should not lag despite a large load on the server.
+Having the most up to date articles is not as important.</p>
+
+<h3 id="elastic-server-capacity">2) Elastic Server Capacity</h3>
+<p><img src="http://stephenholiday.com/media/img/fidofetch-architecture/conditions-variable.gif" style="margin-left:10px;float:right" />
+I’m a student and while my co-op jobs have been quite good in terms of compensation, I don’t want to waste money on servers I don’t need.
+Right now this is just a personal project, not a business.
+So I only want to run the bare minimum of servers to run FidoFetch.</p>
+
+<p>One easy way to do this is to figure out how much capacity I need and run the correct number of servers.
+But what happens if HackerNews, Digg or reddit finds out about FidoFetch?
+It’s a fairly computationally intensive application and having many more users all of a sudden could be traumatic to the server.</p>
+
+<p>Another solution is to have the system scale based on it’s current usage.
+If the system detects a high load, it boots up another instance in a cloud.
+Getting more capacity through <a href="http://aws.amazon.com/ec2/">EC2</a> or <a href="http://www.rackspace.com/cloud/">Rackspace</a> isn’t hard at all to automate,
+the challenge is getting the software to make use of the additional capacity.</p>
+
+<h3 id="ability-to-try-different-recommendation-algorithms">3) Ability to try different recommendation algorithms</h3>
+<p>FidoFetch is part of a learning project for me.
+I don’t know what the best algorithm is for recommending articles in a news feed.
+But that’s part of the fun, it’s an experiment.</p>
+
+<p>So, I need to be able to try many different algorithms side by side.
+This would dictate that the architecture not be specific to any specific type of algorithm.
+This is also a problem I dealt with at <a href="http://about-tagged.com/">Tagged</a> during <a href="http://stephenholiday.com/resume/">my internship</a>.</p>
+
+<h3 id="let-others-design-the-reader">4) Let others design the reader</h3>
+<p>I’m not a great visual designer. If you look at some of my projects it will become quite apparent.
+Some of them look the same in <a href="http://www.jikos.cz/~mikulas/links/screenshots/png.html">Links</a> as they do in a graphical web browser…</p>
+
+<p>So clearly I shouldn’t be the designer for the reader.
+Many people can make much more beautiful interfaces that would benefit from my platform.
+To that end, FidoFetch must be able to be used under someone else’s reader app (be it JavaScript, HTML5, BlackBerry, iOS, offline/desktop, Android, etc…).</p>
+
+<h2 id="solution">Solution</h2>
+<p>## Queues ##
+<img src="http://stephenholiday.com/media/img/fidofetch-architecture/mailboxes.gif" style="margin-right:10px;float:left" />
+Goal #1 would require the ability to prioritize different parts of the system and hold unimportant computation for later.
+This speaks to me as a great place to use a queue.
+A queue would allow feed fetching and recommendation to happen behind the scenes when the server isn’t busy.</p>
+
+<p>Goal #2 asks for the ability to scale server capacity and make use of the added capacity.
+A queue <em>could</em> allow for many different machines to do distinct units of computation and then store the results.
+There could be a set of queues for different job types (fetching a feed, recommending an article etc.) and each message in the queue could be a specific job.
+A set of workers could consume the message/job, do the task and then report the results.</p>
+
+<p>For FidoFetch, I have at least one worker running for each type of job (and thus queue).
+When more server capacity is created, I just have my system start workers on the new machines that connect to the queuing server.
+The need for more servers can be detected by analyzing the queue.
+Two common metrics are the number of items in the queue and the time it takes from entering the queue until the job is processed.
+Testing the number of items in the queue is really straight forward to implement and is what I use.</p>
+
+<h2 id="jobs">Jobs</h2>
+<p>I designed the jobs in a specific way in order to achieve the scalability I wanted.
+The key things are:</p>
+
+<ul>
+  <li>All messages representing jobs are JSON dictionaries representing the parameters for the job.</li>
+  <li>A job may be processed more than once by the same or different worker at different times or simultaneously</li>
+  <li>A job represents a small section of work that will take no more than 4 minutes.</li>
+  <li>If a job exceeds its run time, it will be placed back into the queue and processed by another worker with a back-off time</li>
+  <li>If a job needs to be rerun more than 10 times, it is removed from queue and placed in a collection of buried items</li>
+  <li>Each job can put multiple jobs into other queues for further processing</li>
+</ul>
+
+<p><strong>JSON Messages</strong>: I chose to standardize on JSON for the message format because I use it everywhere else in my application and it has libraries in so many languages.</p>
+
+<p><strong>Duplicate Processing</strong>: To make the queue more efficient and not waste time, I require only that messages are delivered.
+I don’t need a guarantee that jobs will only be processed once. This greatly complicates that architecture.
+It’s easier for to just write the software to handle duplicate runs by default.
+There’s not really any harm if a feed is fetched twice.
+In the case of recommending an article to a user, I have it set up in the database so that there are no duplicates on the <em>article_key</em>.</p>
+
+<p><strong>Time Limits</strong>: The time limit makes it easy for the queuing server to detect when there is an issue with a worker processing a job.
+If a job exceeds this time, the queue knows it’s ok to just put it in the queue again.</p>
+
+<p><strong>Back-off Time</strong>: This one came from experience.
+It turned out that if a job failed for some reason or another and was placed back into the queue and run again immediately,
+it was likely to fail again. Often there was some resource that wasn’t working or being slow (a database or a third party feed).
+When the job was placed back into the queue, it would just fail again.</p>
+
+<p>Had the job been held back for a few seconds there would not have been an issue.
+I had the queue wait a bit before reinserting the job into the queue.
+I had the wait time double each time the job failed.
+Ethernet does something similar when there is a packet collision.
+Except <a href="http://computer.howstuffworks.com/ethernet8.htm">Ethernet uses a random back-off</a> time otherwise the two machines that detected the packet collision would just keep sending on the same intervals.</p>
+
+<p><strong>Retry Limit</strong>: This one was also learned the hard way.
+For a while I had the database misconfigured and it would get very slow after a while (24 hours+).
+Eventually it would stop serving requests and the worker would detect the failure immediately and tell the queue it failed.
+The worker would get another job right away and try again. The job would fail and then be in back-off mode.</p>
+
+<p>Once the timeout was complete all the jobs would come back again and hammer the database server even further.
+This made it very difficult to go into the server and restart the database.
+So I implemented a limit of retries. When the limit is reached, the jobs go into a special <em>buried</em> queue.
+Once I fixed the problem (in this case restarting the database), I could just <em>kick</em> the jobs back into the regular queue.</p>
+
+<p><strong>Chain of Jobs</strong>: Now this part has been really helpful in keeping FidoFetch running.
+I’m going to need a separate section to explain this.
+For now it suffices to say that each worker has the ability to insert subsequent tasks in other queues for processing.</p>
+
+<h2 id="chain-of-jobs">Chain of Jobs</h2>
+<p>Chaining of jobs is a very important part of FidoFetch’s architecture.
+It’s a create model for writing distributed processing software in.
+It’s neither a new concept nor a complex one, but it is very cool (in my opinion).</p>
+
+<p>In FidoFetch, the process to fetch a feed and then send it to a user’s to read list is broken into several parts.
+Six to be exact. Each part deals with a specific task that is separable from the others.
+It does not depend on what the other workers are currently doing.
+Essentially, the output of each job is the input of the next.</p>
+
+<pre><code>Do_Job3( Do_Job2( Do_Job1(user_key) ) )
+</code></pre>
+
+<p>The current job places the result of the job as a new job on the queue for the next job type.
+This can be thought of as a chain</p>
+
+<pre><code>user_key -&gt; Worker1 -&gt; Worker2 -&gt; Worker3
+</code></pre>
+
+<p>Now, some jobs will actually have multiple return values that will create multiple jobs on the next queue.
+For example, returning a list of all the user’s who need to be notified about a new article will return multiple users.
+The actual notification of a user requires only the <em>user_key</em> of that user and is independent of the other users that need to be notified.
+Thus multiple jobs are placed into the queue, one for each <em>user_key</em>.</p>
+
+<p>By separating the overall task in multiple parts, we gain a few things:</p>
+
+<ul>
+  <li>Failure of one part does not require loosing the work so far</li>
+  <li>Ability to distribute a seemingly single task into multiple pieces</li>
+  <li>Ability to write different workers in different languages (maybe C++ for something that needs to be high performing)</li>
+  <li>Ability to add more workers for a specific task that either happens more often or takes longer.</li>
+</ul>
+
+<p>It’s extremely useful. Right now everything is written in Python but I do soon plan on writing some workers in C++ in the future.
+The ability to add workers for a specific task has also been especially useful.
+The feed fetching operation requires very little CPU but just time for the remote server to respond.
+If I had just one worker doing feed fetching, it would stall the whole process if one server was particularly slow.
+I run several feed fetching workers at the same time so faster feeds get processed quickly.</p>
+
+<h2 id="fidofetchs-chain">FidoFetch’s Chain</h2>
+<p>Now I’m going to delve into how I decided to split up the tasks.
+These are not all the job types that are in FidoFetch.
+There are some other tasks that get run in the background, but they are not in the main chain.
+I’ll cover those tasks later.</p>
+
+<blockquote>
+  <blockquote>
+    <p>Here’s FidoFetch’s job chain:</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><img src="http://stephenholiday.com/media/img/fidofetch-architecture/job-chain.png" alt="FidoFetch's Job Chain" /></p>
+  </blockquote>
+</blockquote>
+
+<h3 id="entrance-points">Entrance Points</h3>
+<p>There are two ways to kick off the process. The first way is on login.
+When a user logs into FidoFetch, the system adds a job to update their feeds with the updateUserFeeds task type.
+There is probably already stuff for the user to read,
+but lets ensure they have lots of interesting stuff to read by rechecking all of their feeds.</p>
+
+<p>The second way is through a <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Cron">cron</a> job.
+Wait a minute… weren’t we designing a <em>distributed</em> system?
+Cron seems very non-distributed doesn’t it…</p>
+
+<p>Well, yes. This is true.
+But I have reasons: 1) I want it to start automatically and 2) queuing the same job does not violate the principles we set in <em>Jobs</em> section above.
+So if I have all the servers just queuing jobs, the system should be prepared for this.
+The system is, which we’ll talk about later in the <em>updateFeed</em> worker section.</p>
+
+<p>So back to the entrance point.
+Every 20 minutes (totally customizable), the system queues a job for each feed that there are subscribers (a list I maintain, lookups are in constant time).
+This happens with a python script. The twenty minutes is just a reasonable number I picked.</p>
+
+<h3 id="updateuserfeedsuserkey">updateUserFeeds(user_key)</h3>
+
+<p>The updateUserFeeds task’s name is somewhat of a misnomer.
+Technically it doesn’t update the feeds of that user.
+We didn’t design this who chaining system for nothing!</p>
+
+<p>What actually happens in this job is quite simple.
+The worker is passed (as a part of the message) the user_key of a user.
+The key is an arbitrary string (I choose to use a hash of the username, but the worker doesn’t care).
+The worker then looks up in the database all of the feeds that the user is currently subscribed to (in constant time).</p>
+
+<p>Then the worker takes a look at all the feeds (each is a constant time lookup in the database)
+and reduces the list to those that haven’t been updated in over 15 minutes.
+The 15 minutes is again arbitrary, but is a reasonable number for current operation.
+Then, for each feed remaining, the worker places a job in the queue for updateFeed().</p>
+
+<h3 id="updatefeedfeedkey">updateFeed(feed_key)</h3>
+
+<p>This worker does what it’s name implies. It updates the feed given to it.
+First it looks up in the database to see if the feed has been checked in the past 15 minutes.
+If it has, then the worker is done with the task.</p>
+
+<p>The reason the worker looks up the feed’s last update time in the database again is to be consistent with our rules for jobs.
+Earlier we said that a task it not guaranteed to only be run once.
+This means that two different workers (maybe to different machines) may receive the job.
+To ensure that we don’t hit the remote server too often (and waste our time), we only check if the feed data is at least 15 minutes old.</p>
+
+<p>If the feed hasn’t been updated recently, the worker fetches and parses the feed.
+In past implementations of FidoFetch I wrote my own RSS/ATOM processor.
+I think it’s something many naive developers have done.
+Don’t bother. While RSS and ATOM are <em>standards</em>, there implementations are far from standardized across the web.
+There are so many different styles of generating feeds and so many malformed feeds.
+It’s not worth trying to figure out all the nuances of feed parsing.</p>
+
+<p>This time I was smart, or rather a co-worker (a really awesome intern from a university in New Mexico) was for me.
+He pointed me in the direction of the <a href="http://www.feedparser.org/">Universal Feed Parser</a>.
+It’s a feed parser in python that does an awesome job.
+It’s really quite an awesome piece of software.
+The interface is also quite intuitive and <a href="http://faassen.n--tree.net/blog/view/weblog/2005/08/06/0"><em>pythonic</em></a>.</p>
+
+<p>So the worker grabs the feed and checks if each article exists in the database already.
+The key for the articles is a hash of some of the meta information of the article.
+Often the guid or url of the article is used.
+This makes lookups very fast.</p>
+
+<p>Now, for each article that was new, the worker saves the article data and queues a job in the prepareArticle(feed_key, article_key) queue.</p>
+
+<h3 id="preparearticlefeedkey-articlekey">prepareArticle(feed_key, article_key)</h3>
+
+<p>This workers is the first to do something a little more interesting than the previous ones.
+This worker is given an article for a given feed to work on.</p>
+
+<p>It grabs the article from the database and the processes it.
+Internally it actually runs through a list of processors (which are just python modules I wrote).
+This is part of one of the requirements we discussed earlier, the ability to try multiple learning algorithms at the same time.</p>
+
+<p>Different algorithms require different pre-processing of articles. A common one is tokenizing and generating n-grams.
+This processing is independent of the user the article is being recommended to and is static.
+That means that pre-processing an article is a perfect sub task to be done ahead of time.</p>
+
+<p>Once the preparation is complete, it just enqueues another job into the notifySubscribers(feed_key, article_key) queue.</p>
+
+<h3 id="notifysubscribersfeedkey-articlekey">notifySubscribers(feed_key, article_key)</h3>
+
+<p>This worker is pretty simple.
+It looks up all the users who are subscribed to a given key.
+I have such a list stored under the feed_key in the database so this is a constant time operation.</p>
+
+<p>Then, for each person in the list, the article is added to the recommendArticle(article_key, user_key) queue.</p>
+
+<h3 id="recommendarticlearticlekey-userkey">recommendArticle(article_key, user_key)</h3>
+
+<p>This worker is the main point in the application.
+This is what makes FidoFetch smart.
+This is where Fido decides if an article is something you’d be interested in.</p>
+
+<p>This worker runs through each recommendation algorithm (each is a python module) and calculates the recommendation.
+It stores the recommendation in a articlesToRead list keyed by the user_key.</p>
+
+<p>If this worker is run more than once, the worker catches this by seeing it’s already rated this article for this user.</p>
+
+<p>This worker does not report to anything else. The chain is done!</p>
+
+<h2 id="other-tasks">Other Tasks</h2>
+
+<p>Not everything fits into the chain. There are a few tasks that need to be completed but don’t depend on other tasks.
+In other systems this may include cleaning up temporary files, updating server code etc.</p>
+
+<h3 id="regeneratemodelsuserkey">regenerateModels(user_key)</h3>
+
+<p>For many algorithms, there can be a huge performance boost in pre-generating some sort of model every once in a while.
+Not all algorithms can do this but a lot can.
+So each algorithm has the option to add itself to the list of things that should be run periodically.</p>
+
+<p>These tasks tend to be really heavy.
+Regenerating just one of the models for my interests takes about 3 minutes if there is no other load.
+Putting this task in a distributed worker queue makes a lot of sense.</p>
+
+<h3 id="markarticlereadarticlekey-userkey">markArticleRead(article_key, user_key)</h3>
+
+<p>Once you read an article, there are a lot of things that change than just your articlesToRead list.
+There are other indexes that can quickly show what everyone else thought of a given article, what people think of certain feeds in general and so on.</p>
+
+<p>Previously, all these indexes were updated as soon as you click read. But that left the interface feeling slow.
+Since reading articles is the primary use for FidoFetch, a snappy interface is important.
+Running these less important index updates asynchronously works great.</p>
+
+<h2 id="queuing-system">Queuing System</h2>
+<p>So we’ve discussed at length how FidoFetch uses queues, but what does FidoFetch use for it’s queuing service?</p>
+
+<p>I evaluated several options for FidoFetch. Amazon’s <a href="http://aws.amazon.com/sqs/">Simple Queuing Service</a>,
+SpringSource’s <a href="http://www.rabbitmq.com/">RabbitMQ</a>, <a href="http://www.zeromq.org/">ZeroMQ</a>,
+Apache’s <a href="http://activemq.apache.org/">ActiveMQ</a> and even using a <a href="http://lorenzodeleon.blogspot.com/2010/09/how-to-build-very-simple-distributed.html">database as the queue</a>.</p>
+
+<p>Once again one of my coworkers suggested a product he has used in the past, <a href="http://kr.github.com/beanstalkd/">beanstalkd</a>.</p>
+
+<h3 id="beanstalkd">Beanstalkd</h3>
+<p>Beanstalkd is a simple and straightforward worker queue. Now technically it is not a distributed worker queue.
+However, workers can connect to it from anywhere and start processing jobs.</p>
+
+<p>My design requirements do not require the absence of any single point of failure. If this were to be the case,
+I would have to use one of the other queuing services. FidoFetch was designed to be scalable for my needs.</p>
+
+<p>There are clients for Beanstalkd in many languages and it has the basic features I need.
+I use <a href="https://github.com/earl/beanstalkc">beanstalkc</a> for python.</p>
+
+<p>I also wrote a simple <a href="http://stephenholiday.com/projects/beanstalk-ganglia/">monitoring script</a> for <a href="http://ganglia.sourceforge.net/">ganglia</a>.</p>
+
+<h2 id="the-database">The Database</h2>
+<p>FidoFetch needs somewhere to store all the articles, subscriptions, rating data etc.
+The design of the system requires multiple servers be able to access the information in a scalable fashion.</p>
+
+<p>Since the server farm needs to be elastic, the database needs to be able to grow and shrink in terms of nodes.</p>
+
+<h3 id="riak">Riak</h3>
+<p><a href="http://wiki.basho.com/">Riak</a> is the database that powers FidoFetch, there were a few reasons I choose this database:</p>
+
+<ul>
+  <li>Free (I’m a student…)</li>
+  <li>Distributed</li>
+  <li>Fast lookups on key</li>
+  <li>Elastic (Nodes can leave an join the network without manual rebalancing)</li>
+  <li>Fault tolerant (Nodes can die and come back, downloading only the changed data)</li>
+  <li>Map/Reduce tools</li>
+  <li>Intuitive API</li>
+</ul>
+
+<p>Riak is really quite awesome. It’s written in Erlang and is really straightforward to use.
+I do admit I had some trouble with the Map/Reduce functionality but I’ve managed to find workarounds.</p>
+
+<p>I recommend you check out <a href="http://wiki.basho.com/An-Introduction-to-Riak.html">the riak wiki</a> for more information.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>I’ve covered what I wanted to discuss about FidoFetch’s architecture.
+I hope you found it interesting despite the length.
+I hope that you will also find it useful or that it at least gets your brain churning.</p>
+
+<p>So far FidoFetch’s architecture has been performing great. I expect there will be further iterations.</p>
+
+<p>Thanks for reading, please shoot me an <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#116;&#101;&#112;&#104;&#101;&#110;&#046;&#104;&#111;&#108;&#105;&#100;&#097;&#121;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">email</a> with any thoughts.</p>
+
+</div>
+
+<div id="related">
+  <h3><em>Related Posts</em></h2>
+  	<ul class="list-group">
+    
+      <li class="list-group-item"><a href="/articles/2014/backup-strategy"><strong>My Backup Strategy</strong></a></li>
+    
+      <li class="list-group-item"><a href="/articles/2014/batch-graph-build-using-hadoop-and-titan"><strong>How Project Rhino leverages Hadoop to build a graph of the music world</strong></a></li>
+    
+      <li class="list-group-item"><a href="/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop"><strong>SMTP Email Relay for GMail (TLS) with Oozie Using Postfix</strong></a></li>
+    
+    </ul>
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/Notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>

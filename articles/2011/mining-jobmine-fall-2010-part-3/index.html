@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Mining Jobmine - Fall 2010 - Part 3 - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/articles">Articles</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/notes">Notes</a></li>
+                <li><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header"><h1>Mining Jobmine - Fall 2010 - Part 3</h1></div>
+
+<div id="post">
+<p><em>This is the third part in a multi-part series, read the first part <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">here</a> and the second part <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">here</a>.</em></p>
+
+<p>JobMine is the tool we use at the <a href="http://uwaterloo.ca">University of Waterloo</a> for our co-op.
+For each job in JobMine there is a description of the job written by the employer.
+In this article I’ll dig into the job descriptions applying some of the techniques I talked about in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">earlier</a> <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">articles</a>.</p>
+
+<h2 id="unigrams">Unigrams</h2>
+<p>Just like I did in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">first article</a>, I tokenized descriptions and collected the most common ones.</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-top25.png"><img height="417" width="442" alt="1-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-top25.png" title="1-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>Ugh, that’s not very useful at all! The most common tokens seem to be those that are most common in English in general.
+Thankfully, we have lists of such common words. They’re called stop words.</p>
+
+<h2 id="stop-words">Stop Words</h2>
+<p>Stop words are common words that don’t really give any insight into the text, like ‘the’, ‘and’, ‘or’ or ‘but’.
+Often people trying to classify text or extract meaning remove stop words from the text.
+The idea is that removing the stop words reduces noise in the data and compacts feature space.</p>
+
+<p>I looked into the effectiveness of stop words in my <a href="http://stephenholiday.com/projects/twitter-sentiment-extraction/">Twitter Sentiment Extraction</a> project.</p>
+
+<p>Now I need a list of stop words to remove.
+Since I’m a fan of the <a href="http://www.nltk.org/">NLTK</a> (Natural Language Toolkit) for python, I’m going to use the built in stop word list.</p>
+
+<h3 id="nltk-stop-words">NLTK Stop Words</h3>
+<p>I’ve reproduced the list here so you can get an idea of what will be removed.
+Again, please checkout the <a href="http://www.nltk.org/">NLTK website</a> for more information.</p>
+
+<pre><code>i           their	    doing	above	each
+me          theirs	    a	    below	few
+my          themselves	an	    to	    more
+myself	    what	    the	    from	most
+we          which	    and	    up	    other
+our	        who	        but	    down	some
+ours	    whom	    if	    in	    such
+ourselves	this	    or	    out	    no
+you	        that	    because	on	    nor
+your	    these	    as	    off	    not
+yours	    those	    until	over	only
+yourself	am	        while	under	own
+yourselves	is	        of	    again	same
+he	        are	        at	    further	so
+him	        was	        by	    then	than
+his	        were        for	    once	too
+himself	    be	        with	here	very
+she	        been    	about	there	s
+her	        being   	against	when	t
+hers	    have    	between	where	can
+herself	    has	        into	why	    will
+it	        had	        through	how	    just
+its	        having	    during	all	    don
+itself  	do	        before	any	    should
+they    	does    	after	both	now
+them    	did
+</code></pre>
+
+<h2 id="unigrams---stop-words-removed">Unigrams - Stop Words Removed</h2>
+<p>So I removed all tokens that were in the stop word list inside my tokenizer function.</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-stopwords-top25.png"><img height="417" width="442" alt="1-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-unigram-stopwords-top25.png" title="1-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>Ah, now that’s better. Removing those stop words really seems to help.
+I did not expect for ‘work’ to be the most common token in the job descriptions.
+‘Experience’ and ‘development’ were not surprises.</p>
+
+<h2 id="bigrams">Bigrams</h2>
+<p>That covers what I talked about in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">first article</a>.
+Now I’m going to address the topics covered in the  the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">second article</a>, bigrams and trigrams.</p>
+
+<p>Without further ado, here are the most common bigrams:</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-top25.png"><img height="403" width="424" alt="2-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-top25.png" title="2-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>Hmm, same problem as before. While some of the bigrams may be interesting (‘experience with’ or ‘knowledge of’),
+I think there’s some more interesting bigrams that are hidden in the noise.</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-stopwords-top25.png"><img height="417" width="442" alt="2-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-bigrams-stopwords-top25.png" title="2-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>The bigrams that don’t contain stop words seem to be much more interesting. Seems like stop words are working.</p>
+
+<h2 id="trigrams">Trigrams</h2>
+<p><a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">Previously</a>, trigrams were not that interesting in the titles.
+I hypothesized that this was because the titles are so short, usually two to three words (I should run some stats on that…).
+Descriptions are often much longer so maybe they will be more interesting.</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-top25.png"><img height="451" width="427" alt="3-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-top25.png" title="3-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>Now let’s try removing stop words…</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-stopwords-top25.png"><img height="502" width="455" alt="3-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-stopwords-top25.png" title="3-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>There’s some weird stuff near the top of the range in the trigrams.
+The people who run JobMine (CECS) put a notice in the job descriptions of positions outside of Canada.
+It’s good to let people know about the possible issues with working internationally but it seems to mess with the data.
+We are really interested in what <em>employers</em> write in the their job descriptions. So I’ll try to remove them.</p>
+
+<h2 id="trigrams-without-warning">Trigrams without Warning</h2>
+<p>So I modified my script to remove the CECS warning from the job descriptions and plotted both charts.
+(I really should have wrote my script to produce a chart at the end instead of sending the results to Excel)</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-top25.png"><img height="451" width="427" alt="3-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-top25.png" title="3-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>Now let’s try removing stop words…</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-stopwords-top25.png"><img height="502" width="455" alt="3-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-trigrams-warning-stopwords-top25.png" title="3-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>I’ve censored one of the trigrams as it would have given away one of the companies on JobMine and I don’t want to get in trouble with the university.
+In the future I’m going to try and play with public data sets so I don’t have this issue.</p>
+
+<h2 id="quadgrams">Quadgrams</h2>
+<p>Trigrams seem to be interesting, how about setting <em>n</em> to 4 (quadgrams?).
+Quick changes in the script and away we go…</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-top25.png"><img height="448" width="403" alt="3-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-top25.png" title="3-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>Now let’s try removing stop words…</p>
+
+<blockquote>
+  <blockquote>
+    <p><em>Click on the image for a bigger version</em></p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p><a href="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-stopwords-top25.png"><img height="417" width="402" alt="3-gram Frequency in Descriptions (Top 25)" src="http://stephenholiday.com/media/img/mining-jobmine-2010/desc-quadgrams-warning-stopwords-top25.png" title="3-gram Frequency in Descriptions Top 25" /></a></p>
+  </blockquote>
+</blockquote>
+
+<p>As you can see, the larger the value of <em>n</em>, the less frequent the top grams are.
+This makes sense as the chance that multiple employers will choose the exact same sequence of <em>n</em> words in a job descriptions
+decreases with higher <em>n</em>. This is kind of like the randomly typing monkeys problem.
+However, I wouldn’t want to compare the employers to randomly typing monkeys…</p>
+
+<h2 id="next-time">Next Time</h2>
+<p>Looking at the descriptions seemed interesting to me but I’m definitely not done messing with this dataset yet.
+Some other things I’m thinking of doing next include lengths of job descriptions, writing level (though that could be sticky) and maybe some other stats that step away from the text itself.</p>
+
+<p>Hope you enjoyed this article, shoot me an email if you have something to say.</p>
+
+</div>
+
+<div id="related">
+  <h3><em>Related Posts</em></h2>
+  	<ul class="list-group">
+    
+      <li class="list-group-item"><a href="/articles/2014/backup-strategy"><strong>My Backup Strategy</strong></a></li>
+    
+      <li class="list-group-item"><a href="/articles/2014/batch-graph-build-using-hadoop-and-titan"><strong>How Project Rhino leverages Hadoop to build a graph of the music world</strong></a></li>
+    
+      <li class="list-group-item"><a href="/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop"><strong>SMTP Email Relay for GMail (TLS) with Oozie Using Postfix</strong></a></li>
+    
+    </ul>
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/Notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>
