@@ -178,247 +178,150 @@ it is approximately the same complexity as Paxos</li>
     <div class="panel-heading">
         <h3 class="panel-title"><strong>
         	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-3">
-        		Dynamo: Amazon's Highly Available Key-value Store</a>
-        </strong> [Amazon, 2007]</h3>
+        		Cassandra: A Decentralized Structured Storage System</a>
+        </strong> [Facebook, 2009]</h3>
     </div>
     <div id="collapse-3" class="panel-collapse collapse out">
   		<div class="panel-body">
     		<ul>
-  <li>
-    <p>[<a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Paper</a>]</p>
-  </li>
-  <li>Noticed:
+  <li>[<a href="http://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf">Paper</a>]</li>
+</ul>
+
+<p>If you haven’t read the Dynamo paper, I suggest you read it before this paper.</p>
+
+<ul>
+  <li>Originally for their Inbox Search service
     <ul>
-      <li>Most applications only needed primary key access to data</li>
-      <li>They needed availability, not consistency</li>
-      <li>Originally developed in service of the shopping cart</li>
-      <li>No operations spanning keys</li>
+      <li>High write throughput</li>
     </ul>
   </li>
-  <li>High Level Features
+  <li>Data Model
     <ul>
-      <li>Decentralized
+      <li>Operations are atomic under a row key</li>
+      <li>Columns are grouped in column families like Bigtable</li>
+      <li>They also include a new concept of <em>super column families</em>
         <ul>
-          <li>They say this was to make it simpler, interestingly Bigtable authors used
-a single master approach for simplicity. Not exactly a fair comparison
-though.</li>
+          <li>A column family within a column family</li>
         </ul>
       </li>
-      <li>Optimized for small objects (less than 1 MB)</li>
-      <li>Nodes can be added or removed without manual partitioning
+      <li>Application can dictate the sort order of columns in a super column family
+or column family
         <ul>
-          <li>Though nodes are supposed to be added with a tool</li>
+          <li>In Inbox Search, they sort columns by time so recent results appear first</li>
         </ul>
       </li>
-      <li>Incremental scalability
+    </ul>
+  </li>
+  <li>Partitioning and Replication
+    <ul>
+      <li>Want incremental scalability (like Dynamo)</li>
+      <li>They use consistent hashing (like Dynamo)
         <ul>
-          <li>Can add one node at a time, not some multiple of N</li>
-        </ul>
-      </li>
-      <li>Symmetry
-        <ul>
-          <li>No distinguished nodes</li>
-          <li>Any node can handle a get or put
+          <li>Random positioning leads to no-uniform load
             <ul>
-              <li>Forwards it to the responsible node</li>
-              <li>Some clients opt to be intelligent and talk to the responsible node
-directly</li>
+              <li>They note that it also ignores the heterogeneity of servers</li>
             </ul>
           </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Dynamo is a “zero-hop DHT”
-    <ul>
-      <li>Consistent hashing</li>
-      <li>They use v-nodes
-        <ul>
-          <li>Load from a failed node is evenly dispersed</li>
-          <li>The number of v-nodes assigned to a machine can be set based on the
-specific heterogeneous server</li>
-          <li>Preference List: List of nodes responsible for storing a key
+          <li>They didn’t use the Dynamo technique of v-nodes</li>
+          <li>They instead analyze load information and move nodes around the ring
             <ul>
-              <li>Not stored obviously, calculated</li>
-              <li>Contains more than N nodes for availability</li>
-              <li>List skips any physical node already in the list</li>
-              <li>If the first N nodes are healthy, only the first N nodes will receive a
-write or a read</li>
-              <li>Any of the first N nodes can act as Coordinator
+              <li>They argue for easy of implementation and allows them to “make
+very deterministic choices about the load balancing”
                 <ul>
-                  <li>Coordinator is responsible for replicating to the N-1 next nodes on
-the ring</li>
+                  <li>The first reason struck me as a little odd</li>
                 </ul>
               </li>
             </ul>
           </li>
         </ul>
       </li>
-    </ul>
-  </li>
-  <li>Data Versioning
-    <ul>
-      <li>They use vector clocks
+      <li>They have a coordinator node (a la Dynamo)</li>
+      <li>They use read repair</li>
+      <li>Multiple replication policies
         <ul>
-          <li>I <em>love</em> vector clocks. My first experience with them was when I used Riak
-(a Dynamo based KV-store).</li>
-        </ul>
-      </li>
-      <li>On a read, a client may receive multiple conflicting versions and the
-associated vector clocks (inside of a version context).
-        <ul>
-          <li>The client can decide how to reconcile the conflict
-            <ul>
-              <li>In practice, I’ve found that this means creating a Model or DAO to
-ensure consistent conflict resolution across a code base.</li>
-            </ul>
+          <li>I found this cool when I first used Cassandra in 2010</li>
+          <li>Policies:
+            <ol>
+              <li>Rack Unaware</li>
+              <li>Rack Aware</li>
+              <li>Datacenter Aware</li>
+            </ol>
           </li>
-          <li>The client sends the new version along with the context the server gave it
-            <ul>
-              <li>This is to make clear which version the client is updating</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>Since usually only the first N nodes in the preference list write data, the
-vector clock will not be that long. Though it will still grow as the cluster
-changes over time (and with failures)
-        <ul>
-          <li>Their vector clocks include a timestamp with the per node logical
-timestamp</li>
-          <li>When the vector clock reaches a threshold size, they remove the oldest
-vector entry</li>
-          <li>
-            <p>I found it interesting that they wouldn’t remove based on time. My concern
-is that if the cluster as a whole becomes unstable (say power failure or
-core switch failure) the vector clock could grow rapidly but old versions
-would be difficult to merge later.</p>
-
-            <p>Perhaps they do not remove the <em>oldest</em> version if it’s <em>recent</em>.</p>
-          </li>
+          <li>Now the open source version has pluggable policies for other environments
+like S3</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Consistency
+  <li>Bootstrapping
     <ul>
-      <li><em>Standard</em> quorum based <code>(R, W, N) </code>
+      <li>Uses seeds like Dynamo</li>
+      <li>Chooses a random position in the ring</li>
+      <li>Nodes are configured with a Cluster Name
         <ul>
-          <li>I say <em>standard</em> but that is partially from my experience with Cassandra</li>
+          <li>A node will only talk to other nodes with the same Cluster Name</li>
+          <li>This saved my bacon many times when I was running multiple clusters on 
+Amazon for a company I worked for</li>
         </ul>
       </li>
-      <li><code>R</code> and <code>W</code> are client tunable</li>
-      <li>Some applications use <code>R=1, W=N</code> for an authoritative persistent cache</li>
-      <li>They use a <em>sloppy</em> quorum
-        <ul>
-          <li>The first N healthy nodes are used, not the first N nodes in the list</li>
-        </ul>
-      </li>
-      <li>Hinted Handoff
-        <ul>
-          <li>A client can set W to 1 and as long as 1 node confirms the right it will
-be considered a success</li>
-          <li>When more nodes come back online, hinted handoff is used to deliver the
-data to the responsible node</li>
-          <li>This is a separate local DB that includes metadata about where to send it</li>
-          <li>This works especially well with cross DC where links could fail
-temporarily cutting off a huge portion of the cluster</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Replica Synchronization
-    <ul>
-      <li>Use a Merkle tree to minimize traffic required to compare v-nodes</li>
-      <li>Care must be taken to not change the range of keys serviced by a v-node too
-much as that requires recomputing many Merkle trees</li>
-      <li><strong>Question</strong>: Could the Merkle tree be constructed in such away that only a
-smaller portion of the tree needs to be recalculated?</li>
-      <li>Read repair
-        <ul>
-          <li>When the coordinator sends a read for a key to the other nodes, it waits a
-bit to receive late replies
-            <ul>
-              <li>Even if it has received enough replies to satisfy the clients <code>R</code></li>
-            </ul>
-          </li>
-          <li>It compares the versions returned and updates stale replicas</li>
-          <li>This takes load off the anti-entropy protocol</li>
-        </ul>
-      </li>
+      <li>Explicit addition and removal of nodes to the cluster (like Dynamo)</li>
+      <li>At the time of the paper they were planning on allowing multiple replicas
+to speed up the initial bootstrap data transfer</li>
     </ul>
   </li>
   <li>Membership
     <ul>
-      <li>Noticed: Not being able to reach a node doesn’t usually mean it will never
-come back.</li>
-      <li>Have explicit membership addition and removal</li>
-      <li>Gossip-based protocol for membership history propagation
+      <li>They use Zookeeper to elect a leader in charge of membership and ring
+management</li>
+      <li>Anti-entropy Gossip protocol (based on Scuttlebutt)
         <ul>
-          <li>History, not list. Otherwise how do you know who is right?</li>
-          <li>Each node contacts a random node every second to compare membership
-histories</li>
+          <li>Also used to transmit other system state</li>
         </ul>
       </li>
-      <li>When a node is added, other nodes will notice the change in the ring and
-offer to send the appropriate data to the new node</li>
-    </ul>
-  </li>
-  <li>Failure Detection
-    <ul>
-      <li>Local notion of failure is fine
+      <li>They use a modified version of the Φ Accrual Failure Detector
         <ul>
-          <li>If a node can’t reach a given peer it doesn’t matter to it if the rest of
-the cluster can</li>
-        </ul>
-      </li>
-      <li>Without client requests nodes don’t really care which nodes are up or down
-        <ul>
-          <li>This assumes the data is stored durably somewhere</li>
+          <li>Essentially, the model gives a real number for the level of suspicion
+that a node has failed</li>
+          <li>Adapts to current network conditions</li>
+          <li>I thought this was a cool idea!</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Partitioning and Placement strategies
+  <li>Local Persistence
     <ul>
-      <li>They wanted to separate partitioning from placement</li>
-    </ul>
-
-    <ol>
-      <li><em>T random tokens per node and partition nodes by token value</em>
+      <li>Commit log on the node (on a dedicated disk for performance)</li>
+      <li>In memory data structure that is persisted periodically
         <ul>
-          <li>When a node joins, a lot of nodes have to scan their data to send the
- required data</li>
-          <li>Merkle trees must be recalculated for many nodes</li>
-          <li>Snapshots are hard</li>
-          <li>I hadn’t thought of this aspect of managing the cluster, even though
-I’ve snapshotted Cassandra clusters</li>
+          <li>Per column family</li>
+          <li>Since the persisted files are immutable they do not need read locks
+            <ul>
+              <li>Though I’d imagine you’d have to take care during compaction with an
+atomic swap while ensure there are no readers to the old files</li>
+            </ul>
+          </li>
         </ul>
       </li>
-      <li><em>T random tokens per node and equal sized partitions</em>
+      <li>They use bloom filters</li>
+      <li>An index for the columns per key so they can jump to the right spot on disk
         <ul>
-          <li>“A partition is placed on the first N unique nodes that are encountered
-  while walking … [the] ring clockwise from the end of the partition”</li>
+          <li>New index every 256K chunk boundary</li>
         </ul>
       </li>
-      <li><em>Q/S tokens per node, equal sized partitions</em></li>
-    </ol>
-
-    <ul>
-      <li>Strategy 3 was chosen for faster bootstrapping / recovery and for easy
-snapshots</li>
-      <li>However, coordination is required for changes of node membership</li>
     </ul>
   </li>
   <li>Misc.
     <ul>
-      <li>Reads and Writes create a state machine on the node (one-to-one)
-        <ul>
-          <li>I thought this was a cool way to organize a potentially complex flow of
-operation (once you factor in the preference list and retries). Sure beats
-a ton of flags about state.</li>
-        </ul>
-      </li>
+      <li>They don’t discuss any kind of range scans. The current open source version
+does have range scans.</li>
+      <li>They refer to a state machine for requests (sounds similar to Dynamo)</li>
+      <li>The different modules of the server “rely on an event driven substrate where
+the message processing pipeline and the task pipeline are split into
+multiple stages” like SEDA</li>
+      <li>System control messages are UDP</li>
+      <li>Compaction looks for files that are close to each other in size</li>
+      <li>In the Inbox Search case, they send a signal to the cluster when a user
+clicks into the search box to prime the cache for the user</li>
     </ul>
   </li>
 </ul>
@@ -433,93 +336,10 @@ a ton of flags about state.</li>
     <div class="panel-heading">
         <h3 class="panel-title"><strong>
         	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-4">
-        		Spanner: Google's Globally-Distributed Database</a>
-        </strong> [Google, 2012]</h3>
-    </div>
-    <div id="collapse-4" class="panel-collapse collapse out">
-  		<div class="panel-body">
-    		<ul>
-  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf">Paper</a>]</li>
-  <li>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/corbett.mp4">Video</a>]</li>
-  <li>Features:
-    <ul>
-      <li>Designed for cross DC replication.</li>
-      <li>Spanner is a multi-versioned database.
-        <ul>
-          <li>Each piece of data is assigned a timestamp.</li>
-        </ul>
-      </li>
-      <li>Spanner provides external consistency.
-        <ul>
-          <li>That is, transactions occur in the order that they happened in the real world.</li>
-        </ul>
-      </li>
-      <li>SQL-based query language</li>
-    </ul>
-  </li>
-  <li>TrueTime: Exposes uncertainty in the clock by representing time as an interval.
-    <ul>
-      <li><code>TT.now()</code> returns <code>[earliest, latest]</code>
-        <ul>
-          <li><code>earliest</code> - The earliest possible timestamp for the current time.</li>
-          <li><code>latest</code> - The latest possible timestamp for the current time.</li>
-        </ul>
-      </li>
-      <li>This means that TrueTime is guarantying that the current time is somewhere in the interval <code>[earliest, latest]</code>.</li>
-      <li>They use a combination of GPS clocks and atomic clocks.</li>
-      <li>The size of the interval is generally less than 10 ms.
-        <ul>
-          <li>Since we are working with distributed consensus across the world, 10 ms is pretty small.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>Transactions with TrueTime:</p>
-
-    <blockquote>
-      <p>“We believe it is better to have application programmers deal with performance problems due to overuse of transactions as bottlenecks arise, rather than always coding around the lack of transactions.”</p>
-    </blockquote>
-
-    <ul>
-      <li>The system slows down the transaction until the system to ‘wait out’ the uncertainty of the clock.</li>
-      <li>Example of a transaction (2PL)
-        <ol>
-          <li>Acquire locks</li>
-          <li>Call <code>TT.now()</code>, Let <code>s = TT.now().latest</code>.</li>
-          <li>Do work.</li>
-          <li>Wait until <code>TT.now().earliest &gt; s</code>.</li>
-        </ol>
-      </li>
-      <li>Example of a transaction (with 2PC)
-        <ol>
-          <li>Acquire locks</li>
-          <li>Compute <em>s</em></li>
-          <li>Participants start logging</li>
-          <li>Finish logging, send Prepared to Coordinator with s</li>
-          <li>Coordinator computes overall s</li>
-          <li>Coordinator releases locks, sends Committed and the overall s value to Participants</li>
-          <li>Participants release locks</li>
-        </ol>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-    	</div>
-    </div>
-</div>
-		
-	
-		
-		<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title"><strong>
-        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-5">
         		Bigtable: A Distributed Storage System for Structured Data</a>
         </strong> [Google, 2006]</h3>
     </div>
-    <div id="collapse-5" class="panel-collapse collapse out">
+    <div id="collapse-4" class="panel-collapse collapse out">
   		<div class="panel-body">
     		<ul>
   <li>[<a href="http://research.google.com/archive/bigtable-osdi06.pdf">Paper</a>]</li>
@@ -770,142 +590,331 @@ entries</li>
 		<div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-5">
+        		Spanner: Google's Globally-Distributed Database</a>
+        </strong> [Google, 2012]</h3>
+    </div>
+    <div id="collapse-5" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf">Paper</a>]</li>
+  <li>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/corbett.mp4">Video</a>]</li>
+  <li>Features:
+    <ul>
+      <li>Designed for cross DC replication.</li>
+      <li>Spanner is a multi-versioned database.
+        <ul>
+          <li>Each piece of data is assigned a timestamp.</li>
+        </ul>
+      </li>
+      <li>Spanner provides external consistency.
+        <ul>
+          <li>That is, transactions occur in the order that they happened in the real world.</li>
+        </ul>
+      </li>
+      <li>SQL-based query language</li>
+    </ul>
+  </li>
+  <li>TrueTime: Exposes uncertainty in the clock by representing time as an interval.
+    <ul>
+      <li><code>TT.now()</code> returns <code>[earliest, latest]</code>
+        <ul>
+          <li><code>earliest</code> - The earliest possible timestamp for the current time.</li>
+          <li><code>latest</code> - The latest possible timestamp for the current time.</li>
+        </ul>
+      </li>
+      <li>This means that TrueTime is guarantying that the current time is somewhere in the interval <code>[earliest, latest]</code>.</li>
+      <li>They use a combination of GPS clocks and atomic clocks.</li>
+      <li>The size of the interval is generally less than 10 ms.
+        <ul>
+          <li>Since we are working with distributed consensus across the world, 10 ms is pretty small.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Transactions with TrueTime:</p>
+
+    <blockquote>
+      <p>“We believe it is better to have application programmers deal with performance problems due to overuse of transactions as bottlenecks arise, rather than always coding around the lack of transactions.”</p>
+    </blockquote>
+
+    <ul>
+      <li>The system slows down the transaction until the system to ‘wait out’ the uncertainty of the clock.</li>
+      <li>Example of a transaction (2PL)
+        <ol>
+          <li>Acquire locks</li>
+          <li>Call <code>TT.now()</code>, Let <code>s = TT.now().latest</code>.</li>
+          <li>Do work.</li>
+          <li>Wait until <code>TT.now().earliest &gt; s</code>.</li>
+        </ol>
+      </li>
+      <li>Example of a transaction (with 2PC)
+        <ol>
+          <li>Acquire locks</li>
+          <li>Compute <em>s</em></li>
+          <li>Participants start logging</li>
+          <li>Finish logging, send Prepared to Coordinator with s</li>
+          <li>Coordinator computes overall s</li>
+          <li>Coordinator releases locks, sends Committed and the overall s value to Participants</li>
+          <li>Participants release locks</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
         	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-6">
-        		Finding a needle in Haystack: Facebook’s photo storage</a>
-        </strong> [Facebook, 2010]</h3>
+        		Dynamo: Amazon's Highly Available Key-value Store</a>
+        </strong> [Amazon, 2007]</h3>
     </div>
     <div id="collapse-6" class="panel-collapse collapse out">
   		<div class="panel-body">
     		<ul>
-  <li>[<a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf">Paper</a>]</li>
   <li>
-    <p><a href="https://www.facebook.com/note.php?note_id=76191543919">Facebook Engineering Blog Post</a></p>
+    <p>[<a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Paper</a>]</p>
   </li>
-  <li>Facebook found that their CDNs were great for handling the really popular
-photos but the long tail of access was huge. They couldn’t just cache
-everything.</li>
-  <li>In their existing NAS/NFS based system, “disk IOs for metadata was the
-limiting factor for [their] read throughput.”
+  <li>Noticed:
     <ul>
-      <li>They optimized to get down to about 3 disk ops to read an image</li>
-      <li>Haystack can generally get it down to 1</li>
+      <li>Most applications only needed primary key access to data</li>
+      <li>They needed availability, not consistency</li>
+      <li>Originally developed in service of the shopping cart</li>
+      <li>No operations spanning keys</li>
     </ul>
   </li>
-  <li>Architecture
+  <li>High Level Features
     <ul>
-      <li><strong>Store</strong>: Persistent storage of photos
+      <li>Decentralized
         <ul>
-          <li>The storage on a single machine is segmented into <em>physical volumes</em> (~100
-with each holding about 100 GB)
+          <li>They say this was to make it simpler, interestingly Bigtable authors used
+a single master approach for simplicity. Not exactly a fair comparison
+though.</li>
+        </ul>
+      </li>
+      <li>Optimized for small objects (less than 1 MB)</li>
+      <li>Nodes can be added or removed without manual partitioning
+        <ul>
+          <li>Though nodes are supposed to be added with a tool</li>
+        </ul>
+      </li>
+      <li>Incremental scalability
+        <ul>
+          <li>Can add one node at a time, not some multiple of N</li>
+        </ul>
+      </li>
+      <li>Symmetry
+        <ul>
+          <li>No distinguished nodes</li>
+          <li>Any node can handle a get or put
             <ul>
-              <li>Each physical volume is basically a large file
+              <li>Forwards it to the responsible node</li>
+              <li>Some clients opt to be intelligent and talk to the responsible node
+directly</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Dynamo is a “zero-hop DHT”
+    <ul>
+      <li>Consistent hashing</li>
+      <li>They use v-nodes
+        <ul>
+          <li>Load from a failed node is evenly dispersed</li>
+          <li>The number of v-nodes assigned to a machine can be set based on the
+specific heterogeneous server</li>
+          <li>Preference List: List of nodes responsible for storing a key
+            <ul>
+              <li>Not stored obviously, calculated</li>
+              <li>Contains more than N nodes for availability</li>
+              <li>List skips any physical node already in the list</li>
+              <li>If the first N nodes are healthy, only the first N nodes will receive a
+write or a read</li>
+              <li>Any of the first N nodes can act as Coordinator
                 <ul>
-                  <li>It’s append only</li>
-                  <li>Each needle (the photo) also contains a checksum, the key, and
-a cookie
-                    <ul>
-                      <li>Cookie is used to verify requests come from a Directory generated
-URL to avoid brute forcing</li>
-                      <li>Though a user could still pass the URL to someone not permitted to
-see the photo</li>
-                    </ul>
-                  </li>
+                  <li>Coordinator is responsible for replicating to the N-1 next nodes on
+the ring</li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li>An in memory index allows the server to look up the image with
-approximately one disc operation (with the offset)
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Data Versioning
+    <ul>
+      <li>They use vector clocks
+        <ul>
+          <li>I <em>love</em> vector clocks. My first experience with them was when I used Riak
+(a Dynamo based KV-store).</li>
+        </ul>
+      </li>
+      <li>On a read, a client may receive multiple conflicting versions and the
+associated vector clocks (inside of a version context).
+        <ul>
+          <li>The client can decide how to reconcile the conflict
             <ul>
-              <li>The index could be built from the file, but a check-pointed version is
-written to disk asynchronously (then only part of the file needs to be
-read)</li>
+              <li>In practice, I’ve found that this means creating a Model or DAO to
+ensure consistent conflict resolution across a code base.</li>
             </ul>
           </li>
-          <li>Deleted photos are marked in the needle (in the file)
+          <li>The client sends the new version along with the context the server gave it
             <ul>
-              <li>A deleted photo still can cause a read of the needle but the server
-checks the needle for the deleted flag and updates it’s in memory index</li>
+              <li>This is to make clear which version the client is updating</li>
             </ul>
           </li>
-          <li>They use XFS - great for preallocating the physical volume file
-            <ul>
-              <li>1 GB extents and 256 kilobyte RAID stripes to minimize the number of
-times a needle lookup crosses a boundary (thus requiring more disk ops)</li>
-            </ul>
-          </li>
-          <li><strong>Logical volumes</strong> are made up of physical volumes on distinct machines
-            <ul>
-              <li>Each physical volume in the logical volume contains the same photos</li>
-              <li>Volumes are marked read-only at the granularity of a machine</li>
-            </ul>
-          </li>
-          <li>While the paper doesn’t state it, it seems to me that these machines could
-be heterogeneous with different numbers of physical volumes per node</li>
-          <li><strong>Directory</strong></li>
-          <li>Mapping of logical -&gt; physical volumes</li>
-          <li>Mapping of which logical volume each photo is on</li>
-          <li>Constructs a URL which allows the system to determine how to get the image
-without further interaction of the directory</li>
-          <li>When a write comes in, server asks the directory for a write-enabled
-logical volume. The server decides on a photo ID and uploads it to each
-physical volume in the logical volume</li>
-          <li>Directory load balances
-            <ul>
-              <li>writes across logical volumes</li>
-              <li>reads across physical volumes</li>
-            </ul>
-          </li>
-          <li>Data stored in replicated database (presumably MySQL) with memcached</li>
-          <li><strong>Cache</strong></li>
-          <li>Internal CDN</li>
-          <li>Shelters them when CDN nodes fail</li>
-          <li>Only caches a photo if:
-            <ol>
-              <li>request comes from the user, not CDN, <em>and</em></li>
-              <li>photo is read from a write-enabled volume</li>
-            </ol>
-          </li>
-          <li>They only need to protect write-enabled stores because read stores can
-handle the read fine. Mixing read and write on the same store is slow.</li>
-          <li>Most photos are read soon after uploading (i.e. in a write-enabled store)
-            <ul>
-              <li>They want to implement active push to the cache for new uploads</li>
-            </ul>
+        </ul>
+      </li>
+      <li>Since usually only the first N nodes in the preference list write data, the
+vector clock will not be that long. Though it will still grow as the cluster
+changes over time (and with failures)
+        <ul>
+          <li>Their vector clocks include a timestamp with the per node logical
+timestamp</li>
+          <li>When the vector clock reaches a threshold size, they remove the oldest
+vector entry</li>
+          <li>
+            <p>I found it interesting that they wouldn’t remove based on time. My concern
+is that if the cluster as a whole becomes unstable (say power failure or
+core switch failure) the vector clock could grow rapidly but old versions
+would be difficult to merge later.</p>
+
+            <p>Perhaps they do not remove the <em>oldest</em> version if it’s <em>recent</em>.</p>
           </li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Recovery
+  <li>Consistency
     <ul>
-      <li>Have a system that regularly test the volumes
+      <li><em>Standard</em> quorum based <code>(R, W, N) </code>
         <ul>
-          <li>Marks them as read-only if there is repeated issues</li>
-          <li>Then a human manually address the problem</li>
+          <li>I say <em>standard</em> but that is partially from my experience with Cassandra</li>
         </ul>
       </li>
-      <li>Bulk syncs occur when they need to reset the data on a machine
+      <li><code>R</code> and <code>W</code> are client tunable</li>
+      <li>Some applications use <code>R=1, W=N</code> for an authoritative persistent cache</li>
+      <li>They use a <em>sloppy</em> quorum
         <ul>
-          <li>Takes a very long time, but only happens a few times a month</li>
+          <li>The first N healthy nodes are used, not the first N nodes in the list</li>
+        </ul>
+      </li>
+      <li>Hinted Handoff
+        <ul>
+          <li>A client can set W to 1 and as long as 1 node confirms the right it will
+be considered a success</li>
+          <li>When more nodes come back online, hinted handoff is used to deliver the
+data to the responsible node</li>
+          <li>This is a separate local DB that includes metadata about where to send it</li>
+          <li>This works especially well with cross DC where links could fail
+temporarily cutting off a huge portion of the cluster</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Compaction
+  <li>Replica Synchronization
     <ul>
-      <li>Online operation to reclaim space from deleted / <em>modified</em> photos
+      <li>Use a Merkle tree to minimize traffic required to compare v-nodes</li>
+      <li>Care must be taken to not change the range of keys serviced by a v-node too
+much as that requires recomputing many Merkle trees</li>
+      <li><strong>Question</strong>: Could the Merkle tree be constructed in such away that only a
+smaller portion of the tree needs to be recalculated?</li>
+      <li>Read repair
         <ul>
-          <li>“Over the course of a year, about 25% of photos get deleted”</li>
-          <li>Photos are never overwritten, just the latest version is considered
-the current version</li>
+          <li>When the coordinator sends a read for a key to the other nodes, it waits a
+bit to receive late replies
+            <ul>
+              <li>Even if it has received enough replies to satisfy the clients <code>R</code></li>
+            </ul>
+          </li>
+          <li>It compares the versions returned and updates stale replicas</li>
+          <li>This takes load off the anti-entropy protocol</li>
         </ul>
       </li>
-      <li>Store machine copies the needles that are not deleted or duplicates to a new
-file</li>
-      <li>Deletes go to both files</li>
-      <li>Once op is complete, blocks modifications and atomically swaps the files and
-in-memory index</li>
+    </ul>
+  </li>
+  <li>Membership
+    <ul>
+      <li>Noticed: Not being able to reach a node doesn’t usually mean it will never
+come back.</li>
+      <li>Have explicit membership addition and removal</li>
+      <li>Gossip-based protocol for membership history propagation
+        <ul>
+          <li>History, not list. Otherwise how do you know who is right?</li>
+          <li>Each node contacts a random node every second to compare membership
+histories</li>
+        </ul>
+      </li>
+      <li>When a node is added, other nodes will notice the change in the ring and
+offer to send the appropriate data to the new node</li>
+    </ul>
+  </li>
+  <li>Failure Detection
+    <ul>
+      <li>Local notion of failure is fine
+        <ul>
+          <li>If a node can’t reach a given peer it doesn’t matter to it if the rest of
+the cluster can</li>
+        </ul>
+      </li>
+      <li>Without client requests nodes don’t really care which nodes are up or down
+        <ul>
+          <li>This assumes the data is stored durably somewhere</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Partitioning and Placement strategies
+    <ul>
+      <li>They wanted to separate partitioning from placement</li>
+    </ul>
+
+    <ol>
+      <li><em>T random tokens per node and partition nodes by token value</em>
+        <ul>
+          <li>When a node joins, a lot of nodes have to scan their data to send the
+ required data</li>
+          <li>Merkle trees must be recalculated for many nodes</li>
+          <li>Snapshots are hard</li>
+          <li>I hadn’t thought of this aspect of managing the cluster, even though
+I’ve snapshotted Cassandra clusters</li>
+        </ul>
+      </li>
+      <li><em>T random tokens per node and equal sized partitions</em>
+        <ul>
+          <li>“A partition is placed on the first N unique nodes that are encountered
+  while walking … [the] ring clockwise from the end of the partition”</li>
+        </ul>
+      </li>
+      <li><em>Q/S tokens per node, equal sized partitions</em></li>
+    </ol>
+
+    <ul>
+      <li>Strategy 3 was chosen for faster bootstrapping / recovery and for easy
+snapshots</li>
+      <li>However, coordination is required for changes of node membership</li>
+    </ul>
+  </li>
+  <li>Misc.
+    <ul>
+      <li>Reads and Writes create a state machine on the node (one-to-one)
+        <ul>
+          <li>I thought this was a cool way to organize a potentially complex flow of
+operation (once you factor in the preference list and retries). Sure beats
+a ton of flags about state.</li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
@@ -922,50 +931,10 @@ in-memory index</li>
     <div class="panel-heading">
         <h3 class="panel-title"><strong>
         	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-7">
-        		PowerGraph: Distributed Graph-Parallel Computation on Natural Graphs</a>
-        </strong> [CMU, 2012]</h3>
-    </div>
-    <div id="collapse-7" class="panel-collapse collapse out">
-  		<div class="panel-body">
-    		<ul>
-  <li>[<a href="http://graphlab.org/files/osdi2012-gonzalez-low-gu-bickson-guestrin.pdf">Paper</a>]</li>
-  <li>
-    <p>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/gonzalez">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/gonzalez.mp4">Video</a>]</p>
-  </li>
-  <li>Partitioning a natural graph is hard.
-    <ul>
-      <li>Random partitioning of vertices leads to most edges crossing machine boundaries.</li>
-      <li>This means that there is a ton of communication between machines.</li>
-    </ul>
-  </li>
-  <li>GAS Decomposition - They recognized most graph algos had a similar steps.
-    <ul>
-      <li>Gather: Accumulate information about the neighborhood</li>
-      <li>Apply: Apply the accumulated value to center vertex</li>
-      <li>Scatter: Update adjacent edges and vertices</li>
-    </ul>
-  </li>
-  <li>Replicate the vertex across the nodes such that no edge crosses a machine boundary.
-    <ul>
-      <li>Now we can run the vertex program in parallel, only needing to synchronize at the apply step.</li>
-    </ul>
-  </li>
-</ul>
-
-    	</div>
-    </div>
-</div>
-		
-	
-		
-		<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title"><strong>
-        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-8">
         		GraphChi: Large-Scale Graph Computation on Just a PC</a>
         </strong> [CMU, 2012]</h3>
     </div>
-    <div id="collapse-8" class="panel-collapse collapse out">
+    <div id="collapse-7" class="panel-collapse collapse out">
   		<div class="panel-body">
     		<ul>
   <li>[<a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-126.pdf">Paper</a>]</li>
@@ -994,6 +963,46 @@ in-memory index</li>
   <li>In total, <code>P^2</code> reads and writes for a full pass on the graph.
   But P is relatively small. Thus few random reads.</li>
   <li><strong>Main Takeway</strong>: Sometimes by using algorithms and datastructures more cleverly we can achieve similar performance on a single machine.</li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-8">
+        		PowerGraph: Distributed Graph-Parallel Computation on Natural Graphs</a>
+        </strong> [CMU, 2012]</h3>
+    </div>
+    <div id="collapse-8" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="http://graphlab.org/files/osdi2012-gonzalez-low-gu-bickson-guestrin.pdf">Paper</a>]</li>
+  <li>
+    <p>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/gonzalez">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/gonzalez.mp4">Video</a>]</p>
+  </li>
+  <li>Partitioning a natural graph is hard.
+    <ul>
+      <li>Random partitioning of vertices leads to most edges crossing machine boundaries.</li>
+      <li>This means that there is a ton of communication between machines.</li>
+    </ul>
+  </li>
+  <li>GAS Decomposition - They recognized most graph algos had a similar steps.
+    <ul>
+      <li>Gather: Accumulate information about the neighborhood</li>
+      <li>Apply: Apply the accumulated value to center vertex</li>
+      <li>Scatter: Update adjacent edges and vertices</li>
+    </ul>
+  </li>
+  <li>Replicate the vertex across the nodes such that no edge crosses a machine boundary.
+    <ul>
+      <li>Now we can run the vertex program in parallel, only needing to synchronize at the apply step.</li>
+    </ul>
+  </li>
 </ul>
 
     	</div>
@@ -1269,10 +1278,159 @@ available chunks.</li>
     <div class="panel-heading">
         <h3 class="panel-title"><strong>
         	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-10">
+        		Finding a needle in Haystack: Facebook’s photo storage</a>
+        </strong> [Facebook, 2010]</h3>
+    </div>
+    <div id="collapse-10" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf">Paper</a>]</li>
+  <li>
+    <p><a href="https://www.facebook.com/note.php?note_id=76191543919">Facebook Engineering Blog Post</a></p>
+  </li>
+  <li>Facebook found that their CDNs were great for handling the really popular
+photos but the long tail of access was huge. They couldn’t just cache
+everything.</li>
+  <li>In their existing NAS/NFS based system, “disk IOs for metadata was the
+limiting factor for [their] read throughput.”
+    <ul>
+      <li>They optimized to get down to about 3 disk ops to read an image</li>
+      <li>Haystack can generally get it down to 1</li>
+    </ul>
+  </li>
+  <li>Architecture
+    <ul>
+      <li><strong>Store</strong>: Persistent storage of photos
+        <ul>
+          <li>The storage on a single machine is segmented into <em>physical volumes</em> (~100
+with each holding about 100 GB)
+            <ul>
+              <li>Each physical volume is basically a large file
+                <ul>
+                  <li>It’s append only</li>
+                  <li>Each needle (the photo) also contains a checksum, the key, and
+a cookie
+                    <ul>
+                      <li>Cookie is used to verify requests come from a Directory generated
+URL to avoid brute forcing</li>
+                      <li>Though a user could still pass the URL to someone not permitted to
+see the photo</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>An in memory index allows the server to look up the image with
+approximately one disc operation (with the offset)
+            <ul>
+              <li>The index could be built from the file, but a check-pointed version is
+written to disk asynchronously (then only part of the file needs to be
+read)</li>
+            </ul>
+          </li>
+          <li>Deleted photos are marked in the needle (in the file)
+            <ul>
+              <li>A deleted photo still can cause a read of the needle but the server
+checks the needle for the deleted flag and updates it’s in memory index</li>
+            </ul>
+          </li>
+          <li>They use XFS - great for preallocating the physical volume file
+            <ul>
+              <li>1 GB extents and 256 kilobyte RAID stripes to minimize the number of
+times a needle lookup crosses a boundary (thus requiring more disk ops)</li>
+            </ul>
+          </li>
+          <li><strong>Logical volumes</strong> are made up of physical volumes on distinct machines
+            <ul>
+              <li>Each physical volume in the logical volume contains the same photos</li>
+              <li>Volumes are marked read-only at the granularity of a machine</li>
+            </ul>
+          </li>
+          <li>While the paper doesn’t state it, it seems to me that these machines could
+be heterogeneous with different numbers of physical volumes per node</li>
+          <li><strong>Directory</strong></li>
+          <li>Mapping of logical -&gt; physical volumes</li>
+          <li>Mapping of which logical volume each photo is on</li>
+          <li>Constructs a URL which allows the system to determine how to get the image
+without further interaction of the directory</li>
+          <li>When a write comes in, server asks the directory for a write-enabled
+logical volume. The server decides on a photo ID and uploads it to each
+physical volume in the logical volume</li>
+          <li>Directory load balances
+            <ul>
+              <li>writes across logical volumes</li>
+              <li>reads across physical volumes</li>
+            </ul>
+          </li>
+          <li>Data stored in replicated database (presumably MySQL) with memcached</li>
+          <li><strong>Cache</strong></li>
+          <li>Internal CDN</li>
+          <li>Shelters them when CDN nodes fail</li>
+          <li>Only caches a photo if:
+            <ol>
+              <li>request comes from the user, not CDN, <em>and</em></li>
+              <li>photo is read from a write-enabled volume</li>
+            </ol>
+          </li>
+          <li>They only need to protect write-enabled stores because read stores can
+handle the read fine. Mixing read and write on the same store is slow.</li>
+          <li>Most photos are read soon after uploading (i.e. in a write-enabled store)
+            <ul>
+              <li>They want to implement active push to the cache for new uploads</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Recovery
+    <ul>
+      <li>Have a system that regularly test the volumes
+        <ul>
+          <li>Marks them as read-only if there is repeated issues</li>
+          <li>Then a human manually address the problem</li>
+        </ul>
+      </li>
+      <li>Bulk syncs occur when they need to reset the data on a machine
+        <ul>
+          <li>Takes a very long time, but only happens a few times a month</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Compaction
+    <ul>
+      <li>Online operation to reclaim space from deleted / <em>modified</em> photos
+        <ul>
+          <li>“Over the course of a year, about 25% of photos get deleted”</li>
+          <li>Photos are never overwritten, just the latest version is considered
+the current version</li>
+        </ul>
+      </li>
+      <li>Store machine copies the needles that are not deleted or duplicates to a new
+file</li>
+      <li>Deletes go to both files</li>
+      <li>Once op is complete, blocks modifications and atomically swaps the files and
+in-memory index</li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+	
+		
+		<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-11">
         		Erasure Coding in Windows Azure Storage</a>
         </strong> [Microsoft, 2012]</h3>
     </div>
-    <div id="collapse-10" class="panel-collapse collapse out">
+    <div id="collapse-11" class="panel-collapse collapse out">
   		<div class="panel-body">
     		<ul>
   <li>[<a href="https://research.microsoft.com/pubs/179583/LRC12-cheng%20webpage.pdf">Paper</a>]</li>
