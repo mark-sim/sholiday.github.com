@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Beyond Server Consolidation - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header">
+<h1>Beyond Server Consolidation <small>- Amazon, 2009</small></h1>
+</div>
+
+<div id="post">
+<ul>
+  <li>[<a href="http://dl.acm.org/ft_gateway.cfm?id=1348590&amp;ftid=505722&amp;dwn=1&amp;CFID=514636437&amp;CFTOKEN=66725807">Article</a>]
+[<a href="http://notes.stephenholiday.com/Beyond-Server-Consolidation.pdf">Mirror</a>]</li>
+</ul>
+
+<p>This article is by Amazon’ CTO Werner Vogels.</p>
+
+<ul>
+  <li>Virtualization was originally designed to efficiently use hardware
+    <ul>
+      <li>Only a few companies could afford systems so they used virtualization so
+that each customer could be isolated</li>
+      <li>Originally virtualization was coarse-grained time sharing</li>
+    </ul>
+  </li>
+  <li>The big push at the time of the article was server consolidation
+    <ul>
+      <li>This is a cost saving exercise
+        <ul>
+          <li>From my time at Twitter, I learned how much money can be saved this way</li>
+        </ul>
+      </li>
+      <li>Vogels believes a main reason for “server sprawl” was that software vendors
+required isolation for their applications. Certain OS versions or
+configurations are commonly required.</li>
+      <li>Many of the servers were underutilized</li>
+    </ul>
+  </li>
+  <li>
+    <p>Vogles believes that virtualization is more than just consolidation:</p>
+
+    <blockquote>
+      <p>“Virtualization breaks the 1:1 relationship between applications and the
+ operating system and between the operating system and the hardware.”</p>
+    </blockquote>
+
+    <ul>
+      <li>It’s no just the N:1 (many apps 1 resource) relationship that virtualization 
+provides, but 1:N relationships (one app many resources)
+        <ul>
+          <li>Virtualization can allow for elastic applications that can scale according
+to load</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Underutilized Servers</p>
+
+    <blockquote>
+      <p>“Single averages seldom tell the whole story.”</p>
+    </blockquote>
+
+    <ul>
+      <li>The utilization of a set of servers is not constant however it’s often 
+periodic.
+        <ul>
+          <li><a href="http://research.google.com/pubs/pub33387.html">Google found</a> that even in
+their well tuned systems, utilization can be anywhere between “10 and 50
+percent when inspected over longer timeframes”</li>
+        </ul>
+      </li>
+      <li>One of the challenges is determining the resource requirements of an
+application
+        <ul>
+          <li>One of the things we wanted to do on the Streaming Compute team at Twitter
+is to figure out a good way for internal customers of
+<a href="https://storm.incubator.apache.org/">Storm</a> to characterize their
+resource usage. It’s really tough considering the inherent spikes in their
+load. Even harder is to consider how shared resources (like I/O) change
+with increased load (can’t assume it’s linear).</li>
+          <li>Vogels advocates for a profile that considered resource usage over time</li>
+          <li>He notes that it is also important to considered dependencies on other
+systems
+            <ul>
+              <li>I think we also need to consider failure or slowdown of dependencies</li>
+              <li>This is a common issue among Storm users. If a service their topology
+depends on is experiencing issues then their stream would backup.
+This means the topology requires more resources to catch up once the
+services return to normal.</li>
+            </ul>
+          </li>
+          <li>He also asks what happens when an application runs out of capacity?
+            <ul>
+              <li>Is it able to adapt?</li>
+            </ul>
+          </li>
+          <li>A common practice is to put applications in an isolated environment for
+analysis
+            <ul>
+              <li>We did this on the Streaming Compute team, but it did not provide the
+whole picture</li>
+            </ul>
+          </li>
+          <li>Vogels believes the biggest challenge is balancing workloads at runtime
+            <ul>
+              <li>With less slack due to consolidation, applications hit the resource
+boundaries faster
+                <ul>
+                  <li>I’ve heard stories of poorly configured applications that were running 
+fine on shared infrastructure for months because the system allowed
+for using more resources when it was available. When more slots on the
+server were inevitably filled there was no longer room for
+<em>‘bursting’</em> and the applications failed.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Vogels doesn’t believe that 100% utilization should be the goal
+            <ul>
+              <li>He suggests 70% for highly tuned apps</li>
+              <li>and 50% for mixed workload environments</li>
+            </ul>
+          </li>
+          <li>He talks about transparent migration but discusses some of the challenges
+with it
+            <ul>
+              <li>Some applications can checkpoint and restart
+                <ul>
+                  <li>I pose the question: What applications do we have that don’t need to
+clustered like a database but would be amenable to checkpointing?
+                    <ul>
+                      <li>There’s a few papers researching checkpointing applications and
+stopping them when EC2 spot instance prices change</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Development - Virtualization allows for easier development of applications
+    <ul>
+      <li>They can be made sell serve</li>
+      <li>Developers can develop on a small VM and then switch to a larger instance
+when they need to evaluate with real work loads</li>
+      <li>Uniform deployment environment</li>
+      <li>Testing
+        <ul>
+          <li>Resource usage changes depending on where the team is in their dev cycle</li>
+          <li>Great for dealing with many different OSes or configurations</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Procurement
+    <ul>
+      <li>Before EC2, teams had to deal with long acquisition times for servers that
+“often [ran] into several months”</li>
+      <li>The teams were then hesitant to return the resources because they didn’t
+want to wait for the acquisition again</li>
+      <li>Teams had to judge how many servers they needed for the project before they
+started development (in order to overlap the wait for servers with
+development)
+        <ul>
+          <li>I bet they erred on the side of caution, wasting lots of resources</li>
+          <li>I note that it’s hard enough to determine the resource requirements of an
+application while it’s running let alone before it’s even finished being
+designed!</li>
+        </ul>
+      </li>
+      <li>
+        <p>Vogels discusses how much this issue is magnified in government IT</p>
+
+        <blockquote>
+          <p>“One DoD IT architect reported that the department’s software prototype
+ normally would cost $30,000 in server resources, but by building it in
+ virtual machines for Ama- zon EC2, in the end it consumed only $5 in
+ resources.”</p>
+        </blockquote>
+
+        <p><a href="http://fcw.com/articles/2006/10/30/amazonmil.aspx">Article here</a></p>
+      </li>
+    </ul>
+  </li>
+  <li>Utility Computing
+    <ul>
+      <li>If we treat the infrastructure as a utility (pay for usage) we get a whole
+host of benefits
+        <ul>
+          <li>Almost no initial acquisition costs</li>
+          <li>Run VMs on local infra then push to the cloud for production</li>
+          <li>Overflow / peak capacity</li>
+          <li>Great for apps that don’t need to run all the time
+            <ul>
+              <li>Indexing is an example</li>
+              <li>He talks about an example of the New York Time’s using 100 machines
+for 24 hours to convert 4TB of document images to PDF “at the cost of a
+single server.”
+                <ul>
+                  <li>This would be prohibitive if they purchased all of the servers to
+meet their deadline</li>
+                  <li><a href="http://open.blogs.nytimes.com/2007/11/01/self-service-prorated-super-computing-fun/">Article here</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>He also mentions that creating economic models for automated resource
+allocation “remains the Holy Grail”
+        <ul>
+          <li>I’ve heard some anecdotes of this at Google, super cool!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>
