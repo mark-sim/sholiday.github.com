@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>The Google File System - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header">
+<h1>The Google File System <small>- Google, 2003</small></h1>
+</div>
+
+<div id="post">
+<p>This paper is one of my favorites and is pretty easy to read.</p>
+
+<ul>
+  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf">Paper</a>]</li>
+  <li><a href="http://www.cs.utexas.edu/users/lorenzo/corsi/439/notes/Lecture13.pdf">Lecture slides</a>
+ from UTexas CS439</li>
+  <li>Observed:
+    <ol>
+      <li>“Failures are the norm rather than the exception”</li>
+      <li>Most files are huge
+        <ul>
+          <li>GBs or TBs, not KB</li>
+          <li>Even if a dataset is comprised of KB sized objects humans prefer to
+combine them into a large file</li>
+        </ul>
+      </li>
+      <li>Most files are appended, not random writes</li>
+    </ol>
+  </li>
+  <li>Architecture
+    <ul>
+      <li>master
+        <ul>
+          <li>contains metadata for the files including:
+            <ul>
+              <li>namespace</li>
+              <li>permissions</li>
+              <li>file -&gt; chunk mapping</li>
+              <li>locations of chunks</li>
+            </ul>
+          </li>
+          <li>in charge of activities such as:
+            <ul>
+              <li>GC</li>
+              <li>Chunk Lease</li>
+              <li>Chunk Migration</li>
+            </ul>
+          </li>
+          <li>single master to simplify design</li>
+          <li>all metadata is kept in memory</li>
+        </ul>
+      </li>
+      <li>chunkservers</li>
+      <li>chunks
+        <ul>
+          <li>files are divided into fixed size chunks</li>
+          <li>identified by 64 bit handle</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Read Example:
+    <ol>
+      <li>
+        <p>Given a filename and offset, the client calculates the chunk index within
+the file.</p>
+
+        <p>This is possible as chunk size is fixed.</p>
+      </li>
+      <li>Client sends master request with filename and chunk index.</li>
+      <li>Master replies with the chunk handle and locations of replicas</li>
+      <li>Client caches this chunk handle and location information</li>
+      <li>Client sends a read request to a chunkserver with the chunk handle and
+the byte range required.</li>
+    </ol>
+
+    <ul>
+      <li>The client doesn’t need to talk with the master until the cache expires</li>
+    </ul>
+  </li>
+  <li>Operation Log
+    <ul>
+      <li>namespaces and file-chunk mapping are persisted the the
+<em>operation log</em></li>
+      <li>
+        <p>the locations of chunks is determined by asking the chunkservers
+on startup</p>
+
+        <blockquote>
+          <p>“Another way to understand this design decision is to realize
+that a chunkserver has the final word over what chunks
+it does or does not have on its own disks. There is no point
+in trying to maintain a consistent view of this information
+on the master.”</p>
+        </blockquote>
+      </li>
+      <li>checkpointed and truncated to keep the log small</li>
+    </ul>
+  </li>
+  <li>Mutations (two kinds)
+    <ol>
+      <li>write
+        <ul>
+          <li>write to a specified location in the file</li>
+        </ul>
+      </li>
+      <li>record append
+        <ul>
+          <li>append a record “atomically at least once” wherever GFS wants</li>
+          <li>GFS can insert duplicates or padding
+            <ul>
+              <li>padding is filtered by client library</li>
+              <li>duplicates are filtered by the application</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>Chunk consistency guaranteed by:
+    <ol>
+      <li>applying mutations to a chunk in the same order on all replicas
+        <ul>
+          <li>The master grants a chunkserver a lease to a replica, deemed the
+primary.</li>
+        </ul>
+      </li>
+      <li>chunk version numbers to differentiate between stale replicas</li>
+    </ol>
+  </li>
+  <li>Write Example
+    <ol>
+      <li>Client asks master for the primary replica.
+Master grants a lease to a replica if there is no primary.</li>
+      <li>Master replies with the primary and the replicas.
+It need not contact the master again until the primary expires or is
+unavailable.</li>
+      <li>Client sends data to all replicas in any order.
+Chunkservers cache data to separate data flow from control flow.</li>
+      <li>Replicas acknowledge receipt to client.</li>
+      <li>Client sends write request to primary once all acknowledgments are in.</li>
+      <li>Primary assigns consecutive serial numbers to all mutations received.</li>
+      <li>Primary forwards write request to all replicas.</li>
+      <li>Replicas apply mutations in the same serial order.</li>
+      <li>Replicas tell the primary that they have completed the mutation.</li>
+      <li>Primary replies to the client.
+        <ul>
+          <li><strong>Note</strong>: The paper notes that if an application requests a write that
+spans two chunks, the client library breaks the write into smaller writes.
+However, other clients may write in between the smaller writes leaving a
+consistent yet undefined state. See atomic append for a solution.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>Data Flow Pipelining
+    <ul>
+      <li>This idea was especially interesting to me!</li>
+      <li>They wanted to utilize both the inbound and outbound bandwidth of their
+machines</li>
+      <li>Data is pushed along a chain of chunkservers instead of some tree like
+topology</li>
+      <li>Each chunkserver in the chain chooses the closest chunkserver to forward
+the data</li>
+      <li>The data is forwarded as soon as the first packets are received, not once
+the whole data part is received</li>
+    </ul>
+  </li>
+  <li>Atomic Append
+    <ul>
+      <li>Similar to the write example:
+        <ol>
+          <li>Client sends data to replicas of the <em>last</em> chunk of the file.</li>
+          <li>Sends append request to primary.</li>
+          <li>Primary determines if appending would exceed the chunk size.
+            <ul>
+              <li>If it would, is pads the chunk out to the chunk size, telling the
+replicas the same. Then notifies the client to retry on the next
+chunk.</li>
+              <li>Otherwise, the primary appends the data and tells the replicas to
+write the data to the same offset.</li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+      <li><strong>Note</strong>: If there is a failure, worst case is that a replica has written
+extra data. Therefore the next append will be after that hypothetical
+offset to protect the data. This means that the files are not bytewise
+identical. The client is left to deal with this inconsistent region.</li>
+    </ul>
+  </li>
+  <li>Snapshots
+    <ul>
+      <li>Almost instantly</li>
+      <li>Uses copy-on-write</li>
+      <li>Master revokes outstanding leases on chunks for affected files.
+        <ul>
+          <li>Any further interaction requires intervention of the master which
+can then create a new copy of the chunk.</li>
+        </ul>
+      </li>
+      <li>Master duplicates metadata for file or directory tree
+        <ul>
+          <li>This copy still points to the old chunks</li>
+        </ul>
+      </li>
+      <li>Example write to snapshotted chunk
+        <ol>
+          <li>Client asks master for primary</li>
+          <li>Master notices that the reference count for the chunk is &gt; 1.
+Master creates a new chunk handle for the existing chunk.</li>
+          <li>Master asks each replica of the existing chunk to copy the data to a
+new chunk with the given handle.
+            <ul>
+              <li>This is done on the same machine to reduce network usage</li>
+            </ul>
+          </li>
+          <li>Request is now handled as before.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>Data Integrity
+    <ul>
+      <li>Since each chunk replica is not guaranteed to be bytewise identical, each
+chunkserver is responsible for verify it’s chunks.</li>
+      <li>Each 64 KB block is given a checksum.</li>
+      <li>On a read the chunkserver verifies the checksum of the required blocks.
+        <ul>
+          <li>The chunkserver will not propagate unverified data.</li>
+          <li>If the checksum does not match, the server notifies the master.</li>
+          <li>The master will clone the chunk from another replica</li>
+        </ul>
+      </li>
+      <li>The checksum is optimizes for writes at the end of the block
+        <ul>
+          <li>i.e they can incrementally update the checksum with just the new data</li>
+        </ul>
+      </li>
+      <li>Chunkservers periodically verify rarely read chunks.</li>
+    </ul>
+  </li>
+  <li>MISC:
+    <ul>
+      <li>They don’t have file caches on chunkservers or client
+as most use cases stream through the file.</li>
+      <li>Their lazy GC is simple and takes care of complex situations</li>
+      <li>Did not use erasure codes / parity codes at the time, but they figure it
+would not be hard given that load is mostly by appends and reads.</li>
+      <li>Shadow masters can provide read-only access to the files while the primary
+master is down. These shadow masters also poll chunkservers for their
+available chunks.</li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>

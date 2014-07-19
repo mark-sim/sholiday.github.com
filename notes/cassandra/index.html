@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Cassandra: A Decentralized Structured Storage System - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header">
+<h1>Cassandra: A Decentralized Structured Storage System <small>- Facebook, 2009</small></h1>
+</div>
+
+<div id="post">
+<ul>
+  <li>[<a href="http://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf">Paper</a>]</li>
+</ul>
+
+<p>If you haven’t read the Dynamo paper, I suggest you read it before this paper.</p>
+
+<ul>
+  <li>Originally for their Inbox Search service
+    <ul>
+      <li>High write throughput</li>
+    </ul>
+  </li>
+  <li>Data Model
+    <ul>
+      <li>Operations are atomic under a row key</li>
+      <li>Columns are grouped in column families like Bigtable</li>
+      <li>They also include a new concept of <em>super column families</em>
+        <ul>
+          <li>A column family within a column family</li>
+        </ul>
+      </li>
+      <li>Application can dictate the sort order of columns in a super column family
+or column family
+        <ul>
+          <li>In Inbox Search, they sort columns by time so recent results appear first</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Partitioning and Replication
+    <ul>
+      <li>Want incremental scalability (like Dynamo)</li>
+      <li>They use consistent hashing (like Dynamo)
+        <ul>
+          <li>Random positioning leads to no-uniform load
+            <ul>
+              <li>They note that it also ignores the heterogeneity of servers</li>
+            </ul>
+          </li>
+          <li>They didn’t use the Dynamo technique of v-nodes</li>
+          <li>They instead analyze load information and move nodes around the ring
+            <ul>
+              <li>They argue for easy of implementation and allows them to “make
+very deterministic choices about the load balancing”
+                <ul>
+                  <li>The first reason struck me as a little odd</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>They have a coordinator node (a la Dynamo)</li>
+      <li>They use read repair</li>
+      <li>Multiple replication policies
+        <ul>
+          <li>I found this cool when I first used Cassandra in 2010</li>
+          <li>Policies:
+            <ol>
+              <li>Rack Unaware</li>
+              <li>Rack Aware</li>
+              <li>Datacenter Aware</li>
+            </ol>
+          </li>
+          <li>Now the open source version has pluggable policies for other environments
+like S3</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Bootstrapping
+    <ul>
+      <li>Uses seeds like Dynamo</li>
+      <li>Chooses a random position in the ring</li>
+      <li>Nodes are configured with a Cluster Name
+        <ul>
+          <li>A node will only talk to other nodes with the same Cluster Name</li>
+          <li>This saved my bacon many times when I was running multiple clusters on 
+Amazon for a company I worked for</li>
+        </ul>
+      </li>
+      <li>Explicit addition and removal of nodes to the cluster (like Dynamo)</li>
+      <li>At the time of the paper they were planning on allowing multiple replicas
+to speed up the initial bootstrap data transfer</li>
+    </ul>
+  </li>
+  <li>Membership
+    <ul>
+      <li>They use Zookeeper to elect a leader in charge of membership and ring
+management</li>
+      <li>Anti-entropy Gossip protocol (based on Scuttlebutt)
+        <ul>
+          <li>Also used to transmit other system state</li>
+        </ul>
+      </li>
+      <li>They use a modified version of the Φ Accrual Failure Detector
+        <ul>
+          <li>Essentially, the model gives a real number for the level of suspicion
+that a node has failed</li>
+          <li>Adapts to current network conditions</li>
+          <li>I thought this was a cool idea!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Local Persistence
+    <ul>
+      <li>Commit log on the node (on a dedicated disk for performance)</li>
+      <li>In memory data structure that is persisted periodically
+        <ul>
+          <li>Per column family</li>
+          <li>Since the persisted files are immutable they do not need read locks
+            <ul>
+              <li>Though I’d imagine you’d have to take care during compaction with an
+atomic swap while ensure there are no readers to the old files</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>They use bloom filters</li>
+      <li>An index for the columns per key so they can jump to the right spot on disk
+        <ul>
+          <li>New index every 256K chunk boundary</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Misc.
+    <ul>
+      <li>They don’t discuss any kind of range scans. The current open source version
+does have range scans.</li>
+      <li>They refer to a state machine for requests (sounds similar to Dynamo)</li>
+      <li>The different modules of the server “rely on an event driven substrate where
+the message processing pipeline and the task pipeline are split into
+multiple stages” like SEDA</li>
+      <li>System control messages are UDP</li>
+      <li>Compaction looks for files that are close to each other in size</li>
+      <li>In the Inbox Search case, they send a signal to the cluster when a user
+clicks into the search box to prime the cache for the user</li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Bigtable: A Distributed Storage System for Structured Data - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header">
+<h1>Bigtable: A Distributed Storage System for Structured Data <small>- Google, 2006</small></h1>
+</div>
+
+<div id="post">
+<ul>
+  <li>[<a href="http://research.google.com/archive/bigtable-osdi06.pdf">Paper</a>]</li>
+  <li>[<a href="https://www.usenix.org/legacy/event/osdi06/tech/chang.html">OSDI’06</a>]</li>
+  <li><a href="https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/">SSTable / Log Structured Storage blog post</a>
+by my code hero Ilya Grigorik (also from UWaterloo!)</li>
+  <li><a href="http://burtonator.wordpress.com/2008/10/12/google-bigtable-compression-zippy-and-bmdiff/">Blog post on Bigtable’s Compression</a></li>
+</ul>
+
+<p>Since I actually read a lot about Cassandra and other database systems before
+looking into Bigtable, I had to force myself to realize that some of those
+systems drew inspiration from Bigtable. Not the other way around.</p>
+
+<p>I used Bigtable when I was an intern at Google (and was lucky enough to meet
+some of the the current team). However I hadn’t read the paper at that time. I
+wish I had.</p>
+
+<p>As an aside, I think this paper has a great topological sort of information.</p>
+
+<ul>
+  <li>Bigtable treats data as uninterpreted strings
+    <ul>
+      <li>Though there is some support for Protocol Buffers in debug output</li>
+    </ul>
+  </li>
+  <li>Simplified the problem:
+    <ol>
+      <li>Do not have multiple copies of the same data
+        <ul>
+          <li>GFS does replication</li>
+          <li>At the time of writing there were know views or secondary indices</li>
+        </ul>
+      </li>
+      <li>User dictates whether to stay on disk or in memory</li>
+      <li>No complex queries (they don’t need to optimize them)</li>
+    </ol>
+  </li>
+  <li>Data Model and Organization
+    <ul>
+      <li><code>(row:string, column:string, time:int64) -&gt; string</code></li>
+      <li>Columns can be filtered with a regular expression</li>
+      <li>Column keys are grouped into sets of Column Families
+        <ul>
+          <li>Column Families are stored in their own SSTable</li>
+          <li>They are compressed together, higher compression ratio</li>
+          <li>Has similar benefits to traditional column stores
+            <ul>
+              <li>Does not need to load data for unrequested column families</li>
+              <li>I believe Cassandra at one point required that the entire row fit
+in main memory.</li>
+            </ul>
+          </li>
+          <li>Access control is at the Column Family level
+            <ul>
+              <li>I found this surprising but neat</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Reads/Writes under the same row key are atomic</li>
+      <li>Rows are sorted in lexicographical order
+        <ul>
+          <li>A client could choose to hash if they wanted random placement</li>
+          <li>Sorted rows allows for cheap scans</li>
+        </ul>
+      </li>
+      <li>A range of rows is stored in a <em>tablet</em>
+        <ul>
+          <li>At most one tablet server is the owner of a tablet at a time</li>
+        </ul>
+      </li>
+      <li>GC for cells versions (timestamps) can happen automatically
+        <ul>
+          <li>Either number of versions or age</li>
+        </ul>
+      </li>
+      <li>Cells can be used as atomic integer counters</li>
+    </ul>
+  </li>
+  <li>User supplied scripts can be run on the tablet servers
+    <ul>
+      <li>Written in Sawzall</li>
+    </ul>
+  </li>
+  <li>MapReduce adapters for Bigtable</li>
+  <li>Tablets
+    <ul>
+      <li>Tablets and logs stored on GFS</li>
+      <li>Tablet splits are initiates by the tablet server
+        <ul>
+          <li>Commits the split by adding the new tablet in the METADATA table</li>
+          <li>Then it notifies the master</li>
+          <li>Read and writes can continue while tablets are split and merged
+            <ul>
+              <li>(Presumably with the log / memtable)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Based on a Log Structured Merge Tree
+        <ul>
+          <li>Memtable gets all the writes
+            <ul>
+              <li>Writes are placed in the commit log first, of course</li>
+              <li>Periodically transformed into an SSTable and written to disc</li>
+              <li>They use copy-on-write semantics to allow parallel reads and
+writes</li>
+            </ul>
+          </li>
+          <li>Tombstone records are used for deleted data
+            <ul>
+              <li>These are GCed at a later time (called a <em>Major Compaction</em>)</li>
+            </ul>
+          </li>
+          <li>Bloom filters are used to limit the number of seeks in service of a
+request for a nonexistent key
+            <ul>
+              <li>Otherwise would need to hit every SSTable for the tablet</li>
+            </ul>
+          </li>
+          <li>Every so ofterm there is a <em>merging compaction</em> that combines the
+memtable and some of the SSTables into a single SSTable</li>
+        </ul>
+      </li>
+      <li>The metadata tablet lists all of the SSTables for a tablet as well as
+pointers to commit logs that could contain data not in the SSTables yet
+(called <em>redo points</em>)
+        <ul>
+          <li>The logs could contain data written to a memtable but not transformed
+to an SSTable before dieing</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>SSTable Format (concept described in the blog post)
+    <ul>
+      <li>Typical block size is 64KB, configurable</li>
+      <li>Compression is by block
+        <ul>
+          <li>SSTables are by column family so similar data will likely be in the
+same SSTable
+            <ul>
+              <li>They use the example of a collection of HTML pages from the same
+site with the same boilerplate HTML</li>
+            </ul>
+          </li>
+          <li>Typically they use
+<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.11.8470&amp;rep=rep1&amp;type=pdf">Bentley McIlroy’s scheme</a>
+to compress “long common strings across a large window” and then
+Zippy (open sourced as Snappy)</li>
+        </ul>
+      </li>
+      <li>SSTable index is stored at the end of the file</li>
+      <li>Index is loaded into memory when opened
+        <ul>
+          <li>Means 1 seek to read a value</li>
+        </ul>
+      </li>
+      <li>SSTable can be mapped into memory</li>
+      <li>Since SSTables are immutable:
+        <ul>
+          <li>No synchronization required to read SSTables</li>
+          <li>Removing deleted data is just a question of GC’ing old SSTables</li>
+          <li>Tables can be split easily
+            <ul>
+              <li>Child tables can share the SSTables of the parent</li>
+              <li>Dealing with compactions in this situation is not discussed. My
+guess is that they will be filtered by the row range of the
+tablet. During a major compaction I assume there is a reference
+count in the metadata tablet and it will not be deleted if there
+are other references to it.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Chubby provides coordination required
+    <ul>
+      <li>One active Bigtable master</li>
+      <li>Directory of tablet servers</li>
+      <li>Stores schema and ACL
+        <ul>
+          <li>The ACL is checked for every read / write</li>
+          <li>This is almost always in the client’s Chubby cache</li>
+        </ul>
+      </li>
+      <li>Root tablet (metadata tablet) is stored in Chubby</li>
+    </ul>
+  </li>
+  <li>Master
+    <ul>
+      <li>Clients do not need to talk to the master, they can go straight to Chubby</li>
+      <li>If the master detects a tablet is unassigned, the master instructs a
+tablet server to load the tablet</li>
+      <li>Master kills itself if it’s Chubby session expires</li>
+    </ul>
+  </li>
+  <li>Caches
+    <ol>
+      <li>Scan Cache: high level cache for key-value pairs (Temporal Locality)</li>
+      <li>Block Cache: for the SSTable blocks read from GFS (Spacial Locality)</li>
+    </ol>
+  </li>
+  <li>Commit Log
+    <ul>
+      <li>They don’t want a commit log for each tablet
+        <ul>
+          <li>because there would be too many files been written to concurrently</li>
+          <li>I was surprised this was an issue</li>
+        </ul>
+      </li>
+      <li>One commit log per tablet server
+        <ul>
+          <li>Mutations for different tablets will appear in the same log</li>
+          <li>If a tablet server fails and the other nodes split the tablets among
+themselves then there would be a ton of reads for the entirety of the
+same log</li>
+          <li>Instead, the master gets a bunch of servers to sort the commit log by
+tablet
+            <ul>
+              <li>The split is the same 64MB GFS block size</li>
+            </ul>
+          </li>
+          <li>Now that the commit log is sorted, each server only needs to read the
+  portions of the log that pertain to the tablet they are loading</li>
+        </ul>
+      </li>
+      <li>Each tablet server has two writing threads that write to their own logs
+        <ul>
+          <li>If one log file is slow, it can switch to the other thread</li>
+          <li>There are tablet assigned sequence numbers to deal with an duplicated
+entries</li>
+          <li>I thought this was a cool idea!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+</div>
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>

@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-        <title>Beanstalk Ganglia Monitoring - Stephen Holiday</title>
+        <title>Spanner: Google's Globally-Distributed Database - Stephen Holiday</title>
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -52,37 +52,78 @@
 
         <div id="container-main" class="container clearfix">
           <div style="margin:20px">
-            <div id="content-header"><h1>Beanstalk Ganglia Monitoring</h1></div>
+            <div id="content-header">
+<h1>Spanner: Google's Globally-Distributed Database <small>- Google, 2012</small></h1>
+</div>
 
 <div id="post">
-<p><em>A cluster of 6 heterogeneous Gentoo machines that booted from the network</em></p>
-
-<h2 id="what-is-it">What is it?</h2>
-<p>The compile cluster consisted of 6 computers with no operating system installed.
-They booted off the network using <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Preboot_Execution_Environment">PXE</a>.
-Then the machine would join a <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Distcc">distcc</a> cluster and begin compiling code.</p>
-
-<h2 id="when">When</h2>
-<p>I used to run <a href="http://www.gentoo.org/">Gentoo</a> as my primary OS.
-It’s a really nice distribution but every package you install is compiled form source.
-Unfortunately that gets annoying, especially when you have many machines that need their packages updated or you are installing on a lower powered laptop.</p>
-
-<p>My friend <a href="http://philip.becauseitspossible.com/">Philip Deljanov</a> and I had both problems and I had a lot of spare computers.
-So together we put together the boot image and other components and built our own compile cluster for both of us to use.</p>
-
-<h2 id="technology">Technology</h2>
 <ul>
-  <li><a href="http://www.gentoo.org/">Gentoo</a></li>
-  <li><a href="https://secure.wikimedia.org/wikipedia/en/wiki/Preboot_Execution_Environment">PXE</a></li>
-  <li><a href="https://secure.wikimedia.org/wikipedia/en/wiki/Distcc">distcc</a> cluster and begin compiling code</li>
+  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf">Paper</a>]</li>
+  <li>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/corbett.mp4">Video</a>]</li>
+  <li>Features:
+    <ul>
+      <li>Designed for cross DC replication.</li>
+      <li>Spanner is a multi-versioned database.
+        <ul>
+          <li>Each piece of data is assigned a timestamp.</li>
+        </ul>
+      </li>
+      <li>Spanner provides external consistency.
+        <ul>
+          <li>That is, transactions occur in the order that they happened in the real world.</li>
+        </ul>
+      </li>
+      <li>SQL-based query language</li>
+    </ul>
+  </li>
+  <li>TrueTime: Exposes uncertainty in the clock by representing time as an interval.
+    <ul>
+      <li><code>TT.now()</code> returns <code>[earliest, latest]</code>
+        <ul>
+          <li><code>earliest</code> - The earliest possible timestamp for the current time.</li>
+          <li><code>latest</code> - The latest possible timestamp for the current time.</li>
+        </ul>
+      </li>
+      <li>This means that TrueTime is guarantying that the current time is somewhere in the interval <code>[earliest, latest]</code>.</li>
+      <li>They use a combination of GPS clocks and atomic clocks.</li>
+      <li>The size of the interval is generally less than 10 ms.
+        <ul>
+          <li>Since we are working with distributed consensus across the world, 10 ms is pretty small.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Transactions with TrueTime:</p>
+
+    <blockquote>
+      <p>“We believe it is better to have application programmers deal with performance problems due to overuse of transactions as bottlenecks arise, rather than always coding around the lack of transactions.”</p>
+    </blockquote>
+
+    <ul>
+      <li>The system slows down the transaction until the system to ‘wait out’ the uncertainty of the clock.</li>
+      <li>Example of a transaction (2PL)
+        <ol>
+          <li>Acquire locks</li>
+          <li>Call <code>TT.now()</code>, Let <code>s = TT.now().latest</code>.</li>
+          <li>Do work.</li>
+          <li>Wait until <code>TT.now().earliest &gt; s</code>.</li>
+        </ol>
+      </li>
+      <li>Example of a transaction (with 2PC)
+        <ol>
+          <li>Acquire locks</li>
+          <li>Compute <em>s</em></li>
+          <li>Participants start logging</li>
+          <li>Finish logging, send Prepared to Coordinator with s</li>
+          <li>Coordinator computes overall s</li>
+          <li>Coordinator releases locks, sends Committed and the overall s value to Participants</li>
+          <li>Participants release locks</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
 </ul>
-
-<h2 id="success">Success?</h2>
-<p>The cluster worked well and saved us lots of time.
-Plus it was damn cool to see all those machines work together to something (arguably) useful.</p>
-
-<h2 id="improvements">Improvements</h2>
-<p>More machines? Maybe, it did (as you might expect) make a lot of noise.</p>
 
 </div>
 
