@@ -1587,7 +1587,10 @@ memory and anything!</p>
 
 <p>They don’t talk about it in this paper, but one could see extending the idea for
 local caching of data from a network. How does the math change as we go into
-inter-planetary storage systems?</p>
+inter-planetary storage systems? Amazon’s CTO Werner Vogels
+<a href="http://www.allthingsdistributed.com/2012/08/the-5-minute-rule.html">references the report</a>
+in the context of <a href="http://aws.amazon.com/glacier">Amazon’s Glacier</a> product
+which offers cold storage at low cost and huge latency (on the order of hours).</p>
 
 <p>The industry does this kind of analysis all the time, some with complicated
 models, but as a newly minted engineer, I will try to keep this in mind while 
@@ -1608,7 +1611,56 @@ thinking about systems.</p>
     <div id="collapse-five-minute-10" class="panel-collapse collapse out">
   		<div class="panel-body">
     		<ul>
-  <li>[<a href="http://www.cs.berkeley.edu/~rxin/db-papers/5-min-rule.pdf">Paper</a>]</li>
+  <li>
+    <p>[<a href="http://www.cs.berkeley.edu/~rxin/db-papers/5-min-rule.pdf">Paper</a>]</p>
+  </li>
+  <li>While “all aspects of storage performance are improving,” they are doing so at
+different rates.
+    <ul>
+      <li>They talk about the difference between
+        <ul>
+          <li>the technology ratio
+            <ul>
+              <li><code>PagesPerMBofRAM / AccessesPerSecondPerDisc</code></li>
+            </ul>
+          </li>
+          <li>and the economic ratio
+            <ul>
+              <li><code>PriceOfDisc / PriceOfMBofRam</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>The Five Byte Rule is now The One Byte rule
+    <ul>
+      <li>Mainframe processors are expensive and thus follow a 10 byte rule</li>
+    </ul>
+  </li>
+  <li>They discuss a rule for sequential access common in sorts and joins
+    <ul>
+      <li>With their assumed numbers they determine one-minute break even point
+where it makes sense to cache disc data on main memory if it will be
+needed within a minute</li>
+    </ul>
+  </li>
+  <li>RAID
+    <ul>
+      <li>RAID 1 decreases cost of reads a little bit but doubles cost of writes</li>
+      <li>RAID 5 increases the cost of writes by a factor of 4</li>
+    </ul>
+  </li>
+  <li>Tape
+    <ul>
+      <li>They give numbers for tape versus RAM and tape versus disc</li>
+    </ul>
+  </li>
+  <li>They discuss when buffer managers should checkpoint their state
+    <ul>
+      <li>They also talk about how having hot standbys can change the economics</li>
+    </ul>
+  </li>
 </ul>
 
     	</div>
@@ -1627,6 +1679,57 @@ thinking about systems.</p>
   		<div class="panel-body">
     		<ul>
   <li>[<a href="http://dl.acm.org/citation.cfm?id=1538805&amp;picked=formats">Article</a>]</li>
+</ul>
+
+<p>This article was written before SSD’s became common in laptops.</p>
+
+<ul>
+  <li>Flash usage
+    <ul>
+      <li>OS/File systems will use flash as extended RAM
+        <ul>
+          <li>No log so they need to write more quickly to persistent storage</li>
+        </ul>
+      </li>
+      <li>DBMSes will use flash as extended persistent storage
+        <ul>
+          <li>System-wide checkpoints that flush the log and buffers</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>B-Trees should use different size of I/O for flash than they currently due
+with disc (due to seek time)</li>
+  <li>The flash / disk trade-off is interesting since the brake even point for pages
+is a little over 2 hours</li>
+  <li>The author notes that original reports prediction for 20 years into the future
+was “amazingly accurate” for RAM versus disk (5 hours predicted / 6 actual)</li>
+  <li>The author also discusses the issue of energy efficiency as part of the
+trade-off
+    <ul>
+      <li>Not only in battery powered devices but also in server farms</li>
+    </ul>
+  </li>
+  <li>Future Work
+    <ul>
+      <li>CPU should be measured in terms of cache line replacements, not instructions
+        <ul>
+          <li>I found this interesting as a lot of experiments have shown cache misses
+to be a major bottleneck in computation throughput</li>
+        </ul>
+      </li>
+      <li>In a database, short access times to data on flash allow for less
+multi-programming
+        <ul>
+          <li>I note that often we overlapped work with I/O in databases</li>
+          <li>The author notes that less multi-programming could reduce lock contention
+and could possibly allow for coarser grained locking.</li>
+        </ul>
+      </li>
+      <li>GC could also benefit from flash, some objects may live for long periods of
+time but not need to be accessed frequently</li>
+    </ul>
+  </li>
 </ul>
 
     	</div>

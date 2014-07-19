@@ -58,7 +58,56 @@
 
 <div id="post">
 <ul>
-  <li>[<a href="http://www.cs.berkeley.edu/~rxin/db-papers/5-min-rule.pdf">Paper</a>]</li>
+  <li>
+    <p>[<a href="http://www.cs.berkeley.edu/~rxin/db-papers/5-min-rule.pdf">Paper</a>]</p>
+  </li>
+  <li>While “all aspects of storage performance are improving,” they are doing so at
+different rates.
+    <ul>
+      <li>They talk about the difference between
+        <ul>
+          <li>the technology ratio
+            <ul>
+              <li><code>PagesPerMBofRAM / AccessesPerSecondPerDisc</code></li>
+            </ul>
+          </li>
+          <li>and the economic ratio
+            <ul>
+              <li><code>PriceOfDisc / PriceOfMBofRam</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>The Five Byte Rule is now The One Byte rule
+    <ul>
+      <li>Mainframe processors are expensive and thus follow a 10 byte rule</li>
+    </ul>
+  </li>
+  <li>They discuss a rule for sequential access common in sorts and joins
+    <ul>
+      <li>With their assumed numbers they determine one-minute break even point
+where it makes sense to cache disc data on main memory if it will be
+needed within a minute</li>
+    </ul>
+  </li>
+  <li>RAID
+    <ul>
+      <li>RAID 1 decreases cost of reads a little bit but doubles cost of writes</li>
+      <li>RAID 5 increases the cost of writes by a factor of 4</li>
+    </ul>
+  </li>
+  <li>Tape
+    <ul>
+      <li>They give numbers for tape versus RAM and tape versus disc</li>
+    </ul>
+  </li>
+  <li>They discuss when buffer managers should checkpoint their state
+    <ul>
+      <li>They also talk about how having hot standbys can change the economics</li>
+    </ul>
+  </li>
 </ul>
 
 </div>
