@@ -58,7 +58,7 @@
 interesting.</p>
 
 <p>My goal is to extract the ideas I found particularly interesting so I can better
-internalize and remember them. These are not supposed to be summaries.</p>
+internalize and remember them.</p>
 
 <p><a href="#showall" onclick="$('.collapse').collapse('show');">Show All</a> |
 <a href="#hideall" onclick="$('.collapse').collapse('hide');">Hide All</a></p>
@@ -1023,6 +1023,247 @@ a ton of flags about state.</li>
   <li>Replicate the vertex across the nodes such that no edge crosses a machine boundary.
     <ul>
       <li>Now we can run the vertex program in parallel, only needing to synchronize at the apply step.</li>
+    </ul>
+  </li>
+</ul>
+
+    	</div>
+    </div>
+</div>
+		
+
+	
+		
+
+		<h2>search</h2>
+
+		
+			<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse-earlybird">
+        		Earlybird: Real-Time Search at Twitter</a>
+        </strong> [Twitter, 2012]
+         [<a href="/notes/earlybird/">Permalink</a>]</h3>
+    </div>
+    <div id="collapse-earlybird" class="panel-collapse collapse out">
+  		<div class="panel-body">
+    		<ul>
+  <li>[<a href="http://www-users.cs.umn.edu/~gade/earlybird.pdf">Paper</a>]
+[<a href="http://notes.stephenholiday.com/Earlybird.pdf">Mirror</a>]</li>
+</ul>
+
+<p><strong>Note</strong>: Krishna was my manager at Twitter and he set me up with some time with
+Michael to talk about Earlybird and search in general at Twitter. I wish I had
+kept my notes from that discussion.</p>
+
+<ul>
+  <li>Earlybird is the system that holds the near real-time index of tweets</li>
+  <li>Goals:
+    <ul>
+      <li>“Low-latency, high throughput query evaluation”</li>
+      <li>“High ingestion rate and immediate data availability”
+        <ul>
+          <li>Needs to deal with spikes</li>
+          <li>Tweets need to be searchable “on the order of a few seconds”</li>
+          <li>Historically search indices have been built in a batch operation</li>
+        </ul>
+      </li>
+      <li>“Concurrent reads and writes”
+        <ul>
+          <li>Some systems use an atomic swap between new and old versions of the
+index</li>
+          <li>I note that some search systems actually bring up a whole new replica
+set with the new data</li>
+          <li>One of the most interesting ideas in this paper is the lock-free
+algorithm for single-writer, multiple-reader inverted indexes</li>
+        </ul>
+      </li>
+      <li>“Domincance of temporal signal”
+        <ul>
+          <li>In existing search systems, age of the document isn’t very important</li>
+          <li>For Tweets, the authors claim that time is likely the most important
+signal</li>
+          <li>This guides the design to be efficient for searching in reverse
+chronological order</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Overview
+    <ul>
+      <li>Earlybird is build on top of Lucene</li>
+      <li>Earlybird is not the only source of tweets,
+<a href="https://blog.twitter.com/2011/twitter-search-now-3x-faster">Blender</a>
+is the system that mixes and re-ranks results
+        <ul>
+          <li>It’s a pretty neat system that allows developers to compose existing
+search services into workflows without starting from scratch each time</li>
+        </ul>
+      </li>
+      <li>Tweets are hash partitioned across Earlybird shards</li>
+      <li>“End-to-end, we typically observe a 10 second indexing latency”</li>
+      <li>50 ms query latency</li>
+    </ul>
+  </li>
+  <li>Index Organization
+    <ul>
+      <li>New tweets go into an in-memory structure optimized for single-writer,
+multiple-reader</li>
+      <li>Periodically they convert the structure into a read-optimized read-only
+structure.</li>
+      <li>Dictionary
+        <ul>
+          <li>The term dictionary uses open addressing on primitive Java arrays
+            <ul>
+              <li>To alleviate issues with GC</li>
+            </ul>
+          </li>
+          <li>Each term receives a monotonically increasing term ID</li>
+          <li>Term data is held in parallel arrays
+            <ul>
+              <li># of postings for the term</li>
+              <li>pointer to the tail of the postings list</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Active Index</strong>
+        <ul>
+          <li>Each posting is a 32-bit integer
+            <ul>
+              <li>24 bits for document-id</li>
+              <li>8 for term position
+                <ul>
+                  <li>Tweets are 140 chars</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Stored in an array, cache friendly</li>
+          <li>Postings lists vary in size
+            <ul>
+              <li>Zipfian distribution</li>
+            </ul>
+          </li>
+          <li>Memory Setup
+            <ul>
+              <li>Pools are used to hold postings</li>
+              <li>Each pool is <code>2^12</code> elements</li>
+              <li>In each pool, they allocate a slice at time
+                <ul>
+                  <li>Sizes: <code>2^1, 2^2, 2^7, 2^11</code> elements (i.e. 32-bit int)</li>
+                </ul>
+              </li>
+              <li>The first time a term is encountered, a postings list is created in the
+first pool (i.e. holds 2 elements)</li>
+              <li>Once the slice runs out space, a slice is allocated in the next level
+pool.</li>
+              <li>Each slice (except <code>2^1</code>) reserves the first 32-bits for a pointer to
+the previous slice
+                <ul>
+                  <li>2 bits to address the pool</li>
+                  <li>19-29 bits for the slice index</li>
+                  <li>1-11 bits for the offset</li>
+                </ul>
+              </li>
+              <li>In the <code>2^11</code> pool, postings lists can be allocated multiple slices</li>
+              <li>No array copies needed
+                <ul>
+                  <li>No GC</li>
+                </ul>
+              </li>
+              <li>Dictionary has a pointer to the current tail of the postings list for
+a term</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Optimized Index
+        <ul>
+          <li>When the active index segment stops accepting writes, they create a
+read-optimized index</li>
+          <li>They know the exact size required for each postings list
+            <ul>
+              <li>Postings lists can then be laid out end-to-end as large array of ints</li>
+              <li>Dictionary is just a pointer into the array</li>
+            </ul>
+          </li>
+          <li>Define two types of positings lists
+            <ul>
+              <li>Short (&lt;1000)
+                <ul>
+                  <li>Stored as before but reverse-chronological</li>
+                </ul>
+              </li>
+              <li>Long
+                <ul>
+                  <li>Block-based compression akin to PForDelta</li>
+                  <li>Better than variable-length techniques that suffer from many branch
+mispredicts</li>
+                  <li>Just need to apply a template of bit ops</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Concurrency
+        <ul>
+          <li>Limit to a single writer per index segment for simplicity</li>
+          <li>Protocol:
+            <ol>
+              <li>Write to the postings list for the terms</li>
+              <li>Update tail pointers</li>
+              <li>Increment maxDoc (volatile, in JVM this means memory barrier)</li>
+            </ol>
+          </li>
+          <li>Whenever searching the postings list, readers ignore docs encountered
+greater than maxDoc.</li>
+          <li>The authors note there are several subtle corner cases beyond the scope of
+the paper.
+            <ul>
+              <li>I’m dying to know that they are!</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>In Production
+    <ul>
+      <li>Each machine has two quad-core procs with 76 GB RAM</li>
+      <li>64 GB heap space</li>
+      <li>An index segment with 16 million documents is about 6.7 GB</li>
+      <li>Converting to the read-only index saves about 57%</li>
+    </ul>
+  </li>
+  <li>Future
+    <ul>
+      <li>
+        <p>The authors note that there is much work to be done on creating metrics that
+measure the correctness of results returned from a search engine that deals
+with real-time documents</p>
+
+        <blockquote>
+          <p>“In more concrete terms, is a ‘perfect’ tweet from five minutes ago better
+than a ‘good’ tweet from five seconds ago? What about compared to a
+‘fair’ tweet from one second ago? Does it depend on the type of query and
+its velocity? Does it depend on the particular user?”</p>
+        </blockquote>
+
+        <ul>
+          <li>To me this sounds like we need a lot of tests to figure this out</li>
+        </ul>
+      </li>
+      <li>What about “a cluster of tweets about the same topic or event”</li>
+      <li>NLP community is not as concerned with the efficiency of their algos</li>
+      <li>Tweets have a lot less text to analyze</li>
+      <li>Often tweets mix multiple languages
+        <ul>
+          <li>I hadn’t thought about this!</li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
