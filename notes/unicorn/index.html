@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Unicorn: A System for Searching the Social Graph - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header">
+<h1>Unicorn: A System for Searching the Social Graph <small>- Facebook, 2013</small></h1>
+</div>
+
+<div id="post">
+<ul>
+  <li>
+    <p>[<a href="https://www.facebook.com/publications/219621248185635/">Paper</a>]
+[<a href="http://notes.stephenholiday.com/Unicorn.pdf">Mirror</a>]</p>
+  </li>
+  <li>In-memory index of the social graph</li>
+  <li>The Graph
+    <ul>
+      <li>thousands of edge types</li>
+      <li>many edges have tightly coupled inverse edges
+        <ul>
+          <li>ex. People <code>like</code> a page and the page has <code>likers</code></li>
+        </ul>
+      </li>
+      <li>Lots of nodes but generally sparse
+        <ul>
+          <li>Thus an adjacency list makes sense</li>
+        </ul>
+      </li>
+      <li>Served up by TAO</li>
+    </ul>
+  </li>
+  <li>Data Model
+    <ul>
+      <li>
+        <p>You can ask Unicorn for the adjacency list for a particular source vertex by
+it’s ID and the edge type:</p>
+
+        <p><code>likes: 5</code></p>
+
+        <p>Returns a sorted list of pages the user likes called <em>hits</em>.</p>
+      </li>
+      <li>Hit - a <code>(DocId, HitData)</code> pair
+        <ul>
+          <li>DocId is a pair of <code>(sort-key, id)</code>
+            <ul>
+              <li>The vertex must have the same sort key in all lists</li>
+            </ul>
+          </li>
+          <li>HitData is a byte array for app specific data
+            <ul>
+              <li>filtering results / scoring</li>
+              <li>
+                <p>I like how this gives you the flexibility to bring data into the posting
+list or leave it in TAO. However, you’d need to be careful not to make
+the posting list large. Even if you have enough RAM you still have small
+caches and limited RAM bandwidth.</p>
+
+                <p>You could also store data in the forward index described later.</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Sharded by document (i.e. all hits for a given vertex are on the same node)
+        <ul>
+          <li>Great for partitions</li>
+          <li>Many set ops can be done on the leaf (since all instances of the result
+will be on that shard)</li>
+          <li>I note that you can skip waiting for the long tail of results</li>
+          <li>I also note that this effectively splits the source vertex across multiple
+servers
+            <ul>
+              <li>An interesting approach to the
+<a href="http://thinkaurelius.com/2012/10/25/a-solution-to-the-supernode-problem/">Supernode Problem</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>More terms than a text index, but the postings lists are generally much
+shorter</li>
+      <li>Updates go to a mutable index layer superimpose on the immutable layer
+        <ul>
+          <li>They also need to deal with deleted</li>
+          <li>Probably with a tombstone, though it is not mentioned</li>
+        </ul>
+      </li>
+      <li>Posting list reference by <code>&lt;edge-type&gt;:&lt;id&gt;</code></li>
+      <li>They optimize for decoding posting lists that exceed a CPU’s cache-line
+        <ul>
+          <li>Most of time is spent in memory accesses</li>
+        </ul>
+      </li>
+      <li>Posting lists are all loaded in memory
+        <ul>
+          <li>I wonder what <a href="/notes/five-minute-rule/">The Five Minute Rule</a> has to say
+about other mixed storage strategies</li>
+        </ul>
+      </li>
+      <li>They split the indices into vertical
+        <ul>
+          <li>Verticals hold all the postinglists for the same result type
+            <ul>
+              <li>For example <code>friend</code> and <code>likers</code> are in the same vertical (both user
+IDs) where <code>likes</code> is not necessarily (results in a page ID)</li>
+            </ul>
+          </li>
+          <li>Top-aggregators can combine results from multiple verticals</li>
+          <li>IDs that will never be intersected or merged need not be in the same
+leaf</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Architecture
+    <ul>
+      <li>Client library chooses a cluster close geographically</li>
+      <li>Life of a query:
+        <ul>
+          <li>Send to a top-aggregator</li>
+          <li>Top-aggregator send the query to one rack-aggregator per rack</li>
+          <li>Send query to all servers in the rack (each is responsible for a shard)</li>
+          <li>Rack-aggregator combines and truncates the results
+            <ul>
+              <li>Can’t necessarily truncate the results at the shard because of
+re-ranking</li>
+            </ul>
+          </li>
+          <li>Top-aggregator combines and truncates the results</li>
+        </ul>
+      </li>
+      <li>Rack-aggregators are used because bandwidth within a rack is greater than BW
+between servers on different racks
+        <ul>
+          <li>I think I’ve heard some datacenters using a network fabric that allows for
+close to equal BW inter-rack and intra-rack. Locality is still probably
+helpful.</li>
+        </ul>
+      </li>
+      <li>Rack-aggregators know how to forward the request to another replica shard if
+one of the shards in the rack is down</li>
+      <li>Rack-aggregators are actually run on every machine on the rack (stateless)</li>
+      <li>A single replica can have “thousands of machines”</li>
+      <li>Sometimes they build smaller subsets of verticals to help deal with the load</li>
+    </ul>
+  </li>
+  <li>Query Language
+    <ul>
+      <li>Designed for composition</li>
+      <li>Operators:
+        <ul>
+          <li><strong>AND</strong> - Intersect</li>
+          <li><strong>OR</strong> - Union</li>
+          <li><strong>DIFFERENCE</strong> - Results from the first set no in the second</li>
+          <li><strong>WEAKAND</strong> - “Allows operands to be missing from some fraction of the
+results within an index shard”
+            <ul>
+              <li>Clients can specify an <code>optional_count</code> or <code>optional_weight</code>
+                <ul>
+                  <li>i.e. absolute number for a shard or a fraction of the results</li>
+                </ul>
+              </li>
+              <li>
+                <p>Example of <strong>WEAKAND</strong> searching for people named “Melanie Mars*” with a
+preference to friends of the user.</p>
+
+                <pre><code>(weak-and
+  (term friend:3 :optional-hits 2)
+  (term melanie)
+  (term mars*)
+)
+</code></pre>
+              </li>
+            </ul>
+          </li>
+          <li><strong>STRONGOR</strong> - Like <strong>WEAKAND</strong>
+            <ul>
+              <li>Used to enforce diversity in the results</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>APPLY</strong> - Similar to <code>apply</code> in JavaScript</p>
+
+            <pre><code>apply(prefix, innerQuery)
+</code></pre>
+
+            <p>Allows for queries like:</p>
+
+            <pre><code>(apply tagged: friend:5)
+</code></pre>
+
+            <p>Instead of:</p>
+
+            <pre><code>(or tagged:&lt;id0&gt; ... tagged:&lt;idn&gt;)
+</code></pre>
+
+            <ul>
+              <li>Obviously the client could do this, but keeps the work in the cluster
+where the latency in smaller</li>
+              <li>Since the client is showing “semantic intent” there are opportunities
+for query planning</li>
+            </ul>
+          </li>
+          <li><strong>EXTRACT</strong> - Get data from the forward index
+            <ul>
+              <li>For some relationships there would be “billions of ‘one-to-few’
+mappings” and that would require more ram per shard than feasible</li>
+              <li>Instead they partial denormalize and put data in the forward index</li>
+              <li>
+                <p>They give the example of looking for “People tagged in photos of Jon
+Jones”</p>
+
+                <p>Instead of looking up photos of Jon Jones and then people tagged in the
+photos, they store the ids of people tagged in the forward index of the
+photos.</p>
+              </li>
+              <li>“Typically, the forward index entry has already been fetched in order to
+ score the source document”</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Scoring
+    <ul>
+      <li>There is a forward index on each shard</li>
+      <li>The client request can select a scoring function that resides on the shard</li>
+      <li>Scoring function can use the forward index data</li>
+      <li>The paper references a discussion on maintaining result diversity with the
+aggregators
+<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-indexing-and-ranking-in-graph-search/10151361720763920">here</a></li>
+    </ul>
+  </li>
+  <li>Privacy
+    <ul>
+      <li>They don’t want to do the privacy checks inside Unicorn
+        <ul>
+          <li>Already have all the business logic written</li>
+        </ul>
+      </li>
+      <li>Each result has a JSON or THrift struct that describes the possible ways to
+get to the result, termed the <em>lineage</em></li>
+      <li>Sometimes on the order of several KB, but it hasn’t been a problem</li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+		
+		
+		
+			<div id="related">
+			  <h3><em>Other notes about search</em></h2>
+			  	<ul class="list-group">
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/earlybird/"><strong>Earlybird: Real-Time Search at Twitter</strong></a>
+              [Twitter, 2012]
+             </li>
+            
+			    
+			    	
+			    
+			    </ul>
+			</div>
+		
+	
+
+	
+
+	
+
+	
+
+
+
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>
