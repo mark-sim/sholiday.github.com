@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-        <title>Dremel: Interactive Analysis of Web-Scale Datasets - Stephen Holiday</title>
+        <title>Trustworthy Online Controlled Experiments: Five Puzzling Outcomes Explained - Stephen Holiday</title>
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -53,44 +53,100 @@
         <div id="container-main" class="container clearfix">
           <div style="margin:20px">
             <div id="content-header">
-<h1>Dremel: Interactive Analysis of Web-Scale Datasets <small>- Google, 2010</small></h1>
+<h1>Trustworthy Online Controlled Experiments: Five Puzzling Outcomes Explained <small>- Microsoft, 2012</small></h1>
 </div>
 
 <div id="post">
 <ul>
-  <li>
-    <p>[<a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/36632.pdf">Paper</a>]
-[<a href="http://notes.stephenholiday.com/Dremel.pdf">Mirror</a>]</p>
-  </li>
-  <li>VLDB’10 [<a href="http://sergey.melnix.com/pub/melnik_VLDB10.ppt">Slides</a>]</li>
-  <li><strong>Goal</strong>: Support fast ad-hoc queries for analysis</li>
-  <li>Noticed: A cluster with thousands of discs can have high throughput and OK latency</li>
-  <li>Major Points:
-    <ol>
-      <li>Column Oriented Storage
+  <li>[<a href="http://wan.poly.edu/KDD2012/docs/p786.pdf">Paper</a>]
+[<a href="notes.stephenholiday.com/Five-Puzzling-Outcomes.pdf">Mirror</a>]</li>
+</ul>
+
+<p>This is a fun paper from Microsoft talking about some of the interesting online
+experiments they ran.</p>
+
+<ul>
+  <li>“Only one third of ideas tested at Microsoft improved the metric(s) they were
+designed to improve”</li>
+  <li>The authors advocate the use of an <strong>A/A Test</strong> also called a <em>Null Test</em>
+    <ul>
+      <li>Allows you to test the experiment system</li>
+      <li>They found it incredibly helpful
         <ul>
-          <li>They propose a nested columnar storage which can compactly store diverse
-schemas in Protocol Buffers.</li>
-          <li>The SQL-like query language has support for this nesting</li>
-          <li>Columnar storage allows them to only access the columns relevant to
-the query</li>
+          <li>I thought this was an interesting idea</li>
         </ul>
       </li>
-      <li>Serving Tree for distributed query execution
+    </ul>
+  </li>
+  <li>OEC - Overall Evaluation Criterion
+    <ul>
+      <li>Has to be chosen correctly</li>
+      <li>Difficult because its much harder to measure long term effects</li>
+      <li>They describe one experiment that resulted in showing worse results to users
+in Bing actually increased their key metrics of query share and revenue per
+search</li>
+      <li>Turns out that if the results are bad a user needs to search more</li>
+      <li><strong>Key lesson</strong>: short-term metrics are not always in line with long-term
+goals</li>
+    </ul>
+  </li>
+  <li>Click Tracking
+    <ul>
+      <li>A piece of JavaScript to be executed every time a user clicked a result was
+added</li>
+      <li>This slowed the user experience</li>
+      <li>However, users were clicking more</li>
+      <li>Turns out that this allowed more time for the tracking beacons to complete</li>
+      <li>They noticed that IE users click behavior did not change</li>
+      <li>Firefox, Chrome and Safari are aggressive about stopping requests once a
+user navigates away from the page</li>
+      <li>In general, if you notice the effect is different between browsers, you
+should take a look at your instrumentation</li>
+    </ul>
+  </li>
+  <li>Primacy and Novelty
+    <ul>
+      <li>Sometimes when you run an experiment the initial results differ from the
+long terms results as users adjust to the change</li>
+      <li>However, they show with an A/A test that the way metrics are presented can
+cause experimenters to believe there are primacy or novelty effects when
+none are present</li>
+    </ul>
+  </li>
+  <li>Experiment Length
+    <ul>
+      <li>We often feel that increasing the experiment length increases it’s power</li>
+      <li>However, in many metrics, “the confidence interval width does not change
+much over time”</li>
+      <li>To combat this you would need to run more users / day in the experiment</li>
+    </ul>
+  </li>
+  <li>Carryover Effects
+    <ul>
+      <li>Many experimentation systems use buckets of users that change infrequently</li>
+      <li>They found that reusing the same bucket splits often leads to bad results</li>
+      <li>An experiment with the same bucket can cause the effects of the previous
+experiment to leak into the new one
         <ul>
-          <li>Like a distribute search engine</li>
-          <li>The query starts at the root and is transformed into smaller queries
-to be run on children</li>
-          <li>Each child further transforms the query for execution</li>
-          <li>The aggregate results bubble up</li>
-          <li>They use similar techniques to retry stragglers on new nodes and can
-return early with approximate results if configured</li>
+          <li>Even after several months of the first experiment being turned off!</li>
         </ul>
       </li>
-      <li>SQL-like language</li>
-    </ol>
+      <li>You can measure this with A/A experiments</li>
+    </ul>
   </li>
-  <li>They can operate on data in place</li>
+  <li>Summary:
+    <ul>
+      <li>Our experiment instrumentation is not as precises as we hope</li>
+      <li>Offline techniques do not always work well online</li>
+      <li>We need to understand the results</li>
+    </ul>
+
+    <blockquote>
+      <p>“Anyone can run online controlled experiments and generate numbers with six
+ digits after the decimal point … the real challenge is in understanding
+ when the results are invalid.”</p>
+    </blockquote>
+  </li>
 </ul>
 
 </div>
@@ -105,15 +161,15 @@ return early with approximate results if configured</li>
 	
 
 	
-		
-		
-		
-	
 
 	
 
 	
 
+	
+		
+		
+		
 	
 
 	
