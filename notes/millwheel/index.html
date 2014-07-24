@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>MillWheel: Fault-Tolerant Stream Processing at Internet Scale - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <div id="content-header">
+<h1>MillWheel: Fault-Tolerant Stream Processing at Internet Scale <small>- Google, 2013</small></h1>
+</div>
+
+<div id="post">
+<ul>
+  <li>[<a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/41378.pdf">Paper</a>]
+[<a href="http://notes.stephenholiday.com/MillWheel.pdf">Mirror</a>]</li>
+</ul>
+
+<p>Something I’ve noticed from this and other Google papers is that Google
+systems try to limit the API to allow for stronger guarantees. Other systems
+tend to relax guarantees in order to have more API features.</p>
+
+<ul>
+  <li>Originally for Google’s Zeitgeist product
+    <ul>
+      <li>Tracks trends in web queries</li>
+      <li>Uses 1-second windows</li>
+    </ul>
+  </li>
+  <li>Data Model
+    <ul>
+      <li>Each record is a <code>(key, value, timestamp)</code> tuple</li>
+      <li>The key is how the data is partitioned across instances of a computation</li>
+    </ul>
+  </li>
+  <li>Low Watermarks
+    <ul>
+      <li>They wanted to be able to tell the difference between data that is delayed
+and data that is not coming</li>
+      <li>Each record coming in to the system is given a timestamp (often 
+corresponding to the time the data was generated)</li>
+      <li>The system tells the computations that all the data up to the low watermark
+has likely already arrived</li>
+      <li>The application can decide what to do with late arriving data
+        <ul>
+          <li>Some choose to drop it but log it</li>
+          <li>Others actually go and correct their data</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Duplicate Prevention
+    <ul>
+      <li>Exactly-once processing</li>
+      <li>Used in billing systems</li>
+    </ul>
+  </li>
+  <li>Persistent State
+    <ul>
+      <li>This is one of my favorite aspects of MillWheel</li>
+      <li>Each computation for a given key has a persistent state updated atomically</li>
+      <li>Allows for non-idempotent code to be treated as if it was idempotent</li>
+      <li>This could be used to store the rolling window or anything else</li>
+      <li>Treated as a binary blob, usually use Protocol Buffers for serialization</li>
+      <li>The goal with this abstraction is to hide the replay, failures and
+relocation that the system needs to do</li>
+      <li>Through the use of checkpointing and replay, they can guarantee exactly-once
+processing
+        <ul>
+          <li>Though they note this does not automatically extend to external systems</li>
+          <li>This was one of the issues for users of Storm</li>
+        </ul>
+      </li>
+      <li>Zombie Writers
+        <ul>
+          <li>Old instances of computations changing state</li>
+          <li>Add a sequence token to each write and the mediator to the store verifies
+this token</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Computations
+    <ul>
+      <li>Processing is serialized per key, but parallelized over distinct keys</li>
+      <li>They do not need have any order guarantees (beyond the low watermark)</li>
+      <li>Any computation can produce to any stream and computation can subscribe to
+any stream</li>
+      <li>Computations can be added and removed from the topology without restarting
+the system
+        <ul>
+          <li>I wonder how they deal with noisy neighbors? Maybe it’s just part of the
+process isolation they do for Borg?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Timers
+    <ul>
+      <li>Per-key</li>
+      <li>Computation can set them to run at a watermark level or at some time in
+the future</li>
+      <li>Used for time based barriers (i.e. to end a window)</li>
+    </ul>
+  </li>
+  <li>Injectors
+    <ul>
+      <li>Push data into MillWheel</li>
+      <li>They decide on the low watermark value</li>
+      <li>Can be distributed
+        <ul>
+          <li>The aggregated low watermark value is used</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>System
+    <ul>
+      <li>Process for exactly once delivery:
+        <ul>
+          <li>Record is checked against dedupe data</li>
+          <li>User code is run</li>
+          <li>Pending changes are committed</li>
+          <li>Senders ACKed</li>
+          <li>Productions sent to downstream services</li>
+        </ul>
+      </li>
+      <li>They can do the check pointing for multiple records in a batch</li>
+      <li>Each record has a unique ID that is associated with the state modification
+        <ul>
+          <li>As an atomic write to the backing store</li>
+          <li>Use a bloom filter, records that have not been seen will likely pass</li>
+          <li>Eventually GC the record IDs</li>
+        </ul>
+      </li>
+      <li>A replicated master handles load distribution
+        <ul>
+          <li>Can move/split/merge intervals</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Strong Productions
+    <ul>
+      <li>Produced records that are check-pointed before delivery</li>
+    </ul>
+  </li>
+  <li>Weak Productions
+    <ul>
+      <li>Disable the exactly-once guarantee for applications that don’t need it</li>
+      <li>Can’t simply skip the dedupe part for performance</li>
+      <li>Optimistically send productions down the topology, waiting for downstream
+ACKs</li>
+      <li>However, machine failure can quickly cause the pipeline to backup</li>
+      <li>To alleviate this, the checkpoint some of the stragglers so that the
+computation can ACK it’s upstream producer</li>
+      <li>(Note, this is a case where adding some guarantees actually increases
+ performance)</li>
+      <li>This is an interesting idea for Storm!</li>
+    </ul>
+  </li>
+</ul>
+
+
+</div>
+
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+		
+		
+		
+			<div id="related">
+			  <h3><em>Other notes about streaming</em></h2>
+			  	<ul class="list-group">
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/kafka/"><strong>Kafka: a Distributed Messaging System for Log Processing</strong></a>
+              [LinkedIn, 2011]
+             </li>
+            
+			    
+			    	
+			    
+			    </ul>
+			</div>
+		
+	
+
+	
+
+
+
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>
