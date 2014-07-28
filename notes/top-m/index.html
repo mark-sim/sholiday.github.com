@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-        <title>The Five-Minute Rule 10 Years Later, and Other Computer Storage Rules of Thumb - Stephen Holiday</title>
+        <title>Approximating the Top-m Passages in a Parallel Question Answering System - Stephen Holiday</title>
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -55,70 +55,81 @@
             <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <div id="content-header">
-<h1>The Five-Minute Rule 10 Years Later, and Other Computer Storage Rules of Thumb <small>- Microsoft, 1997</small></h1>
+<h1>Approximating the Top-m Passages in a Parallel Question Answering System <small>- UWaterloo, 2004</small></h1>
 </div>
 
 <div id="post">
 <ul>
-  <li>
-    <p>[<a href="http://www.cs.berkeley.edu/~rxin/db-papers/5-min-rule.pdf">Paper</a>]
-[<a href="http://notes.stephenholiday.com/Five-Minute-Rule-10-Years-Later.pdf">Mirror</a>]</p>
-  </li>
-  <li>While “all aspects of storage performance are improving,” they are doing so at
-different rates.
-    <ul>
-      <li>They talk about the difference between
-        <ul>
-          <li>the technology ratio
-            <ul>
-              <li><code>PagesPerMBofRAM / AccessesPerSecondPerDisc</code></li>
-            </ul>
-          </li>
-          <li>and the economic ratio
-            <ul>
-              <li><code>PriceOfDisc / PriceOfMBofRam</code></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>The Five Byte Rule is now The One Byte rule
-    <ul>
-      <li>Mainframe processors are expensive and thus follow a 10 byte rule</li>
-    </ul>
-  </li>
-  <li>They discuss a rule for sequential access common in sorts and joins
-    <ul>
-      <li>With their assumed numbers they determine one-minute break even point
-where it makes sense to cache disc data on main memory if it will be
-needed within a minute</li>
-    </ul>
-  </li>
-  <li>RAID
-    <ul>
-      <li>RAID 1 decreases cost of reads a little bit but doubles cost of writes</li>
-      <li>RAID 5 increases the cost of writes by a factor of 4</li>
-    </ul>
-  </li>
-  <li>Tape
-    <ul>
-      <li>They give numbers for tape versus RAM and tape versus disc</li>
-    </ul>
-  </li>
-  <li>They discuss when buffer managers should checkpoint their state
-    <ul>
-      <li>They also talk about how having hot standbys can change the economics</li>
-    </ul>
-  </li>
+  <li>[<a href="https://plg.uwaterloo.ca/~claclark/top.pdf">Paper</a>]
+[<a href="http://notes.stephenholiday.com/Top-M.pdf">Mirror</a>]</li>
 </ul>
+
+<p>In many standard distributed search engines (not limited to text), the document
+index is sharded across many machines. If we want to retrieve the top <em>m</em>
+results from a given corpus, we need to query each shard for the local top <em>m</em>.
+We need the local top <em>m</em> from each shard in case the global top <em>m</em> are all
+contained on one shard.</p>
+
+<p>This paper from my alma mater contributes an interesting statistical model to
+reduce the number of results required from a given shard for an acceptable
+probability that not all top <em>m</em> results will be present.</p>
+
+<p>The idea comes from the fact that the documents are often randomly (and
+uniformly) distributed across the shards. Therefore, it’s extremely unlikely
+that the global top <em>m</em> are on the same shard. As the paper states, the
+probability is <script type="math/tex">(1/n)^m</script>.</p>
+
+<h3 id="model">Model</h3>
+<p>For the derivation of the model you should really see the paper but I will
+highlight a few interesting points.</p>
+
+<p>The probability that all of the global top <em>m</em> results will be contained in the
+top <em>k</em> from each of the <em>n</em> nodes is given by <em>p(n,m,k)</em>. Their equation is
+solvable with dynamic programming.</p>
+
+<p>For some sample points, if a system has 64 shards we could request the top 9
+results from each shard to return the top 100 globally with over 99%
+probability.</p>
+
+<p>The authors then change the model to determine how much of the top <em>m</em> items
+should be expected to be returned for a given <em>n, m</em> and <em>k</em>.</p>
+
+<p>For example, a system with 64 shards retrieving the top 3 on each shard gives us
+an expected global top <em>m</em> of 40.</p>
+
+<p>We don’t usually need to have the global top <em>m</em> as long as we can most of them.
+Our ranking functions are not perfect either! Therefore, we could trade the
+quality of the results for … what?</p>
+
+<h3 id="benefits">Benefits</h3>
+<p>Well, for a simple text search engine where the results from each shard is often
+just the document ID and the score there is little benefit to limiting the
+number of results returned per node. There’s not a lot of networking overhead
+here.</p>
+
+<p>The authors were working on a question answering system based on passage
+retrieval where having a smaller initial result set is very beneficial.</p>
+
+<p>One of the content-based image search systems I worked on used a two step
+ranking system. First many thousands of initial results were retrieved from the
+shards and then they were re-ranked with CPU intensive CV algorithms. I didn’t
+test this at the time, but I wonder how search latency could be improved if we
+didn’t retrieve so many candidate images. With less computation per query we
+could have also increased query throughput.</p>
+
+<p>Perhaps some other systems could benefit from this approximate top <em>m</em> result
+approach. What if we could avoid disk for most searches if we found the required
+number of results in memory? (We’d have to be careful about what we put on disk
+of course.)</p>
+
+<p>What if, on the second ranking pass, we compute as many results as we can (in 
+priority order) until a timeout. We could model the expected quality of the
+results.</p>
 
 </div>
 
 
 
-
-	
 
 	
 
@@ -135,28 +146,30 @@ needed within a minute</li>
 		
 		
 			<div id="related">
-			  <h3><em>Other notes about systems</em></h2>
+			  <h3><em>Other notes about search</em></h2>
 			  	<ul class="list-group">
 			    
 			    	
+			    
+			    	
 			       <li class="list-group-item">
-              <a href="/notes/five-minute-rule/"><strong>The 5 Minute Rule for Trading Memory for Disc Accesses and the 5 Byte Rule for Trading Memory for CPU Time</strong></a>
-              [Tandem Computers, 1987]
+              <a href="/notes/earlybird/"><strong>Earlybird: Real-Time Search at Twitter</strong></a>
+              [Twitter, 2012]
              </li>
             
 			    
 			    	
-			    
-			    	
 			       <li class="list-group-item">
-              <a href="/notes/five-minute-rule-20-years-later/"><strong>The Five-Minute Rule 20 Years Later (and How Flash Memory Changes the Rules)</strong></a>
-              [HP Labs, 2009]
+              <a href="/notes/unicorn/"><strong>Unicorn: A System for Searching the Social Graph</strong></a>
+              [Facebook, 2013]
              </li>
             
 			    
 			    </ul>
 			</div>
 		
+	
+
 	
 
 	
