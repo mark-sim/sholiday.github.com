@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>F1: A Distributed SQL Database That Scales - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<div id="content-header">
+<h1>F1: A Distributed SQL Database That Scales <small>- Google, 2013</small></h1>
+</div>
+
+<div id="post">
+<ul>
+  <li>[<a href="http://research.google.com/pubs/archive/41344.pdf">Paper</a>]
+[<a href="http://notes.stephenholiday.com/F1.pdf">Mirror</a>]</li>
+</ul>
+
+<p>F1 is a SQL database built on top of <a href="/notes/spanner/">Spanner</a>.</p>
+
+<ul>
+  <li>Originally built to replace Google’s MySQL cluster used for AdWords
+    <ul>
+      <li>My friend Jason Lucas of OrlyAtomics
+<a href="http://blog.orlyatomics.com/nosql-whom-shall-we-screw/">said it best</a>,
+“NoSQL: Whom Shall We Screw?”</li>
+      <li>If we have a distributed database, we often choose to relax consistency
+making things very difficult for the software engineers</li>
+      <li>There’s enough to deal with ensure business logic is correct for AdWords
+then to have engineers write logic to deal with eventual consistency</li>
+      <li>While F1 does increase the latency for many reads and writes, they’ve done
+a lot of work to alleviate the issues including an ORM that tries to guide
+engineers to write good client code</li>
+    </ul>
+  </li>
+  <li>Architecture
+    <ul>
+      <li>Spanner on top of Colossus provides the KV store with distributed
+transactions</li>
+      <li>F1 servers are “mostly stateless”
+        <ul>
+          <li>Generally placed in the same DC as Spanner servers</li>
+          <li>Client can usually communicate with any F1 server</li>
+          <li>During a pessimistic transaction (i.e. the client holds locks) it must
+stay in communication with the same server</li>
+        </ul>
+      </li>
+      <li>F1 Slave Pool
+        <ul>
+          <li>For execution of parts of distributed queries</li>
+          <li>Shared</li>
+        </ul>
+      </li>
+      <li>Since F1 servers do not store data, adding and removing nodes does not
+require re-balancing of data
+        <ul>
+          <li>Interesting idea that allows you to scale computation separately from
+storage or access</li>
+        </ul>
+      </li>
+      <li><a href="/notes/spanner/">Spanner</a>
+        <ul>
+          <li><strong>Directory</strong>, a ‘database’ name in the conventional sense</li>
+          <li>Each directory is made up of several <strong>fragments</strong></li>
+          <li>A collections of fragments in a directory is called a <strong>group</strong>
+            <ul>
+              <li>Groups are replicated across DCs.</li>
+              <li>Groups use Paxos</li>
+              <li>One replica is deemed the Paxos leader for the group</li>
+              <li>Some groups have <strong>readonly replicas</strong> that do not vote</li>
+            </ul>
+          </li>
+          <li>Pessimistic transactions use 2PL
+            <ul>
+              <li>Transactions within a group do not require 2PC (only one leader)</li>
+              <li>Transactions across groups require 2PC (on top of Paxos) and are slower
+                <ul>
+                  <li>Does not work well with 100s of participants</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Spanner allows for reading a snapshot of the data without locks
+            <ul>
+              <li>Spanner has a grantee that there are no current or future transactions
+that will commit before the <strong>global safe timestamp</strong></li>
+              <li>Typically this timestamp is 5-10 seconds behind</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Data Model
+    <ul>
+      <li>Schema
+        <ul>
+          <li>F1 has a hierarchical schema</li>
+          <li>Logical child tables can be interleaved with a physical parent table</li>
+          <li>The child table must have a FK to it’s parent as part of it’s PK</li>
+          <li>A row in the physical table is deemed the <strong>root row</strong>
+            <ul>
+              <li>All data associated with the row in the parent and child tables are
+clustered together (generally the same Spanner server)</li>
+            </ul>
+          </li>
+          <li>This means that joins between a parent and child table can be satisfied
+with fast range queries on the same server</li>
+          <li>Updates tend to be only on one or few servers requiring little
+coordination</li>
+        </ul>
+      </li>
+      <li>Protocol Buffers are first class citizens and are exposed in the SQL</li>
+      <li>Indexes
+        <ul>
+          <li>Transactional and fully consistent</li>
+          <li>Stored in separate tables in Spanner
+            <ul>
+              <li>I like this idea, reuse all the infra we already have!</li>
+            </ul>
+          </li>
+          <li>Keys comprise of the index key and the PK of the index table</li>
+          <li>Index keys can be extracted from Protos</li>
+          <li><strong>Local</strong> indexes have the root row’s PK as part of their prefix
+            <ul>
+              <li>Local indexes can be stored as child tables</li>
+            </ul>
+          </li>
+          <li><strong>Global</strong> indexes are not keyed by a root row (for example an index on 
+<code>Keyword</code>)
+            <ul>
+              <li>Usually large with high update rates</li>
+              <li>Stored on multiple spanner servers</li>
+              <li>To update a single row in the index required only adding one
+participant to 2PC
+                <ul>
+                  <li>However, I note that if this is a search index and you are adding a
+document with N words you could see that the number of participants
+count increase quite a bit</li>
+                </ul>
+              </li>
+              <li>The authors encourage users to use small transactions when updating data
+in a global index</li>
+            </ul>
+          </li>
+          <li>Schema Changes
+            <ul>
+              <li>This seems like a heroic effort to me</li>
+              <li>In AdWords, many schema changes happen each day!</li>
+              <li>They can’t just lock a table</li>
+              <li>Their scheme is non-blocking</li>
+              <li>Their algorithm is summarized as follows:
+                <ul>
+                  <li>Only two schemas are active in the cluster at a time</li>
+                  <li>Each server is using either the previous or new schema
+                    <ul>
+                      <li>Leases are used to enforce this</li>
+                    </ul>
+                  </li>
+                  <li>Each schema change is divided into a series of phases where each
+consecutive pair is compatible</li>
+                  <li>They may use MapReduce to backfill index entries for a new index</li>
+                  <li>This index may be invisible until the index is current</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Transactions
+    <ul>
+      <li>An F1 transaction us a set of reads followed by an optional single write</li>
+      <li>Types:
+        <ul>
+          <li><strong>Snapshot</strong> Transactions
+            <ul>
+              <li>Read only</li>
+              <li>Uses a fixed timestamp</li>
+              <li>Reads are repeatable</li>
+              <li>By default it uses the global safe timestamp</li>
+              <li>Can use a client specified timestamp
+                <ul>
+                  <li>This could require many RPCs</li>
+                </ul>
+              </li>
+              <li>This is the default type</li>
+            </ul>
+          </li>
+          <li><strong>Pessimistic</strong> Transactions
+            <ul>
+              <li>These are <a href="/notes/spanner/">Spanner</a> transactions</li>
+              <li>Acquires locks (2PL)</li>
+              <li>Locks can either be shared or exclusive</li>
+            </ul>
+          </li>
+          <li><strong>Optimistic</strong> Transactions
+            <ul>
+              <li>Read phase followed by a write phase</li>
+              <li>Read phase holds no locks</li>
+              <li>Read phase can take arbitrarily long</li>
+              <li>In the read phase, F1 returns the last modified timestamp with each row</li>
+              <li>The timestamp for a row is stored in a hidden lock column</li>
+              <li>The client library returns these timestamps to the F1 server</li>
+              <li>If the timestamps differ from the current timestamps at the time of
+commit the transaction is aborted</li>
+              <li>Benefits
+                <ul>
+                  <li>Bad clients don’t hold any locks so they don’t hurt the rest of the
+system</li>
+                  <li>They can be easily retried on the F1 server to hide transient errors</li>
+                  <li>Transaction state is kept on the client, therefore the client can
+failover to another F1 server if it chooses</li>
+                  <li>Clients can read values outside of a transaction and then write at
+some later time (great for MapReduce)</li>
+                </ul>
+              </li>
+              <li>Drawbacks
+                <ul>
+                  <li>Insertion Phantoms
+                    <ul>
+                      <li>Insertions can happen without being noticed because there is no
+timestamp at read time that can be passed to the client</li>
+                      <li>They use parent-table locks to avoid phantoms</li>
+                    </ul>
+                  </li>
+                  <li>Like many optimistic locking strategies, throughput goes down if there
+is high contention</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Locking Granularity
+            <ul>
+              <li>Row level locking by default</li>
+              <li>Additional lock columns can be added in the schema to cover a subset of
+the columns in the row</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Change History
+    <ul>
+      <li>While the Java libraries for accessing data in the AdWords MySQL cluster
+added change logs, Python scripts and other clients didn’t always do proper
+change logs</li>
+      <li>Change history is a “first-class feature”</li>
+      <li>Each F1 transaction creates one or more <strong>ChangeBatch</strong> protos that contain
+the PK and before and after values of each column</li>
+      <li>These records are added as children of their root table
+        <ul>
+          <li>Thus their are close to the data being tracked requiring no extra
+participants in the transaction</li>
+        </ul>
+      </li>
+      <li>The records have pointers to eachother if multiple rows were included in the
+same transaction</li>
+      <li>F1 publishes the change history for others to subscribe to</li>
+      <li>The authors discuss a cool use of this feature, a cache
+        <ul>
+          <li>An in-memory cache includes the timestamp of the data it caches</li>
+          <li>When a user commits data to F1 and subsequently reads from the cache
+(perhaps to show the data on the next page), it can request the data from
+the cache with the commit timestamp</li>
+          <li>If the cache is out of data, it can read the change history to catch up</li>
+          <li>Less intensive then a full refresh and is a simple cache invalidation
+method</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Client Design
+    <ul>
+      <li>ORM
+        <ul>
+          <li>I believe this section illustrates that thinking hard about good
+abstractions can really improve performance</li>
+          <li>In a way typical of many published Google projects, the authors limit the
+API to provided better guarantees</li>
+        </ul>
+      </li>
+      <li>NoSQL Interface
+        <ul>
+          <li>ORM uses the NoSQL interface under the hood</li>
+          <li>Clients can use it directly</li>
+          <li>Can sometimes be easier to read and write data</li>
+        </ul>
+      </li>
+      <li>SQL Interface
+        <ul>
+          <li>An extended SQL</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Query Processing
+    <ul>
+      <li>Can either be centrally excited for low-latency or distributed for high
+parallelism</li>
+      <li>To maximize pipelining, query plan operators stream results to the next
+operators as soon as possible</li>
+      <li>Distributed Queries
+        <ul>
+          <li>Always uses snapshot transactions</li>
+          <li>Good for OLAP style</li>
+          <li>Tasks are spread across the slave pool</li>
+          <li>All the data is remote (on Spanner/Colossus)</li>
+          <li>Network latency is mitigated by pipelining and batching</li>
+          <li>In this case, since there are many discs involved in the read, it’s fine
+to ignore conventional DBMS wisdom and issues many data accesses at the
+same time
+            <ul>
+              <li>They see near-linear speedup with this approach (until the storage is
+overloaded)</li>
+              <li>Their lookup join requests 50 MB of data and then looks up all the keys
+in the inner table simultaneously!
+                <ul>
+                  <li>WOAH!</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Their network fabric is such that servers on different racks can
+communicate at full link speed</li>
+          <li>Hash Join Partitioning
+            <ul>
+              <li>Repartitions both inputs with a hash function on the join key</li>
+              <li>Each worker deals with a shard of the data</li>
+              <li>The query planner determines the smallest input and each shard loads it
+into an in-memory hash table</li>
+            </ul>
+          </li>
+          <li>Distributed Aggregation
+            <ul>
+              <li>Buffer as much as possible in small buffers and then repartition the
+data by group key for final aggregation</li>
+            </ul>
+          </li>
+          <li>There is no checkpointing which means that if any component fails the
+entire query could fail</li>
+        </ul>
+      </li>
+      <li>Partitioned Consumers
+        <ul>
+          <li>The client might not be able to receive data at the rate F1 can produce
+it</li>
+          <li>Multiple clients can consume the result stream in parallel</li>
+          <li>Often used in MapReduce jobs</li>
+          <li>If a client doesn’t keep up, this can cause the F1 slaves to block,
+slowing other transactions</li>
+          <li>Eventually they are thinking of implementing a disk based buffer</li>
+        </ul>
+      </li>
+      <li>You can join on fields in a Protocol Buffer as part of the SQL</li>
+    </ul>
+  </li>
+  <li>Misc
+    <ul>
+      <li>MapReduce clients are allowed to communicate directly with Spanner for
+performance</li>
+      <li>Read only replicas allow for OLAP load to be on separate servers</li>
+      <li>3-way replication is not enough
+        <ul>
+          <li>If one replica is offline, F1 can not handle another failure as Paxos
+requires a majority of replicas</li>
+          <li>In practice they use 5 replicas (two east coast, two west coast and one
+centrally)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+
+
+
+
+	
+
+	
+
+	
+		
+		
+		
+			<div id="related">
+			  <h3><em>Other notes about database</em></h2>
+			  	<ul class="list-group">
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/bigtable/"><strong>Bigtable: A Distributed Storage System for Structured Data</strong></a>
+              [Google, 2006]
+             </li>
+            
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/cassandra/"><strong>Cassandra: A Decentralized Structured Storage System</strong></a>
+              [Facebook, 2009]
+             </li>
+            
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/dynamo/"><strong>Dynamo: Amazon's Highly Available Key-value Store</strong></a>
+              [Amazon, 2007]
+             </li>
+            
+			    
+			    	
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/spanner/"><strong>Spanner: Google's Globally-Distributed Database</strong></a>
+              [Google, 2012]
+             </li>
+            
+			    
+			    </ul>
+			</div>
+		
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>
