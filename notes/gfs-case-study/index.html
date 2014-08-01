@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-        <title>Finding a needle in Haystack: Facebook’s photo storage - Stephen Holiday</title>
+        <title>GFS: Evolution on Fast-forward - Stephen Holiday</title>
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -55,141 +55,93 @@
             <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <div id="content-header">
-<h1>Finding a needle in Haystack: Facebook’s photo storage <small>- Facebook, 2010</small></h1>
+<h1>GFS: Evolution on Fast-forward <small>- Google, 2009</small></h1>
 </div>
 
 <div id="post">
 <ul>
-  <li>[<a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf">Paper</a>]
-[<a href="http://notes.stephenholiday.com/Haystack.pdf">Mirror</a>]</li>
-  <li>
-    <p><a href="https://www.facebook.com/note.php?note_id=76191543919">Facebook Engineering Blog Post</a></p>
-  </li>
-  <li>Facebook found that their CDNs were great for handling the really popular
-photos but the long tail of access was huge. They couldn’t just cache
-everything.</li>
-  <li>In their existing NAS/NFS based system, “disk IOs for metadata was the
-limiting factor for [their] read throughput.”
+  <li>[<a href="http://queue.acm.org/detail.cfm?id=1594206">Article</a>]
+[<a href="http://notes.stephenholiday.com/GFS-Evolution-On-Fast-Forward.pdf">Mirror</a>]</li>
+</ul>
+
+<p>This is a discussion with Google engineer Sean Quinlan on <a href="/notes/gfs/">GFS</a>.</p>
+
+<ul>
+  <li>Single Master
     <ul>
-      <li>They optimized to get down to about 3 disk ops to read an image</li>
-      <li>Haystack can generally get it down to 1</li>
-    </ul>
-  </li>
-  <li>Architecture
-    <ul>
-      <li><strong>Store</strong>: Persistent storage of photos
+      <li>Simplify the design problem</li>
+      <li>Short time to deliver the system</li>
+      <li>Metadata increased linearly with the increased storage
         <ul>
-          <li>The storage on a single machine is segmented into <em>physical volumes</em> (~100
-with each holding about 100 GB)
-            <ul>
-              <li>Each physical volume is basically a large file
-                <ul>
-                  <li>It’s append only</li>
-                  <li>Each needle (the photo) also contains a checksum, the key, and
-a cookie
-                    <ul>
-                      <li>Cookie is used to verify requests come from a Directory generated
-URL to avoid brute forcing</li>
-                      <li>Though a user could still pass the URL to someone not permitted to
-see the photo</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>An in memory index allows the server to look up the image with
-approximately one disc operation (with the offset)
-            <ul>
-              <li>The index could be built from the file, but a check-pointed version is
-written to disk asynchronously (then only part of the file needs to be
-read)</li>
-            </ul>
-          </li>
-          <li>Deleted photos are marked in the needle (in the file)
-            <ul>
-              <li>A deleted photo still can cause a read of the needle but the server
-checks the needle for the deleted flag and updates it’s in memory index</li>
-            </ul>
-          </li>
-          <li>They use XFS - great for preallocating the physical volume file
-            <ul>
-              <li>1 GB extents and 256 kilobyte RAID stripes to minimize the number of
-times a needle lookup crosses a boundary (thus requiring more disk ops)</li>
-            </ul>
-          </li>
-          <li><strong>Logical volumes</strong> are made up of physical volumes on distinct machines
-            <ul>
-              <li>Each physical volume in the logical volume contains the same photos</li>
-              <li>Volumes are marked read-only at the granularity of a machine</li>
-            </ul>
-          </li>
-          <li>While the paper doesn’t state it, it seems to me that these machines could
-be heterogeneous with different numbers of physical volumes per node</li>
-          <li><strong>Directory</strong></li>
-          <li>Mapping of logical -&gt; physical volumes</li>
-          <li>Mapping of which logical volume each photo is on</li>
-          <li>Constructs a URL which allows the system to determine how to get the image
-without further interaction of the directory</li>
-          <li>When a write comes in, server asks the directory for a write-enabled
-logical volume. The server decides on a photo ID and uploads it to each
-physical volume in the logical volume</li>
-          <li>Directory load balances
-            <ul>
-              <li>writes across logical volumes</li>
-              <li>reads across physical volumes</li>
-            </ul>
-          </li>
-          <li>Data stored in replicated database (presumably MySQL) with memcached</li>
-          <li><strong>Cache</strong></li>
-          <li>Internal CDN</li>
-          <li>Shelters them when CDN nodes fail</li>
-          <li>Only caches a photo if:
-            <ol>
-              <li>request comes from the user, not CDN, <em>and</em></li>
-              <li>photo is read from a write-enabled volume</li>
-            </ol>
-          </li>
-          <li>They only need to protect write-enabled stores because read stores can
-handle the read fine. Mixing read and write on the same store is slow.</li>
-          <li>Most photos are read soon after uploading (i.e. in a write-enabled store)
-            <ul>
-              <li>They want to implement active push to the cache for new uploads</li>
-            </ul>
-          </li>
+          <li>From “a few hundred terabytes up to petabytes, and then up to tens of
+petabytes”</li>
+          <li>Scanning the chunks for GC took more time</li>
         </ul>
+      </li>
+      <li>Metadata had to remain in memory</li>
+      <li>Every client has to talk to the master to open a file</li>
+      <li>Ended up having multiple cells in the DC
+        <ul>
+          <li>Each with their own master</li>
+          <li>Run multiple chunkservers on each machine with each going to a different
+master</li>
+          <li>Use “Name Spaces” to differentiate. I’m assuming Borg’s NS.</li>
+        </ul>
+      </li>
+      <li>
+        <p>They put a lot of work into making the master more efficent</p>
+
+        <blockquote>
+          <p>“It’s atypical of Google to put a lot of work into tuning any one
+particular binary.”</p>
+        </blockquote>
       </li>
     </ul>
   </li>
-  <li>Recovery
+  <li>64 MB CHunk Size
     <ul>
-      <li>Have a system that regularly test the volumes
-        <ul>
-          <li>Marks them as read-only if there is repeated issues</li>
-          <li>Then a human manually address the problem</li>
-        </ul>
+      <li>Some users wanted to use GFS for small files &lt;1 MB</li>
+      <li>Thins incurs significant overhead in the system</li>
+      <li>
+        <p>They put quotas on the number of files and the size of storage</p>
+
+        <blockquote>
+          <p>“The limit that people have ended up running into most has been, by far,
+the file-count quota.”</p>
+        </blockquote>
       </li>
-      <li>Bulk syncs occur when they need to reset the data on a machine
-        <ul>
-          <li>Takes a very long time, but only happens a few times a month</li>
-        </ul>
-      </li>
+      <li>Smaller files also mean more seeking</li>
     </ul>
   </li>
-  <li>Compaction
+  <li>Throughput vs. Latency
     <ul>
-      <li>Online operation to reclaim space from deleted / <em>modified</em> photos
+      <li>GFS was designed for high throughput, high latency is OK</li>
+      <li><a href="/notes/bigtable/">BigTable</a>, built on top of GFS has a commit log on GFS</li>
+      <li>To alleviate the intermittent delays to write to the log, BigTable has two
+open commit logs and switches if one is slow</li>
+      <li>Gmail uses a multihomed approach across DCs</li>
+    </ul>
+  </li>
+  <li>Consistency
+    <ul>
+      <li>GFS does not guarantee that all of the replicas of a chunk are byte-wise
+identical</li>
+      <li>Duplicate records or half written records can appear
         <ul>
-          <li>“Over the course of a year, about 25% of photos get deleted”</li>
-          <li>Photos are never overwritten, just the latest version is considered
-the current version</li>
+          <li>GFS deals with half written records</li>
+          <li>Application has to deal with duplicates</li>
         </ul>
       </li>
-      <li>Store machine copies the needles that are not deleted or duplicates to a new
-file</li>
-      <li>Deletes go to both files</li>
-      <li>Once op is complete, blocks modifications and atomically swaps the files and
-in-memory index</li>
+      <li>When you read you aren’t guaranteed to get the latest data</li>
+      <li>People did not expect this behavior so it was surprising</li>
+      <li>Quinlan believes the right approach is to just have one writer per file</li>
+    </ul>
+  </li>
+  <li>Snapshot
+    <ul>
+      <li>They worked hard on a system to do great snapshots (really clones)</li>
+      <li>Quinlan notes that the feature is not used that often, despite it being
+really hard to build </li>
     </ul>
   </li>
 </ul>
@@ -215,13 +167,13 @@ in-memory index</li>
             
 			    
 			    	
-			    
-			    	
 			       <li class="list-group-item">
-              <a href="/notes/gfs-case-study/"><strong>GFS: Evolution on Fast-forward</strong></a>
-              [Google, 2009]
+              <a href="/notes/haystack/"><strong>Finding a needle in Haystack: Facebook’s photo storage</strong></a>
+              [Facebook, 2010]
              </li>
             
+			    
+			    	
 			    
 			    	
 			       <li class="list-group-item">
