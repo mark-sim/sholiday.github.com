@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>Tenzing: A SQL Implementation On The MapReduce Framework - Stephen Holiday</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" title="" type="application/atom+xml"/>
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!--<style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>-->
+        <link rel="stylesheet" href="/media/css/main.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Stephen Holiday</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                <li ><a href="/articles">Articles</a></li>
+                <li ><a href="/projects">Projects</a></li>
+                <li ><a href="/notes">Notes</a></li>
+                <li ><a href="/travel">Travel</a></li>
+                <li><a href="/resume">Resume</a></li>
+                <li ><a href="/contact">Contact</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="container-main" class="container clearfix">
+          <div style="margin:20px">
+            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<div id="content-header">
+<h1>Tenzing: A SQL Implementation On The MapReduce Framework <small>- Google, 2011</small></h1>
+</div>
+
+<div id="post">
+<ul>
+  <li>
+    <p>[<a href="">Paper</a>]
+[<a href="http://notes.stephenholiday.com/Tenzing.pdf">Mirror</a>]</p>
+  </li>
+  <li>They reach a latency “as low as ten seconds”</li>
+  <li>Designed to replace a third-part data warehouse (like a Greenplum or Vertica)
+for their Ads data
+    <ul>
+      <li>They were experiencing long load times</li>
+    </ul>
+  </li>
+  <li>Tenzing can use data on GFS, BigTable or even MySQL</li>
+  <li>The execution engine is MapReduce
+    <ul>
+      <li>They keep the latency low by keep workers active and ready</li>
+    </ul>
+  </li>
+  <li>Architecture
+    <ul>
+      <li><strong>Distributed Worker Pool</strong> - Execution system
+        <ul>
+          <li><strong>Master</strong>
+            <ul>
+              <li>Small pool of masters (“a few dozen”), they coordinate the work for the
+query across the worker nodes</li>
+            </ul>
+          </li>
+          <li><strong>Master Watcher</strong></li>
+          <li><strong>Worker Nodes</strong>
+            <ul>
+              <li>Workers poll the master for work</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Query Server</strong>
+        <ul>
+          <li>Parses and optimizes the query, transforming it into a physical plan</li>
+          <li>Query server finds a master with the help of the master watcher to submit
+a query</li>
+          <li>Monitors the result area for new data and reads it as it arrives, streamed
+to the lcient</li>
+        </ul>
+      </li>
+      <li><strong>Metadata Server</strong>
+        <ul>
+          <li>Holds table details / schemas, ACL</li>
+          <li>Uses BigTable</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>SQL - There’s a lot here, but I’m just focusing on parts that I found
+interesting
+    <ul>
+      <li>Projection and Filtering
+        <ul>
+          <li>If the source is indexed and the query uses a constant range the the
+compiler can just use the index for the particular range
+            <ul>
+              <li>Great for date scans and point queries</li>
+            </ul>
+          </li>
+          <li>Can use ColumnIO headers to determine if there is any relevant data in
+the file. If not, they can stop reading the file after the header.</li>
+        </ul>
+      </li>
+      <li>Aggregation
+        <ul>
+          <li>Hash Based
+            <ul>
+              <li>For a hash aggregation, there is no need for sorting the data before it
+reaches the reducer, they customized the MapReduce code to allow them
+to skip the sorting step</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Joins
+        <ul>
+          <li>Broadcast Join - Used if one of the tables can fit in memory on each node
+            <ul>
+              <li>The data-structure is determined at run time, can be an integer array or
+sparse integer map or a specific hash table implementation</li>
+              <li>Filters run on the join data while loading, and only columns that are
+required</li>
+              <li>They use a single copy of the data in memory shared between
+multi-threaded workers</li>
+              <li>If a table is used often and does not change, they’ll cache the data on
+local disk</li>
+            </ul>
+          </li>
+          <li>Remote Lookup Joins
+            <ul>
+              <li>If the source is index on the join key, Tenzing will look it up remotely
+asynchronously in a batch with an LRU cache</li>
+            </ul>
+          </li>
+          <li>Distributed Merge-Sort Joins
+            <ul>
+              <li>Used when the tables are roughly the same size</li>
+            </ul>
+          </li>
+          <li>Distributed Hash Joins
+            <ul>
+              <li>Used when one table is much larger than the other</li>
+              <li>Like aggregation, sorting is not required so it’s turned off for
+performance</li>
+              <li>Uses the partitioning phase on the join key</li>
+              <li>The mappers for both tables can be run in parallel</li>
+              <li>The join MapReduce can finish when one source MR finishes and the other
+starts creating data (does not have to wait for them to both finish)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Nested Queries
+        <ul>
+          <li>If multiple MR jobs are needed, Tenzing will put the following mapper in
+the same process as the mapper!</li>
+        </ul>
+      </li>
+      <li>Structured Data
+        <ul>
+          <li>Can only deal with flat relational data, protocol buffer fields must be
+flattened if they are used (unlike <a href="/notes/dremel/">Dremel</a>)</li>
+        </ul>
+      </li>
+      <li>Views
+        <ul>
+          <li>Logical, used for security</li>
+        </ul>
+      </li>
+      <li>DDL
+        <ul>
+          <li>The have tools that can look at a MySQL db and import the table schema
+automatically</li>
+          <li>They can determine the structure of Protocol Buffers</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Optimization
+    <ul>
+      <li>Tenzing streams results between MapReduce phases and use GFS as a backup</li>
+      <li>Chaining phases in memory, co-locating a reduce and subsequent map task in
+the same process</li>
+      <li>In traditional MapReduce jobs, row based serialization is used for
+intermediate data because it needs to be sorted
+        <ul>
+          <li>However, for some tasks that do not require sorting, they can use a
+<strong>block-based shuffle</strong> combining many rows into a compressed block of
+about 1 MB</li>
+          <li>They found this led to about 3X faster shuffling of data</li>
+        </ul>
+      </li>
+      <li>Tenzing can detect if it’s faster to just run the query locally</li>
+      <li><strong>Query Engine</strong>
+        <ul>
+          <li>Originally translated SQL to Sawzall then used Sawzall’s JIT
+            <ul>
+              <li>There was a high serialization / deserialization over head to convert to
+Sawzall’s type system</li>
+            </ul>
+          </li>
+          <li>The current implementation uses <a href="/notes/dremel/">Dremel</a>’s SQL expression
+evaluation engine
+            <ul>
+              <li>Faster than Sawzall but still slow due to it’s interpreter nature</li>
+            </ul>
+          </li>
+          <li>They are working on an LLVM implementation
+            <ul>
+              <li>So far they found it be very fast for many queries</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+		
+		
+		
+			<div id="related">
+			  <h3><em>Other notes about distributed computation</em></h2>
+			  	<ul class="list-group">
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/dremel/"><strong>Dremel: Interactive Analysis of Web-Scale Datasets</strong></a>
+              [Google, 2010]
+             </li>
+            
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/hive/"><strong>Hive: A Warehousing Solution Over a Map-Reduce Framework</strong></a>
+              [Facebook, 2009]
+             </li>
+            
+			    
+			    	
+			       <li class="list-group-item">
+              <a href="/notes/mapreduce/"><strong>MapReduce: Simplified Data Processing on Large Clusters</strong></a>
+              [Google, 2004]
+             </li>
+            
+			    
+			    	
+			    
+			    </ul>
+			</div>
+		
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+            <hr>
+
+            
+          </div>
+          <footer>
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/travel">Travel</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="http://feeds.feedburner.com/StephenHoliday" rel="alternate" type="application/rss+xml">RSS</a></li>
+                    <li><a href="http://ca.linkedin.com/in/stephenholiday"><img src="http://s.c.lnkd.licdn.com/scds/common/u/img/webpromo/btn_profile_greytxt_80x15.png" width="80" height="15" border="0" alt="View Stephen Holiday's profile on LinkedIn"></a></li>
+                  </ul>
+                  <br />
+                  <br>
+                  <p>&copy; Stephen Holiday - stephen@stephenholiday.com</p>
+                </div>
+                
+              </div>
+
+            </footer>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-17445820-1']);
+          _gaq.push(['_setDomainName', '.stephenholiday.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+    </body>
+</html>
