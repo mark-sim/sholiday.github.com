@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-        <title>GraphChi: Large-Scale Graph Computation on Just a PC - Stephen Holiday</title>
+        <title>Pregel: A System for Large-Scale Graph Processing - Stephen Holiday</title>
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -55,39 +55,130 @@
             <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <div id="content-header">
-<h1>GraphChi: Large-Scale Graph Computation on Just a PC <small>- CMU, 2012</small></h1>
+<h1>Pregel: A System for Large-Scale Graph Processing <small>- Google, 2010</small></h1>
 </div>
 
 <div id="post">
 <ul>
-  <li>[<a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-126.pdf">Paper</a>]
-[<a href="http://notes.stephenholiday.com/GraphChi.pdf">Mirror</a>]</li>
-  <li>
-    <p>[<a href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/kyrola">OSDI’12</a>] [<a href="https://2459d6dc103cb5933875-c0245c5c937c5dedcca3f1764ecc9b2f.ssl.cf2.rackcdn.com/osdi12/kyrola.mp4">Video</a>]</p>
-  </li>
-  <li>Big Graph Problems are not the same as Big Data Problems
+  <li>[<a href="">Paper</a>]
+[<a href="http://notes.stephenholiday.com/Pregel.pdf">Mirror</a>]</li>
+</ul>
+
+<blockquote>
+  <p>“Graph algorithms often exhibit poor locality of memory access, very little
+work per vertex, and a changing degree of parallelism over the course of
+execution.”</p>
+</blockquote>
+
+<ul>
+  <li>Overview of a Pregel Computation
     <ul>
-      <li>The actual data can fit on a hard drive.</li>
-    </ul>
-  </li>
-  <li><strong>Main Problem</strong>: Random access on a drive is slow</li>
-  <li>Parallel Sliding Windows: Load/Process/Store all of the data of the adjacent edges at the same time.
-    <ul>
-      <li>Graph is stored as in-edges.</li>
-      <li>Split the vertices across P shards (each a file on disk, each file has all the incoming edges to that vertex).</li>
-      <li>Sort the edges in each file by the source vertex.</li>
-      <li>Let’s try and load the sub-graph of shard 1:
-        <ol>
-          <li>Load the first file, now we have all of the in-edges for the subgraph.</li>
-          <li>Since the other files are sorted by source vertex, all of the out-edges will be at the start of the other shards! We load those.</li>
-        </ol>
+      <li>A sequence of iterations called <em>supersteps</em>
+        <ul>
+          <li>Execute the user function on each vertex
+            <ul>
+              <li>This function can send messages to any other vertex (to be read in the
+next superstep),</li>
+              <li>read messages from other vertexes (from the previous superstep),</li>
+              <li>add or remove out edges,</li>
+              <li>mutate a vertex state,</li>
+              <li>and mutate out-edge state</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>At the end of each user function, the vertex can vote to halt and
+deactivates itself
+        <ul>
+          <li>If a vertex receives a message it is reactivated</li>
+          <li>Once all vertexes have voted to halt and there are no messages in transit,
+the computation halts</li>
+        </ul>
       </li>
     </ul>
   </li>
-  <li>In total, <code>P^2</code> reads and writes for a full pass on the graph.
-  But P is relatively small. Thus few random reads.</li>
-  <li><strong>Main Takeway</strong>: Sometimes by using algorithms and datastructures more cleverly we can achieve similar performance on a single machine.</li>
+  <li>The graph is directed, edges are stored with the source vertex</li>
+  <li>The output of a computation is the values output by the vertexes
+    <ul>
+      <li>Often this is a smaller directed graph (i.e. a small cluster or MST)</li>
+      <li>Could also be a few aggregate values</li>
+    </ul>
+  </li>
+  <li>Message Passing instead of Remote Reads
+    <ul>
+      <li>Sufficiently Expressive</li>
+      <li>Better Performance</li>
+      <li>They can asynchronously batch messages
+        <ul>
+          <li>I note that they can also be streaming out messages while still running
+vertex programs on other parts of the partition</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>API Notes
+    <ul>
+      <li>Combiners, like a MapReduce combiner, they can mitigate the overhead of
+message passing for some computations by having a combiner</li>
+      <li>Aggregators
+        <ul>
+          <li>Useful for graph wide statistics</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Mutating the Graph
+    <ul>
+      <li>They need to be careful with how they deal with mutations that change the
+same part of the graph</li>
+      <li>They use a specific ordering:
+        <ol>
+          <li>Edge Removals</li>
+          <li>Vertex Removals</li>
+          <li>Vertex Additions</li>
+          <li>Edge Additions</li>
+          <li>Then <code>Compute()</code>, the vertex program</li>
+        </ol>
+      </li>
+      <li>They provide mechanisms to override the behavior when there are multiple
+requests to create the same vertex</li>
+    </ul>
+  </li>
+  <li>Partitioning
+    <ul>
+      <li>Assignment is based on Vertex ID</li>
+      <li>Users can replaces the basic <code>hash(id) mod N</code> partitioner</li>
+      <li>Some users partition the graph so that vertices from the same web site are
+located on the same partition
+        <ul>
+          <li>I wonder how they deal with large websites like Wikipedia</li>
+          <li>Perhaps they don’t all go to the same shard, or maybe they can special
+case a small set of large sites</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Cluster Architecture
+    <ul>
+      <li>They launch Pregel on a set of machines, one of which is designated as the
+master
+        <ul>
+          <li>Probably through Chubby or ZooKeeper style node ordering</li>
+        </ul>
+      </li>
+      <li>The rest send registration messages to the master</li>
+      <li>Master assigns one or more partitions to each worker</li>
+      <li>Each worker knows about the partitioning layout</li>
+      <li>Master assigns a part of the input to each worker
+        <ul>
+          <li>The workers enqueue vertices that are meant to go to other workers</li>
+          <li>I wonder if it might be faster to prepartition the graph </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
+
 
 </div>
 
@@ -119,6 +210,11 @@
 			  	<ul class="list-group">
 			    
 			    	
+			       <li class="list-group-item">
+              <a href="/notes/graphchi/"><strong>GraphChi: Large-Scale Graph Computation on Just a PC</strong></a>
+              [CMU, 2012]
+             </li>
+            
 			    
 			    	
 			       <li class="list-group-item">
@@ -128,11 +224,6 @@
             
 			    
 			    	
-			       <li class="list-group-item">
-              <a href="/notes/pregel/"><strong>Pregel: A System for Large-Scale Graph Processing</strong></a>
-              [Google, 2010]
-             </li>
-            
 			    
 			    </ul>
 			</div>
