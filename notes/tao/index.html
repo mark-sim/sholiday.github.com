@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-        <title>PNUTS: Yahoo!'s Hosted Data Serving Platform - Stephen Holiday</title>
+        <title>TAO: Facebook’s Distributed Data Store for the Social Graph - Stephen Holiday</title>
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -64,162 +64,211 @@
             <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <div id="content-header">
-<h1>PNUTS: Yahoo!'s Hosted Data Serving Platform <small>- Yahoo!, 2008</small></h1>
+<h1>TAO: Facebook’s Distributed Data Store for the Social Graph <small>- Facebook, 2013</small></h1>
 </div>
 
 <div id="post">
 <ul>
   <li>
-    <p>[<a href="http://www.mpi-sws.org/~druschel/courses/ds/papers/cooper-pnuts.pdf">Paper</a>]
-[<a href="http://notes.stephenholiday.com/PNUTS.pdf">Mirror</a>]</p>
+    <p>[<a href="http://0b4af6cdc2f0c5998459-c0245c5c937c5dedcca3f1764ecc9b2f.r43.cf2.rackcdn.com/11730-atc13-bronson.pdf">Paper</a>]
+[<a href="http://notes.stephenholiday.com/TAO.pdf">Mirror</a>]</p>
   </li>
-  <li>Designed for low latency, goes for eventual consistency</li>
-  <li>Uses an interesting technique of record level pub/sub instead of a replicated
-log
+  <li>Read-optimized store for the social graph</li>
+  <li>Uses MySQL for the backing store, but manages in-memory cache that is aware
+of the the graph structure</li>
+  <li>Issues with Memcache
     <ul>
-      <li>(Which I argue can emulate pub/sub)</li>
-      <li>pub/sub makes it easy for them to have asynchronous notifications to
-applications and caches</li>
+      <li>Inefficient for large edge lists (you have to retrieve the whole list)
+        <ul>
+          <li>I wonder if memcache could be modified to return a certain number of bytes
+at a time. Then use a streaming serialization protocol (or framing)</li>
+        </ul>
+      </li>
+      <li>Clients do not communicate with each other. This can lead to the infamous
+<em>thundering herds</em> problem</li>
+      <li>Read-after write consistency is expensive</li>
     </ul>
   </li>
-  <li>Transactional but not serializable</li>
-  <li>Schemas are flexible (records are stored as JSON in MySQL)</li>
-  <li>Can do selections and projects from a single table</li>
-  <li>Updates and deletes can only be done by a specified key</li>
-  <li>Hashed or ordered</li>
-  <li>Does no support joins or group by</li>
-  <li>Provides <em>per-record timeline consistency</em>
+  <li>Data Model
     <ul>
-      <li>That is, all replicas apply updates in the same order, though different
-replicas may have older versions for a period of time</li>
-      <li>Each record has a version number prefixed with a generation number
+      <li><em>objects</em>: Typed nodes
         <ul>
-          <li>The generation number is incremented on an insert</li>
-          <li><code>v2.3</code> is the 3rd update of the second generation</li>
-          <li>They seem to use the <code>v2.0</code> to indicate it is deleted</li>
+          <li>Unique 64-bit ID</li>
         </ul>
       </li>
-      <li>The replica with the majority of writes becomes the master of the record
+      <li><em>associations</em>: Typed directed edges
         <ul>
-          <li>Each record has a list of the origin of the last N writes (typically 3)</li>
-          <li>This uses 2-bytes per record</li>
-          <li>The mastership can move between replicas</li>
-          <li>I’m not clear on how this prevents two replicas from believing they are
-the master and progressing separately</li>
+          <li>Has a 32-bit time field</li>
         </ul>
       </li>
+      <li>(It’s unclear why they chose these names)</li>
+      <li>Both objects and associations can have key/value pairs (determined by
+schema)</li>
     </ul>
   </li>
   <li>API
     <ul>
-      <li><code>Read-any</code> - Possibly stale read</li>
-      <li><code>Read-critical(version)</code> - Read a version at least as new as the supplied
-version</li>
-      <li><code>Read-latest</code> - For some reason they do not have to go to the master for
-this read, only in some circumstances</li>
-      <li><code>Write</code></li>
-      <li><code>Test-and-set-write(version)</code> - Only writes if the current version is the
-same as the supplied version</li>
-      <li>Results can be streamed back to the client as they arrive</li>
+      <li>No compare-and-set for objects</li>
+      <li>Associations can be kept in sync with there inverses automatically</li>
+      <li>The authors note that most data in a social graph is old and most queries
+are for recent data
+        <ul>
+          <li>Thus, associations are stored so that the most recent associations are
+easy to retrieve</li>
+        </ul>
+      </li>
+      <li>I opted to not list all of the API here</li>
+      <li>TAO API is mapped to a small set of SQL queries</li>
     </ul>
   </li>
   <li>Architecture
     <ul>
-      <li>Divided into <strong>regions</strong>
+      <li><strong>Storage Layer</strong>
         <ul>
-          <li>Each region holds a complete copy of each table</li>
-          <li>The authors claim that multiple copies allows them to eschew the use of
-backups
+          <li>MySQL is the backing store</li>
+          <li>They might be using RocksDB now</li>
+          <li>Many more shards than servers to allow for load balancing</li>
+          <li>The object ID includes the shard ID</li>
+          <li>Associations are stored on the same shard of it’s source object</li>
+        </ul>
+      </li>
+      <li><strong>Caching Layer</strong>
+        <ul>
+          <li>Organized in tiers like <a href="/notes/unicorn/">Unicorn</a>
             <ul>
-              <li>I question this mentality. What about software bugs or user error?</li>
+              <li>Each tier can service any request</li>
+            </ul>
+          </li>
+          <li>Clients determine which cache server to query</li>
+          <li>If there is a miss or a write, the cache server communicates with others</li>
+          <li>Cache is filled on demand and uses LRU</li>
+          <li>Cache understands the semantics and can retrieve data even if the exact
+same query had not been issued before</li>
+          <li>Write opts may involve two shards (inverse relationships)
+            <ul>
+              <li>There is no atomicity between the two writes</li>
+              <li>They have a job that repairs these relationships</li>
+            </ul>
+          </li>
+          <li>Load is balanced among cloned shards, updates are sent to all clones</li>
+          <li>If an object is request a lot, the cache server responds with a version
+            <ul>
+              <li>The client caches the data and version</li>
+              <li>In subsequent requests, the client sends the version and the cache
+server only returns data if the object has changed</li>
+            </ul>
+          </li>
+          <li>Some objects have a large number of out edges
+            <ul>
+              <li>If a client is testing for the existence of an edge and the edge list
+does not fit in the cache, the request will need to go to MySQL</li>
+              <li>A solutions is to query in the other direction if the destination
+vertex will have less out edges</li>
+              <li>Since an edge can only be added after the object was created, the search
+in the edge list can terminate after the known creation time of the
+destination object</li>
             </ul>
           </li>
         </ul>
       </li>
-      <li>Each table is horizontally partitioned into <strong>tablets</strong> (<em>a la</em>
-<a href="/notes/bigtable/">Bigtable</a>)
+      <li><strong>Client</strong>
         <ul>
-          <li>In the range of hundreds of megabytes to a few gigabytes</li>
+          <li>Multiplexed connections to avoid head-of-line blocking</li>
         </ul>
       </li>
-      <li><strong>Tablet controller</strong> owns the mapping from key to tablet
+      <li><strong>Leaders and Followers</strong>
         <ul>
-          <li>Interval mapping, as some table are ordered</li>
-          <li>Pair of active/standby servers</li>
-          <li>They use a 2PC when splitting tablets</li>
-        </ul>
-      </li>
-      <li><strong>Router</strong> holds a cached copy
-        <ul>
-          <li>If a request is misdirected, the tablet server will return an error that
-will cause the router to retrieve a new copy</li>
-          <li>They mention that the router is not on the data path, so I wonder how they
-receive the error about the misdirection
+          <li>Followers forward all writes and cache misses to the leader tier</li>
+          <li>Leader sends async cache maintenance messages to follower tier
             <ul>
-              <li>Does the client request the location then query the tablet?
+              <li>Eventually Consistent</li>
+            </ul>
+          </li>
+          <li>If a follower issues a write, the follower’s cache is updated
+synchronously</li>
+          <li>Each update message has a version number</li>
+          <li>Leader serializes writes</li>
+        </ul>
+      </li>
+      <li>Multi-DC
+        <ul>
+          <li>Read misses are more common than writes in the follower tier</li>
+          <li>They developed a scheme to service the read misses locally</li>
+          <li>They can not afford a full replica in every DC
+            <ul>
+              <li>Instead they cluster DCs into regions that are close geographically</li>
+              <li>Shards of the dataset are arranged in a master/slave relationship</li>
+              <li>Followers send read misses and write requests to the local leader
                 <ul>
-                  <li>On an error, the tablet server could send an error to the router based
-on a field in the request?</li>
+                  <li>Local leaders service read misses locally</li>
+                  <li>Slave leaders forward writes to the master shard
+                    <ul>
+                      <li>The slave leader will update it’s cache ahead of the async updates
+to the persistent store</li>
+                    </ul>
+                  </li>
                 </ul>
               </li>
-              <li>Does the router forward the request but then has the router send the
-data to the client directly?</li>
             </ul>
           </li>
+          <li>The same services many shards and thus is master for some and slave for
+others</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Replication
+  <li>Cache Servers
     <ul>
-      <li>“Updates are considered ‘committed’ when they have been published to YMB”
+      <li>Memory is partitioned into arenas by association type
         <ul>
-          <li>YMB is their globally distributed message broker</li>
+          <li>This mitigates the issues of poorly behaved association types</li>
+          <li>They can also change the lifetime for important associations</li>
         </ul>
       </li>
-      <li>YMB can handle single broker failures by logging messages to multiple
-servers
+      <li>Small items have a lot of pointer overhead
         <ul>
-          <li>What about failure of a broker during a maintenance event?</li>
-        </ul>
-      </li>
-      <li>Initially two copies are logged and then more as the data propagates
-asynchronously</li>
-      <li>Messages delivered to a particular YMB cluster will be delivered in order
-        <ul>
-          <li>This differs from <a href="/notes/kafka/">Kafka</a> which only promises per-broker
-ordering</li>
-        </ul>
-      </li>
-      <li>To have per-record timeline consistency, all mutations for a given record
-must go to the same YMB cluster
-        <ul>
-          <li>Updates are forwarded to the master of the record to be committed</li>
+          <li>They use a directly mapped 8-way LRU cache</li>
+          <li>Used for association counts</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Recovery
-    <ol>
-      <li>Tablet controller requests a copy from a source tablet</li>
-      <li>A <em>checkpoint message</em> is published to YMB with the goal of having “any
-in-flight updates at the time the copy is initiated are applied to the
-source tablet”</li>
-      <li>Source tablet is copied to destination region</li>
-    </ol>
-  </li>
-  <li>Future Ideas
+  <li>MySQL
     <ul>
-      <li>They’d like to have indexes and materialized views
+      <li>Most objects are stored in the same table with a serialized data column</li>
+      <li>Some objects are given their own table with a more efficient schema</li>
+    </ul>
+  </li>
+  <li>Consistency
+    <ul>
+      <li>Read-after-write within a tier</li>
+      <li>If a read is marked critical, they are sent to the master region</li>
+    </ul>
+  </li>
+  <li>Failure Detection
+    <ul>
+      <li>“Aggresive network timeouts”
         <ul>
-          <li>Their plan is to asynchronously update these by monitoring the change
-stream</li>
-          <li>A clever idea if their customers are OK with delayed information</li>
+          <li>Per-destination timeouts and remembers hosts that are down to avoid
+attempting to connect to them</li>
+          <li>Periodically check to see if the node is back up</li>
         </ul>
       </li>
+      <li>When a slave store is down, a binlog tailer is added that is used to refill
+the data once the slave comes back up</li>
     </ul>
+  </li>
+  <li>
+    <p>In reference to Dynamo:</p>
+
+    <blockquote>
+      <p>“TAO accepts lower write availability than Dynamo in exchange for avoiding
+the programming complexities that arise from multi-master conflict
+resolution.”</p>
+    </blockquote>
   </li>
 </ul>
+
 
 </div>
 
@@ -274,6 +323,11 @@ stream</li>
             
 			    
 			    	
+			       <li class="list-group-item">
+              <a href="/notes/pnuts/"><strong>PNUTS: Yahoo!'s Hosted Data Serving Platform</strong></a>
+              [Yahoo!, 2008]
+             </li>
+            
 			    
 			    	
 			       <li class="list-group-item">
@@ -283,11 +337,6 @@ stream</li>
             
 			    
 			    	
-			       <li class="list-group-item">
-              <a href="/notes/tao/"><strong>TAO: Facebook’s Distributed Data Store for the Social Graph</strong></a>
-              [Facebook, 2013]
-             </li>
-            
 			    
 			    </ul>
 			</div>
