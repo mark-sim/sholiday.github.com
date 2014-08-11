@@ -181,7 +181,75 @@ master
       <li>Master assigns a part of the input to each worker
         <ul>
           <li>The workers enqueue vertices that are meant to go to other workers</li>
-          <li>I wonder if it might be faster to prepartition the graph </li>
+          <li>I wonder if it might be faster to prepartition the graph</li>
+        </ul>
+      </li>
+      <li>During each superstep, messages are sent asynchronously to overlap
+computation and network usage</li>
+    </ul>
+  </li>
+  <li>Fault Tolerance
+    <ul>
+      <li>Checkpointing is the main mechanism</li>
+      <li>Before a superstep, the master tells all workers to save their state
+(including incoming messages) to a persistent store (probably
+<a href="/notes/gfs/">GFS</a>)</li>
+      <li>Master actively pings workers (not the other way around)
+        <ul>
+          <li>If the worker does not receive a ping, it kills itself</li>
+          <li>The master resigns the partitions to other nodes
+            <ul>
+              <li>All nodes restart their work from the last checkpoint</li>
+              <li>They can’t just resume the failed partitions</li>
+            </ul>
+          </li>
+          <li>If this was a common problem, I think all messages could be logged and
+then replayed on the restarted nodes. However, there is a high cost
+associated with that persistence and you need to be careful about
+nondeterministic compuations
+            <ul>
+              <li><strong>Woah</strong>, I wrote that idea a several days after reading the paper for
+the first time. Turns out that is exactly what Pregel does</li>
+              <li>Their implementation cleverly uses local disk. It’s fast and since we
+only need to access local disk for the nodes that are still up!</li>
+              <li>The authors note that many algorithms can be made deterministic, even
+random ones (deterministic seed)</li>
+              <li>They call their technique <em>confined recovery</em></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Worker Notes
+    <ul>
+      <li>Messages for remote vertexes are buffered
+        <ul>
+          <li>Once the buffer reaches a specified size, the buffer is flushed
+ asynchronously (as a batch)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Master Notes
+    <ul>
+      <li>The datastructures for the master is proportional to the partition count,
+not the size of the graph</li>
+    </ul>
+  </li>
+  <li>Aggregators
+    <ul>
+      <li>Instead of bombarding the master with all of the intermediate values, the
+aggregation messages are sent in a tree structure
+        <ul>
+          <li>The authors note that this makes use of many CPUs for the reduction</li>
+        </ul>
+      </li>
+      <li>The value is sent to the master at the start of the next superstep</li>
+      <li>They do not discuss how the create this tree nor how failures are detected
+        <ul>
+          <li>I wonder if they just use the node numbers to determine the place in the
+tree (similar to how we can represent a binary tree in an array)</li>
         </ul>
       </li>
     </ul>
