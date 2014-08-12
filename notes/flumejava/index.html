@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-        <title>MapReduce: Simplified Data Processing on Large Clusters - Stephen Holiday</title>
+        <title>FlumeJava: Easy, Efficient Data-Parallel Pipelines - Stephen Holiday</title>
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -64,89 +64,109 @@
             <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <div id="content-header">
-<h1>MapReduce: Simplified Data Processing on Large Clusters <small>- Google, 2004</small></h1>
+<h1>FlumeJava: Easy, Efficient Data-Parallel Pipelines <small>- Google, 2010</small></h1>
 </div>
 
 <div id="post">
 <ul>
-  <li>[<a href="http://research.google.com/archive/mapreduce.html">Paper</a>]
-[<a href="http://notes.stephenholiday.com/MapReduce.pdf">Mirror</a>]</li>
-  <li>[<a href="http://research.google.com/archive/mapreduce-osdi04-slides/index.html">Slides</a>]</li>
+  <li>[<a href="http://pages.cs.wisc.edu/~akella/CS838/F12/838-CloudPapers/FlumeJava.pdf">Paper</a>]
+[<a href="http://notes.stephenholiday.com/FlumeJava.pdf">Mirror</a>]</li>
 </ul>
 
-<p>Since I’ve used Hadoop for a while, I’m concentrating on the interesting points
-from Google’s implementation.</p>
+<p>FlumeJava is a Java library to build data pipelines. While writing a single
+MapReduce job is not terribly difficult, writing the glue code between many jobs
+is cumbersome and prone to error. Additionally, code is not very modular as
+each stage tends to bake in the the glue code (reading the previous stages
+output for example). FlumeJava allows for computation to be modular and separate
+from the pipeline.</p>
 
-<blockquote>
-  <p>“MapReduce exploits a restricted programming model to parallelize the user
- program automatically and to provide transparent fault-tolerance”</p>
-</blockquote>
-
-<p>I believe this is emblematic of a lot of Google worker. Restricting the API to
-give greater guarantees.</p>
+<p>While FlumeJava translates to MapReduce steps, I’d like to see a FlumeJava that
+translates to <a href="/notes/millwheel/">MillWheel</a> computations. While on the
+Streaming Compute team at Twitter, I noticed a lot of Storm users really liked
+the abstractions provided by Trident. Even if they didn’t need the exactly-once
+processing.</p>
 
 <ul>
-  <li>Intermediate keys and values must be the same type as the output keys and
-values. This is not the case with the current Hadoop implementation.</li>
-  <li>The authors also mention that MapReduce could be applied to a shared memory
-system or NUMA multi-processor system</li>
-  <li>Notes on Execution
+  <li>
+    <p>Core Abstractions</p>
+
+    <p>I don’t cover all of them of course, just some of them.</p>
+
     <ul>
-      <li>Intermediate values are written to local disk periodically, partitioned
-by key
+      <li><code>recordsOf(...)</code> describes the serialization format</li>
+      <li><code>PTable&lt;K,V&gt;</code> represents a immutable multi-map
         <ul>
-          <li>It sends these locations to the master</li>
+          <li>It’s just a sublcass of <code>PCollection&lt;Pair&lt;K,V&gt;&gt;</code></li>
         </ul>
       </li>
-      <li>Reducer learns about the locations from the master and reads the appropriate
-partitions via RPC directly from the Mapper</li>
-      <li>Once all of the data is received, the reducer sorts the data, possibly with
-an external sort
+      <li><code>parrallelDo(...)</code> runs a function against each element in the collection
         <ul>
-          <li>I wonder if some speculative partial reduction work could be done or some
-sort of heap style sort that could start immediately</li>
-          <li>However, it’s probably better use of the machine to have it running other
-work instead</li>
+          <li>i.e. map</li>
+          <li>They also provide many other variants to convey the semantics of the
+computation to the optimizer</li>
         </ul>
       </li>
-      <li>Reducer output goes to GFS
+      <li><code>groupByKey(...)</code> represents the shuffle step in MapReduce</li>
+      <li><code>combineValues(...)</code> transforms
+<code>PTable&lt;L, Collection&lt;V&gt;&gt; -&gt; PTable&lt;K, V&gt;</code> with an associative combining
+function</li>
+      <li>FlumeJava also provides the obligatory <code>join()</code>, derived from the other
+operations, that transforms
+<code>(PTable&lt;K, V1&gt;, PTable&lt;K, V2&gt;) -&gt; PTable&lt;K, Tuple2&lt;Collection&lt;V1&gt;, Collection&lt;V2&gt;</code></li>
+    </ul>
+  </li>
+  <li>Optimizer
+    <ul>
+      <li><em>ParallelDo</em> Fusion
         <ul>
-          <li>Once the reducer finishes, it atomically renames the output file</li>
+          <li>Producer-Consumer Fusion: function-composition</li>
+          <li>Sibling Fusion: Combines mappers that read the same input</li>
+        </ul>
+      </li>
+      <li>
+        <p><em>MapShuffleCombineReduce</em> (MSCR)</p>
+
+        <blockquote>
+          <p>“MSCR generalizes MapReduce by allowing multiple reducers and combiners,
+by allowing each reducer to produce multiple out-puts.”</p>
+        </blockquote>
+
+        <ul>
+          <li>The generalization is great for optimization</li>
+        </ul>
+      </li>
+      <li>Strategy
+        <ul>
+          <li>Sink Flattens - <code>h(f(a) + g(b)) -&gt; h(f(a)) + h(g(b))</code>
+            <ul>
+              <li>Creates opportunities for fusion</li>
+            </ul>
+          </li>
+          <li>Lift <code>combineValues</code> - A <code>combineValues</code> that follows a <code>groupByKey</code> is
+unnecessary</li>
+          <li>Insert fusion blocks - Combine <code>groupByKey</code>s together</li>
+          <li>Fuse <code>parallelDo</code>s</li>
+          <li>Fuse MCSRs</li>
+        </ul>
+      </li>
+      <li>Future Work
+        <ul>
+          <li>Currently FlumeJava does not analyze the code in user functions</li>
+          <li>If it did, it might be able to perform CSE</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Master does not currently checkpoint, the user must rerun the job
+  <li>Executor
     <ul>
-      <li>The authors say it would be easy</li>
-    </ul>
-  </li>
-  <li>At the time, network bandwidth was scarce
-    <ul>
-      <li>They had the cluster scheduler assign map tasks on the same machines that
-held the data in GFS or very close to the same machine</li>
-      <li>Now that Google has a better network fabric, I wonder how it changes things</li>
-    </ul>
-  </li>
-  <li>They have the ability to skip bad records
-    <ul>
-      <li>When an error occurs (i.e. segfault), they have a handler that sends a quick
-UDP packet to the master with the offset</li>
-      <li>If the master receives this message from two workers, when it reschedules
-the task, it will notify the worker to skip the record</li>
-      <li>This is super cool!
+      <li>FlumeJava can cache intermediate results for reuse in debugging and testing
         <ul>
-          <li>I didn’t know this existed, but
-<a href="https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapred/SkipBadRecords.html">it does</a>!</li>
-          <li>Interestingly, the JavaDoc steals directly from the paper in the
-description</li>
+          <li>I think this shows a great attention to the user</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>They recognize the benefit of having a local version where the user can debug
-with GDB</li>
-  <li>Counter values are piggybacked on the heartbeat response</li>
+  <li>The authors note that Cascading program is an explicit dataflow graph</li>
 </ul>
 
 </div>
@@ -178,11 +198,6 @@ with GDB</li>
             
 			    
 			    	
-			       <li class="list-group-item">
-              <a href="/notes/flumejava/"><strong>FlumeJava: Easy, Efficient Data-Parallel Pipelines</strong></a>
-              [Google, 2010]
-             </li>
-            
 			    
 			    	
 			       <li class="list-group-item">
@@ -192,6 +207,11 @@ with GDB</li>
             
 			    
 			    	
+			       <li class="list-group-item">
+              <a href="/notes/mapreduce/"><strong>MapReduce: Simplified Data Processing on Large Clusters</strong></a>
+              [Google, 2004]
+             </li>
+            
 			    
 			    	
 			       <li class="list-group-item">
