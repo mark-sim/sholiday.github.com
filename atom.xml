@@ -4,7 +4,7 @@
  <title>Stephen Holiday</title>
  <link href="http://stephenholiday.com/atom.xml" rel="self"/>
  <link href="http://stephenholiday.com/"/>
- <updated>2014-08-16T17:10:06-04:00</updated>
+ <updated>2014-09-07T23:23:42-07:00</updated>
  <id>http://stephenholiday.com/</id>
  <author>
    <name>Stephen Holiday</name>
@@ -13,9 +13,244 @@
 
  
  <entry>
+   <title>Spaced Repetition: My Learning Secret</title>
+   <link href="http://stephenholiday.com/articles/2014/spaced-repetition"/>
+   <updated>2014-09-08T00:00:00-07:00</updated>
+   <id>http://stephenholiday/articles/2014/spaced-repetition</id>
+   <content type="html">&lt;p&gt;There are people who can study the night before a test and ace it. I am not one
+of those people.&lt;/p&gt;
+
+&lt;p&gt;Although I loved school, I was really bad at studying. In fact, I hated
+studying. I studied by reading my notes and the textbook, trying to make sure I
+understood the &lt;em&gt;“fundamentals”&lt;/em&gt; and &lt;em&gt;“core concepts”&lt;/em&gt;. Of course, I did this in
+the days or hours leading up to a test. Even when I started to study earlier, I
+found I needed to go back over content I already thought I had &lt;em&gt;“learned”&lt;/em&gt;.
+Studying was boring, discouraging, and ineffective.&lt;/p&gt;
+
+&lt;p&gt;During university I stumbled upon a technique that allows me to learn and retain
+information extremely well — spaced repetition.&lt;/p&gt;
+
+&lt;h2 id=&quot;spaced-repetition&quot;&gt;Spaced Repetition&lt;/h2&gt;
+
+&lt;p&gt;The gist is you make a set of flashcards using software and practice them every
+day. Every time you review a card, you can tell the program if you knew the
+answer and how easily you recalled it.&lt;/p&gt;
+
+&lt;p&gt;Now, that’s easier said then done. This technique is not a shortcut to learning
+by any measure. Learning using spaced repetition takes a lot of time and effort.
+You must review your cards every day.&lt;/p&gt;
+
+&lt;p&gt;We all know that over time our memory for facts decays. It turns out that if we
+cause our mind to recall a fact right before we are about to forget it, we will
+strengthen the memory. In more concrete terms, if we learn a fact, recall it in
+increasing intervals of say 10 minutes, 1 day, 3 days, 5 days and so on we will
+be able to remember it for much longer. For a better overview of the science,
+checkout &lt;a href=&quot;https://en.wikipedia.org/wiki/Spaced_repetition&quot;&gt;this Wikipedia article&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Spaced Repetition Software manages this for us. Here’s an example of one of my
+cards from a Computer Architecture course:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/spaced/1.png&quot; alt=&quot;Example Card&quot; /&gt;
+&lt;img src=&quot;/media/img/spaced/2.png&quot; alt=&quot;Example Card Back&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note the time on this card is a little extreme because I haven’t reviewed this
+card in over a year. You can see that I provide a lot of context on my cards. I
+also included an excerpt of the lecture slide. I’ll talk more about constructing
+good cards in a bit.&lt;/p&gt;
+
+&lt;h2 id=&quot;learning-or-memorizing&quot;&gt;Learning or Memorizing&lt;/h2&gt;
+
+&lt;p&gt;When I’ve told friends about the technique, they are skeptical that I actually
+learn anything and posit that I am just blindly memorizing. I too initially
+thought flashcards were only for pure memorization.&lt;/p&gt;
+
+&lt;p&gt;I initially tried spaced repetition originally because a lot of concept heavy
+courses still had facts or rules that I frequently forgot. During an exam I
+would know what the question was asking, how to answer the question and even
+most of the facts or rules. However most is not all.&lt;/p&gt;
+
+&lt;p&gt;As I used spaced repetition more often, I found myself adding cards to
+“memorize” the relationship between concepts or ideas. For example I had a card
+to differentiate between &lt;em&gt;conflict cache misses&lt;/em&gt; (a miss caused because the
+cache associativity is too low) and &lt;em&gt;coherence misses&lt;/em&gt; (a miss caused because
+some external force invalidated a cache line, like in a SMP).&lt;/p&gt;
+
+&lt;p&gt;At first glance this appears like I’m memorizing the differences between the two
+concepts. In some sense I am, but if I can correctly contrast between the two
+misses have I not learned the concept? Even more interesting is that with this
+knowledge I can actually understand the implications in the real world.&lt;/p&gt;
+
+&lt;p&gt;After a while, I learned to create flashcards that required really understanding
+the material if I was to answer the questions correctly. This is when I started
+to see the benefit. Trying to memorize a card without understanding it can work
+for the short term, but after longer intervals I found recalling facts extremely
+difficult.&lt;/p&gt;
+
+&lt;h2 id=&quot;creating-cards&quot;&gt;Creating Cards&lt;/h2&gt;
+&lt;p&gt;I use &lt;a href=&quot;http://ankisrs.net&quot;&gt;Anki&lt;/a&gt; for my spaced repetition. It’s free for desktop and can sync
+with your mobile devices.&lt;/p&gt;
+
+&lt;p&gt;I skip class and instead sit in front of my large monitor with the lecture
+slides on one side of my screen and &lt;a href=&quot;http://ankisrs.net&quot;&gt;Anki’s&lt;/a&gt; card editor on the other. I
+read the slide (and surrounding slides) to determine what the concepts are. I
+create cards that cover these concepts from multiple angles. When in doubt I add
+more concepts than less.&lt;/p&gt;
+
+&lt;p&gt;The authors of another spaced repetition software, &lt;a href=&quot;[http://www.supermemo.com/]&quot;&gt;SuperMemo&lt;/a&gt;, has an
+excellent set of rules for creating cards called “&lt;a href=&quot;http://www.supermemo.com/articles/20rules.htm&quot;&gt;The 20 rules of formulating
+knowledge in learning&lt;/a&gt;.” I’ll outline the rules I felt particularly
+helpful here.&lt;/p&gt;
+
+&lt;h3 id=&quot;stick-to-the-minimum-information-principle&quot;&gt;4: Stick to the minimum information principle&lt;/h3&gt;
+
+&lt;p&gt;It’s easier to learn small and concise pieces of information.&lt;/p&gt;
+
+&lt;h3 id=&quot;cloze-deletion-is-awesome&quot;&gt;5: Cloze deletion is awesome&lt;/h3&gt;
+
+&lt;p&gt;Almost all of my cards use Cloze deletion. It’s much more effective than
+standard flashcard with a front and back. You can use the cloze deletion for
+multiple parts of a concept. This allows you to recall the concept from
+different sides.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/spaced/3.png&quot; alt=&quot;Example Card&quot; /&gt;
+&lt;img src=&quot;/media/img/spaced/4.png&quot; alt=&quot;Example Card Back&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;and-8-use-images-and-image-cloze-deletion&quot;&gt;6 and 8: Use Images (and image cloze deletion)&lt;/h3&gt;
+
+&lt;p&gt;Here’s an example of a Tomasulo’s CPU register renaming technique with a visual
+cloze deletion. Notice how the only the only item removed is the register
+status. That’s the level of detail that I found useful. I use the Anki plugin
+&lt;a href=&quot;http://tmbb.bitbucket.org/image-occlusion-2.html&quot;&gt;Image Occlusion&lt;/a&gt; to create image cloze deletions quickly.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/spaced/5.png&quot; alt=&quot;Example Card&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;and-10-avoid-sets-and-enumerations&quot;&gt;9 and 10: Avoid Sets and Enumerations&lt;/h3&gt;
+
+&lt;p&gt;Remembering sets and enumerations (ordered lists) is unnecessarily difficult.
+You can often convert these into more meaningful and useful cards. Usually I do
+this by contrasting and comparing concepts as in the inclusions versus exclusion
+cards earlier.&lt;/p&gt;
+
+&lt;p&gt;If you can’t find a better way to represent the concepts, cloze deletion on a
+list can really help out. This card describes what happens during a page fault.
+Every time I review the card I see all but one step, allowing me to think about
+the step in the context of the other steps.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/spaced/6.png&quot; alt=&quot;Example Card&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;and-16-combat-interference&quot;&gt;11 and 16: Combat Interference&lt;/h3&gt;
+
+&lt;p&gt;Interference is when two cards are similar and you confuse the concept and
+therefore the answer. Inference is extremely frustrating, especially if the two
+cards are separated by time.&lt;/p&gt;
+
+&lt;p&gt;Consider two similar concepts far apart from each other in the deck. You may
+learn the first concept perfectly. Later the second concept is hard to learn but
+you eventually figure it out. As time goes on the first concept comes up again
+and you’ve forgotten about it.&lt;/p&gt;
+
+&lt;p&gt;One of the ways I deal with interference is by providing lots of context in the
+card to differentiate concepts as in the cache hierarchy example. I sometimes go
+back to cards and modify them to be dissimilar.&lt;/p&gt;
+
+&lt;h3 id=&quot;omit-needless-words&quot;&gt;12: Omit needless words&lt;/h3&gt;
+
+&lt;p&gt;If you cards contain a lot of unnecessary words, you brain takes longer to make
+the connection to the concept. I tend to write verbosely so I actively try to
+limit the amount of wording on a card, eschewing grammar.&lt;/p&gt;
+
+&lt;h3 id=&quot;redundancy-is-ok&quot;&gt;17: Redundancy is OK&lt;/h3&gt;
+
+&lt;p&gt;I often have several cards that cover the same concepts from different angles.
+Sometimes using cloze deletions, images, or comparisons to similar concepts.
+These all can help strength memories. Approaching a concept from different
+angles also ensures you can recall the concepts in different situations.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/img/spaced/7.png&quot; alt=&quot;Example Card&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;a-topological-sort-of-knowledge&quot;&gt;A Topological Sort of Knowledge&lt;/h2&gt;
+
+&lt;p&gt;A theory on learning I once heard was that in order to learn a concept you need
+to have a hook to hang it on. In other words, you need to see where an idea fits
+in the bigger picture before you can internalize it.&lt;/p&gt;
+
+&lt;p&gt;One way to do this for lectures is to pre-read lecture slides. That way when the
+professor is presenting the information, you’ll already know where it fits. I
+did this for my Data Structures and Algorithms class before I used flashcards
+and it was a boon for my understanding and my exam mark.&lt;/p&gt;
+
+&lt;p&gt;Ideally, we would be presented with information in the perfect order for
+learning, a topological sort of knowledge so to speak. However, it’s difficult
+(perhaps impossible) to construct a perfect ordering. Spaced repetition allows
+us to approximate this idea.&lt;/p&gt;
+
+&lt;p&gt;When you are reviewing cards, they will not necessarily be in the order the
+lecturer presented them. As you review cards that contain a concept and the
+surrounding concepts, you will be exposed to the concept in the context of the
+bigger picture through repeated interleaving. That is, in between cards on a
+particular concept the software will be showing you other cards that are often
+about related concepts.&lt;/p&gt;
+
+&lt;p&gt;As you see these interleaving, you’ll start to understand the similarities and
+differences between concepts. Once you can do this, you’ll be able to answer the
+cards quickly and with great accuracy.&lt;/p&gt;
+
+&lt;h2 id=&quot;reviewing-cards&quot;&gt;Reviewing Cards&lt;/h2&gt;
+
+&lt;p&gt;I review my cards every day. If you don’t they will build up. It takes me about
+an hour every day and I often split it up into two 30 minute sprints. Sometimes
+I find it convenient to review cards on my iPhone with the mobile app.
+Especially on a long bus ride. The desktop app is fine, but I use a plugin
+called &lt;a href=&quot;https://ankiweb.net/shared/info/3192665669&quot;&gt;Full Screen&lt;/a&gt; to maximize the window on my Mac to reduce
+distractions. Recently, I’ve started to stand while reviewing to limit my
+wandering mind.&lt;/p&gt;
+
+&lt;p&gt;Tony, while proofreading this post, noted that he thinks I should attribute the
+better grades with Spaced Repetition to just studying more. He is probably
+correct. Spaced Repetition allows me to study effectively (not necessarily
+efficiently). I do spend a huge amount of time creating cards and reviewing them
+but the value I gain is immense.&lt;/p&gt;
+
+&lt;h2 id=&quot;test-time&quot;&gt;Test Time&lt;/h2&gt;
+
+&lt;p&gt;A great way to study for the kinds of exams I took in engineering is to practice
+problem sets or old exams. I find problems similar to or in the same style as
+those that will be on the exam. Before space repetition, each problem with a new
+concept required a haphazard search of lecture slides and my notes. Even once I
+had understood the concept and successfully completed the problem it was
+difficult to redo a similar problem later on during the exam study period. I
+couldn’t recall the specifics of the concept.&lt;/p&gt;
+
+&lt;p&gt;I found that because I had studied the concepts in the months leading up to the
+exam, the time I spend practice problems is efficiently used. When I did a
+problem, I had already learned the concept and its relationship with other
+concepts. Once I complete many of the practice problems, I’ll review the entire
+deck of cards for the course using the Filtered Decks feature. Filtered Decks
+allow me to refresh my memory on the entire course and to pinpoint areas that
+need concentration.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I urge students to consider alternative studying methods. It can be surprising
+what works for you. When you find a technique that works well for you it can
+change your whole attitude to exams and studying. The most valuable lesson I
+learned in university was how to learn.&lt;/p&gt;
+
+&lt;h2 id=&quot;acknowledgments&quot;&gt;Acknowledgments&lt;/h2&gt;
+
+&lt;p&gt;First I’d like to thank Derek Sivers of CD Baby fame introducing me to spaced
+repetition through &lt;a href=&quot;http://sivers.org/srs&quot;&gt;this post&lt;/a&gt;. Second, the authors of
+&lt;a href=&quot;[http://www.supermemo.com/]&quot;&gt;SuperMemo&lt;/a&gt; for their &lt;a href=&quot;http://www.supermemo.com/articles/20rules.htm&quot;&gt;excellent list on formulating knowledge&lt;/a&gt;.
+Third, my editor &lt;a href=&quot;http://tony-dong.com/&quot;&gt;Tony Dong&lt;/a&gt;. And last, thanks to Damien Elmes for
+creating and maintaining &lt;a href=&quot;http://ankisrs.net&quot;&gt;Anki&lt;/a&gt;, the spaced repetition software I rely on.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
    <title>That First Co-op Job</title>
    <link href="http://stephenholiday.com/articles/2014/that-first-co-op-job"/>
-   <updated>2014-08-07T00:00:00-04:00</updated>
+   <updated>2014-08-07T00:00:00-07:00</updated>
    <id>http://stephenholiday/articles/2014/that-first-co-op-job</id>
    <content type="html">&lt;p&gt;My first term in Computer Engineering was hectic. Within a few weeks we were
 already applying to co-op positions for January, passing ourselves off as
@@ -298,7 +533,7 @@ like I was getting a deal so good it seemed like theft.&lt;/p&gt;
  <entry>
    <title>My Backup Strategy</title>
    <link href="http://stephenholiday.com/articles/2014/backup-strategy"/>
-   <updated>2014-07-13T00:00:00-04:00</updated>
+   <updated>2014-07-13T00:00:00-07:00</updated>
    <id>http://stephenholiday/articles/2014/backup-strategy</id>
    <content type="html">&lt;p&gt;I remember the first time I had a hard drive fail on me. I was pretty upset. It
 was a 6.8 GB drive that I scavenged in a garage sale like all of my
@@ -402,7 +637,7 @@ chosen. This is probably unnecessary, but it doesn’t cost me anything extra.&l
  <entry>
    <title>How Project Rhino leverages Hadoop to build a graph of the music world</title>
    <link href="http://stephenholiday.com/articles/2014/batch-graph-build-using-hadoop-and-titan"/>
-   <updated>2014-03-27T00:00:00-04:00</updated>
+   <updated>2014-03-27T00:00:00-07:00</updated>
    <id>http://stephenholiday/articles/2014/batch-graph-build-using-hadoop-and-titan</id>
    <content type="html">&lt;p&gt;&lt;img src=&quot;/media/img/rhino-graph-build/stephen-symposium.jpg&quot; style=&quot;margin:10px;float:left&quot; /&gt;&lt;/p&gt;
 
@@ -665,7 +900,7 @@ However there were no longer Out of Memory errors.&lt;/p&gt;
  <entry>
    <title>SMTP Email Relay for GMail (TLS) with Oozie Using Postfix</title>
    <link href="http://stephenholiday.com/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop"/>
-   <updated>2013-08-21T00:00:00-04:00</updated>
+   <updated>2013-08-21T00:00:00-07:00</updated>
    <id>http://stephenholiday/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop</id>
    <content type="html">&lt;p&gt;As part of &lt;a href=&quot;htttp://tryrhino.com&quot;&gt;Project Rhino&lt;/a&gt;, I’ve been setting up Hadoop
 along with &lt;a href=&quot;http://oozie.apache.org&quot;&gt;Oozie&lt;/a&gt; to run our ETL pipeline.&lt;/p&gt;
@@ -743,7 +978,7 @@ configuration.&lt;/p&gt;
  <entry>
    <title>Automate Your iPod/iPhone/iPad's Media</title>
    <link href="http://stephenholiday.com/articles/2012/automate-your-ipod"/>
-   <updated>2012-12-19T00:00:00-05:00</updated>
+   <updated>2012-12-19T00:00:00-08:00</updated>
    <id>http://stephenholiday/articles/2012/automate-your-ipod</id>
    <content type="html">&lt;p&gt;I have a lot of music in iTunes. More than 20k songs.
 Beyond that I have a ton of audiobooks, movies and TV shows in iTunes for
@@ -856,7 +1091,7 @@ Create Smart Playlists and never leave home without an unwatched episode.&lt;/p&
  <entry>
    <title>Monitor Your Python App With FnordMetric and pyfnordmetric</title>
    <link href="http://stephenholiday.com/articles/2012/monitor-your-python-app-with-fnordmetric"/>
-   <updated>2012-03-13T00:00:00-04:00</updated>
+   <updated>2012-03-13T00:00:00-07:00</updated>
    <id>http://stephenholiday/articles/2012/monitor-your-python-app-with-fnordmetric</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/paulasmuth/fnordmetric&quot;&gt;FnordMetric&lt;/a&gt; is a super cool
 (and sexy) real-time event monitoring app.&lt;/p&gt;
@@ -956,7 +1191,7 @@ in the works.&lt;/p&gt;
  <entry>
    <title>Stack Overflow Word Trends by Day</title>
    <link href="http://stephenholiday.com/articles/2011/stack-overflow-by-day"/>
-   <updated>2011-12-02T00:00:00-05:00</updated>
+   <updated>2011-12-02T00:00:00-08:00</updated>
    <id>http://stephenholiday/articles/2011/stack-overflow-by-day</id>
    <content type="html">&lt;p&gt;Here’s a quick hack to see how different words are used over time on &lt;a href=&quot;http://stackoverflow.com/&quot;&gt;StackOverflow&lt;/a&gt;.&lt;/p&gt;
 
@@ -996,7 +1231,7 @@ in the works.&lt;/p&gt;
  <entry>
    <title>Gender Prediction with Python</title>
    <link href="http://stephenholiday.com/articles/2011/gender-prediction-with-python"/>
-   <updated>2011-06-23T00:00:00-04:00</updated>
+   <updated>2011-06-23T00:00:00-07:00</updated>
    <id>http://stephenholiday/articles/2011/gender-prediction-with-python</id>
    <content type="html">&lt;p&gt;Sometimes contact information is incomplete but can be inferred from existing data.
 Gender is often missing from data but easy to determine based on first name.&lt;/p&gt;
@@ -1072,7 +1307,7 @@ If you find something that works better, please let me know and I’ll incorpora
  <entry>
    <title>FidoFetch Architecture</title>
    <link href="http://stephenholiday.com/articles/2011/fidofetch-architecture"/>
-   <updated>2011-04-25T00:00:00-04:00</updated>
+   <updated>2011-04-25T00:00:00-07:00</updated>
    <id>http://stephenholiday/articles/2011/fidofetch-architecture</id>
    <content type="html">&lt;h2 id=&quot;whats-fidofetch&quot;&gt;What’s FidoFetch&lt;/h2&gt;
 
@@ -1454,7 +1689,7 @@ I hope that you will also find it useful or that it at least gets your brain chu
  <entry>
    <title>Introduction To MapReduce</title>
    <link href="http://stephenholiday.com/articles/2011/introduction-to-mapreduce"/>
-   <updated>2011-03-12T00:00:00-05:00</updated>
+   <updated>2011-03-12T00:00:00-08:00</updated>
    <id>http://stephenholiday/articles/2011/introduction-to-mapreduce</id>
    <content type="html">&lt;p&gt;Sometimes datasets are a little larger than what we can easily process on a laptop.
 In these cases it’s often helpful to harness the power of many machines to do processing of data.&lt;/p&gt;
@@ -1553,7 +1788,7 @@ Different implementations have different additional features, but the basics are
  <entry>
    <title>Mining Jobmine - Fall 2010 - Part 3</title>
    <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-3"/>
-   <updated>2011-03-01T00:00:00-05:00</updated>
+   <updated>2011-03-01T00:00:00-08:00</updated>
    <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-3</id>
    <content type="html">&lt;p&gt;&lt;em&gt;This is the third part in a multi-part series, read the first part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;here&lt;/a&gt; and the second part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
@@ -1790,7 +2025,7 @@ Some other things I’m thinking of doing next include lengths of job descriptio
  <entry>
    <title>Mining Jobmine - Fall 2010 - Part 2</title>
    <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2"/>
-   <updated>2011-02-22T00:00:00-05:00</updated>
+   <updated>2011-02-22T00:00:00-08:00</updated>
    <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-2</id>
    <content type="html">&lt;p&gt;&lt;em&gt;This is the second part in a multi-part series, read the first part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
@@ -1878,7 +2113,7 @@ Read it &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-
  <entry>
    <title>Mining Jobmine - Fall 2010 - Part 1</title>
    <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1"/>
-   <updated>2011-02-03T00:00:00-05:00</updated>
+   <updated>2011-02-03T00:00:00-08:00</updated>
    <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-1</id>
    <content type="html">&lt;p&gt;JobMine is the tool we use at the &lt;a href=&quot;http://uwaterloo.ca&quot;&gt;University of Waterloo&lt;/a&gt; for our co-op.
 In the system, there are thousands of job postings for various positions.
@@ -1945,7 +2180,7 @@ My &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-
  <entry>
    <title>New Site - Hello Hyde!</title>
    <link href="http://stephenholiday.com/articles/2010/new-site"/>
-   <updated>2010-11-21T00:00:00-05:00</updated>
+   <updated>2010-11-21T00:00:00-08:00</updated>
    <id>http://stephenholiday/articles/2010/new-site</id>
    <content type="html">&lt;p&gt;I’ve switched to a new method of creating this site, now I’m using &lt;a href=&quot;http://ringce.com/hyde&quot;&gt;Hyde&lt;/a&gt;…&lt;/p&gt;
 
