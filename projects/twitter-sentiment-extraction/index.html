@@ -66,28 +66,28 @@
 <div id="post">
 <p>In Testing - <em>Analyzes tweets for positive and negative customer service experiences</em></p>
 
-<h2 id="what-is-it">What is it?</h2>
-<p>The Twitter Sentiment Extraction project is a tool that, given a tweet, will tell you whether it is positive or negative.
+<p>##What is it?##
+The Twitter Sentiment Extraction project is a tool that, given a tweet, will tell you whether it is positive or negative.
 Most of my testing has been in the area of tweets about positive and negative customer service.</p>
 
 <p>One great application of the tool would be for a company to watch for tweets containing their name and alert for negative customer service experiences.
 Then someone from the company could investigate and try to track down the user and fix the problem.</p>
 
-<h2 id="when">When</h2>
-<p>In late 2010 I had been researching <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Natural_language_processing">Natural Language Processing (NLP)</a> and how I could apply it.
+<p>##When##
+In late 2010 I had been researching <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Natural_language_processing">Natural Language Processing (NLP)</a> and how I could apply it.
 I’ve been reading the <a href="http://www.nltk.org/book">NLP with Python Book</a> and it has been giving me some great ideas.</p>
 
 <p>One of the really interesting parts of NLP for me is sentiment classification. I wanted to know how accurate classification of sentiment could be.</p>
 
-<h2 id="technology">Technology</h2>
+<p>##Technology##</p>
 <ul>
   <li><a href="http://www.nltk.org/">NLTK (Natural Language Toolkit)</a></li>
   <li>Python for the glue</li>
   <li>The twitter search api</li>
 </ul>
 
-<h2 id="details">Details</h2>
-<p>The main component that I was working on was the feature extractors.
+<p>##Details##
+The main component that I was working on was the feature extractors.
 These are functions that take in a raw tweet and output features of the tweet.
 I’ve tried several different combinations of feature extractors, some ideas I used:</p>
 
@@ -97,12 +97,12 @@ I’ve tried several different combinations of feature extractors, some ideas I 
   <li>feature limiting</li>
 </ul>
 
-<h2 id="success">Success?</h2>
-<p>So far with only 300 tweets of training data I was able to achieve about a 81% accuracy of classify sentiment.
+<p>##Success?##
+So far with only 300 tweets of training data I was able to achieve about a 81% accuracy of classify sentiment.
 I think with more training data the accuracy would increase.</p>
 
-<h2 id="improvements">Improvements</h2>
-<p>I think the biggest issue with my tests was the limited amount of training data.
+<p>##Improvements##
+I think the biggest issue with my tests was the limited amount of training data.
 I had to manually classify the tweets for the training data and 300 was enough for my patience.</p>
 
 <p>My next step is to get more training data, perhaps using Amazon’s <a href="https://www.mturk.com/mturk/welcome">Mechanical Turk</a> to get much more training data.</p>

@@ -64,24 +64,24 @@
             <div id="content-header"><h1>HighPi</h1></div>
 
 <div id="post">
-<h2 id="what-is-it">What is it?</h2>
-<p><a href="http://highpi.com">HighPi</a> is my live and working implementation of a URL shortening service.</p>
+<p>##What is it?##
+<a href="http://highpi.com">HighPi</a> is my live and working implementation of a URL shortening service.</p>
 
 <p>The URL shortener takes a long url like http://www.google.com/search?q=stephen+holiday&amp;ie=utf-8&amp;oe=utf-8&amp;aq=t&amp;rls=org.mozilla:en-US:official&amp;client=firefox-a to a short URL like http://highpi.com/1o.</p>
 
 <p>This is really useful for giving a link to a friend over the phone or writing it down. URL shorteners are also really useful in Twitter so that users can send links in less than 140 characters.</p>
 
-<h2 id="why">Why</h2>
-<p>I wanted to experiment with key-value stores and get some real data for an upcoming analytic project.</p>
+<p>##Why##
+I wanted to experiment with key-value stores and get some real data for an upcoming analytic project.</p>
 
 <p>A URL shortener provides an interesting yet simple problem, take in some arbitrary data and get a key which to return the data.
 URL shorteners also give the operator a lot if interesting information in terms of which links are popular on the internet now.</p>
 
-<h2 id="when">When</h2>
-<p>July 2010, during my 1B School Term</p>
+<p>##When##
+July 2010, during my 1B School Term</p>
 
-<h2 id="technology">Technology</h2>
-<p>The major technology used was <a href="http://cassandra.apache.org/">Cassandra</a> for the key-value store. Since you will only be accessing the url with a key and not doing operations on a set of URLs, a hashtable/lookup database is perfect solution.</p>
+<p>##Technology##
+The major technology used was <a href="http://cassandra.apache.org/">Cassandra</a> for the key-value store. Since you will only be accessing the url with a key and not doing operations on a set of URLs, a hashtable/lookup database is perfect solution.</p>
 
 <p>I choose Cassandra since it is fast and I wanted to use it in a future project so I felt this project would allow me to get my feet wet.
 It is also distributed which allows for multiple servers to serve the redirect.</p>

@@ -76,14 +76,14 @@ distributed software using common programming constructs.</p>
 
 <p>In python it’s not unusual to ‘map’ a function across a list:</p>
 
-<div class="highlight"><pre><code class="language-py" data-lang="py"><span class="o">&gt;&gt;&gt;</span> <span class="n">some_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Hi my&#39;</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;is&#39;</span><span class="p">,</span> <span class="s">&#39;Stephen Holiday&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">swapcase</span><span class="p">(),</span> <span class="n">some_list</span><span class="p">)</span>
-<span class="p">[</span><span class="s">&#39;hI MY&#39;</span><span class="p">,</span> <span class="s">&#39;NAME&#39;</span><span class="p">,</span> <span class="s">&#39;IS&#39;</span><span class="p">,</span> <span class="s">&#39;sTEPHEN hOLIDAY&#39;</span><span class="p">]</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-py" data-lang="py">&gt;&gt;&gt; some_list = [&#39;Hi my&#39;, &#39;name&#39;, &#39;is&#39;, &#39;Stephen Holiday&#39;]
+&gt;&gt;&gt; map(lambda x: x.swapcase(), some_list)
+[&#39;hI MY&#39;, &#39;NAME&#39;, &#39;IS&#39;, &#39;sTEPHEN hOLIDAY&#39;]</code></pre></figure>
 
 <p>Similarly you can reduce a list by iterating over it and returning a single value each time:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span> 
-<span class="mi">15</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">&gt;&gt;&gt; reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) 
+15</code></pre></figure>
 
 <p>It turns out that these two concepts make it very easy for distributive systems to break up tasks.
 Since each map requires only the current item in the list, the above map operation could have occurred on 4 different machines.</p>
@@ -115,19 +115,19 @@ Using a MapReduce infrastructure, we can easily deploy new jobs to the cluster.<
 
 <p>So our map function could be:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">map_convert_to_int</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_string</span><span class="p">)</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">def map_convert_to_int(input_string):
+    return int(input_string)</code></pre></figure>
 
 <p>Now, let’s say we had some distributed map reduce framework (<strong>cough</strong> hadoop), it could break up the list and send
 a portion of the list to each machine.</p>
 
 <p>For simplicity, we’re only going to use the numbers 1-10, but this can easily be expanded.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nb">list</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;1&#39;</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">,</span><span class="s">&#39;3&#39;</span><span class="p">,</span><span class="s">&#39;4&#39;</span><span class="p">,</span><span class="s">&#39;6&#39;</span><span class="p">,</span><span class="s">&#39;7&#39;</span><span class="p">,</span><span class="s">&#39;8&#39;</span><span class="p">,</span><span class="s">&#39;9&#39;</span><span class="p">,</span><span class="s">&#39;10&#39;</span><span class="p">]</span>
-<span class="n">machine_1_list</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;2&#39;</span><span class="p">,</span><span class="s">&#39;1&#39;</span><span class="p">,</span><span class="s">&#39;7&#39;</span><span class="p">]</span>
-<span class="n">machine_2_list</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;10&#39;</span><span class="p">,</span><span class="s">&#39;6&#39;</span><span class="p">]</span>
-<span class="n">machine_3_list</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;3&#39;</span><span class="p">,</span><span class="s">&#39;5&#39;</span><span class="p">]</span>
-<span class="n">machine_4_list</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;9&#39;</span><span class="p">,</span><span class="s">&#39;4&#39;</span><span class="p">,</span><span class="s">&#39;8&#39;</span><span class="p">]</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">list=[&#39;1&#39;,&#39;2&#39;,&#39;3&#39;,&#39;4&#39;,&#39;6&#39;,&#39;7&#39;,&#39;8&#39;,&#39;9&#39;,&#39;10&#39;]
+machine_1_list=[&#39;2&#39;,&#39;1&#39;,&#39;7&#39;]
+machine_2_list=[&#39;10&#39;,&#39;6&#39;]
+machine_3_list=[&#39;3&#39;,&#39;5&#39;]
+machine_4_list=[&#39;9&#39;,&#39;4&#39;,&#39;8&#39;]</code></pre></figure>
 
 <p>So as you can see, each machine gets some subset of the list.
 The machine doesn’t care which ones it gets, the order, or the size since each map operation is independent.</p>
@@ -140,8 +140,8 @@ Each machine now has a list of integers.</p>
 
 <p>Our reducer could look like this:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">reduce_sum</span><span class="p">(</span><span class="n">accumulator</span><span class="p">,</span><span class="n">new_value</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">accumulator</span><span class="o">+</span><span class="n">new_value</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">def reduce_sum(accumulator,new_value):
+    return accumulator+new_value</code></pre></figure>
 
 <p>This would be run against the list, with an accumulator value.
 Since addition is commutative and associative, it doesn’t matter what subset or order we run the reducer.</p>
@@ -165,11 +165,11 @@ Different implementations have different additional features, but the basics are
   <h3><em>Related Posts</em></h2>
   	<ul class="list-group">
     
-      <li class="list-group-item"><a href="/articles/2014/spaced-repetition"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/spaced-repetition/index.html"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job"><strong>That First Co-op Job</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job/index.html"><strong>That First Co-op Job</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/backup-strategy"><strong>My Backup Strategy</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/backup-strategy/index.html"><strong>My Backup Strategy</strong></a></li>
     
     </ul>
 </div>

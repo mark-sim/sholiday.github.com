@@ -77,16 +77,16 @@ Right now I do have the workers (I hope to one day opensource my worker module) 
 <p>From there I <em>can</em> do the tail -f, but that only gets you so far.
 What that doesn’t tell you is how many jobs are waiting to be run, how many failed, how many workers are active etc.</p>
 
-<h2 id="enter-ganglia">Enter Ganglia</h2>
-<p><a href="http://ganglia.sourceforge.net/">Ganglia</a> is also pretty cool.
+<p>##Enter Ganglia##
+<a href="http://ganglia.sourceforge.net/">Ganglia</a> is also pretty cool.
 It’s not quite as simple as beanstalk but it’s pretty minimalist for what it does. It’s a distributed monitoring solution.
 Ilya Grigorik wrote up <a href="http://www.igvita.com/2010/01/28/cluster-monitoring-with-ganglia-ruby/">a nice article</a> on ganglia (albeit with ruby). Apparently they use it over at postrank.</p>
 
 <p>So it turns out ganglia has a neat system where you can write a module for it in python!
 Which is awesome since I don’t need to learn another DSL for monitoring.</p>
 
-<h2 id="show-me-the-code">Show Me The Code</h2>
-<p>I wrote a simple plugin for ganglia on github, <a href="https://github.com/sholiday/gmond_python_modules/tree/master/beanstalk/" title="Beanstalk Ganglia Python Plugin">check it out</a> and let me know what you think…</p>
+<p>##Show Me The Code##
+I wrote a simple plugin for ganglia on github, <a href="https://github.com/sholiday/gmond_python_modules/tree/master/beanstalk/" title="Beanstalk Ganglia Python Plugin">check it out</a> and let me know what you think…</p>
 
 </div>
 

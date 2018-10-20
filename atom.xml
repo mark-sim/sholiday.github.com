@@ -4,7 +4,7 @@
  <title>Stephen Holiday</title>
  <link href="http://stephenholiday.com/atom.xml" rel="self"/>
  <link href="http://stephenholiday.com/"/>
- <updated>2014-09-08T20:13:37-07:00</updated>
+ <updated>2018-10-20T09:38:22-07:00</updated>
  <id>http://stephenholiday.com/</id>
  <author>
    <name>Stephen Holiday</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Spaced Repetition: My Learning Secret</title>
-   <link href="http://stephenholiday.com/articles/2014/spaced-repetition"/>
+   <link href="http://stephenholiday.com/articles/2014/spaced-repetition/index.html"/>
    <updated>2014-09-08T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2014/spaced-repetition</id>
+   <id>http://stephenholiday/articles/2014/spaced-repetition/spaced-repetition</id>
    <content type="html">&lt;p&gt;There are people who can study the night before a test and ace it. I am not one
 of those people.&lt;/p&gt;
 
@@ -101,11 +101,11 @@ excellent set of rules for creating cards called “&lt;a href=&quot;http://www.
 knowledge in learning&lt;/a&gt;.” I’ll outline the rules I felt particularly
 helpful here.&lt;/p&gt;
 
-&lt;h3 id=&quot;stick-to-the-minimum-information-principle&quot;&gt;4: Stick to the minimum information principle&lt;/h3&gt;
+&lt;h3 id=&quot;4-stick-to-the-minimum-information-principle&quot;&gt;4: Stick to the minimum information principle&lt;/h3&gt;
 
 &lt;p&gt;It’s easier to learn small and concise pieces of information.&lt;/p&gt;
 
-&lt;h3 id=&quot;cloze-deletion-is-awesome&quot;&gt;5: Cloze deletion is awesome&lt;/h3&gt;
+&lt;h3 id=&quot;5-cloze-deletion-is-awesome&quot;&gt;5: Cloze deletion is awesome&lt;/h3&gt;
 
 &lt;p&gt;Almost all of my cards use Cloze deletion. It’s much more effective than
 standard flashcard with a front and back. You can use the cloze deletion for
@@ -115,7 +115,7 @@ different sides.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/media/img/spaced/3.png&quot; alt=&quot;Example Card&quot; /&gt;
 &lt;img src=&quot;/media/img/spaced/4.png&quot; alt=&quot;Example Card Back&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;and-8-use-images-and-image-cloze-deletion&quot;&gt;6 and 8: Use Images (and image cloze deletion)&lt;/h3&gt;
+&lt;h3 id=&quot;6-and-8-use-images-and-image-cloze-deletion&quot;&gt;6 and 8: Use Images (and image cloze deletion)&lt;/h3&gt;
 
 &lt;p&gt;Here’s an example of a Tomasulo’s CPU register renaming technique with a visual
 cloze deletion. Notice how the only the only item removed is the register
@@ -124,7 +124,7 @@ status. That’s the level of detail that I found useful. I use the Anki plugin
 
 &lt;p&gt;&lt;img src=&quot;/media/img/spaced/5.png&quot; alt=&quot;Example Card&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;and-10-avoid-sets-and-enumerations&quot;&gt;9 and 10: Avoid Sets and Enumerations&lt;/h3&gt;
+&lt;h3 id=&quot;9-and-10-avoid-sets-and-enumerations&quot;&gt;9 and 10: Avoid Sets and Enumerations&lt;/h3&gt;
 
 &lt;p&gt;Remembering sets and enumerations (ordered lists) is unnecessarily difficult.
 You can often convert these into more meaningful and useful cards. Usually I do
@@ -138,7 +138,7 @@ the step in the context of the other steps.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/media/img/spaced/6.png&quot; alt=&quot;Example Card&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;and-16-combat-interference&quot;&gt;11 and 16: Combat Interference&lt;/h3&gt;
+&lt;h3 id=&quot;11-and-16-combat-interference&quot;&gt;11 and 16: Combat Interference&lt;/h3&gt;
 
 &lt;p&gt;Interference is when two cards are similar and you confuse the concept and
 therefore the answer. Inference is extremely frustrating, especially if the two
@@ -153,13 +153,13 @@ and you’ve forgotten about it.&lt;/p&gt;
 card to differentiate concepts as in the cache hierarchy example. I sometimes go
 back to cards and modify them to be dissimilar.&lt;/p&gt;
 
-&lt;h3 id=&quot;omit-needless-words&quot;&gt;12: Omit needless words&lt;/h3&gt;
+&lt;h3 id=&quot;12-omit-needless-words&quot;&gt;12: Omit needless words&lt;/h3&gt;
 
 &lt;p&gt;If you cards contain a lot of unnecessary words, you brain takes longer to make
 the connection to the concept. I tend to write verbosely so I actively try to
 limit the amount of wording on a card, eschewing grammar.&lt;/p&gt;
 
-&lt;h3 id=&quot;redundancy-is-ok&quot;&gt;17: Redundancy is OK&lt;/h3&gt;
+&lt;h3 id=&quot;17-redundancy-is-ok&quot;&gt;17: Redundancy is OK&lt;/h3&gt;
 
 &lt;p&gt;I often have several cards that cover the same concepts from different angles.
 Sometimes using cloze deletions, images, or comparisons to similar concepts.
@@ -236,7 +236,7 @@ what works for you. When you find a technique that works well for you it can
 change your whole attitude to exams and studying. The most valuable lesson I
 learned in university was how to learn.&lt;/p&gt;
 
-&lt;h2 id=&quot;acknowledgments&quot;&gt;Acknowledgments&lt;/h2&gt;
+&lt;p&gt;##Acknowledgments&lt;/p&gt;
 
 &lt;p&gt;First I’d like to thank Derek Sivers of CD Baby fame introducing me to spaced
 repetition through &lt;a href=&quot;http://sivers.org/srs&quot;&gt;this post&lt;/a&gt;. Second, the authors of
@@ -249,9 +249,9 @@ creating and maintaining &lt;a href=&quot;http://ankisrs.net&quot;&gt;Anki&lt;/a
  
  <entry>
    <title>That First Co-op Job</title>
-   <link href="http://stephenholiday.com/articles/2014/that-first-co-op-job"/>
+   <link href="http://stephenholiday.com/articles/2014/that-first-co-op-job/index.html"/>
    <updated>2014-08-07T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2014/that-first-co-op-job</id>
+   <id>http://stephenholiday/articles/2014/that-first-co-op-job/that-first-co-op-job</id>
    <content type="html">&lt;p&gt;My first term in Computer Engineering was hectic. Within a few weeks we were
 already applying to co-op positions for January, passing ourselves off as
 Waterloo Engineering Students even though we were still getting lost on campus.
@@ -299,7 +299,7 @@ resume and have your classmates look at it.&lt;/p&gt;
 Especially when they are hiring for junior jobs. Your skills summary can be a
 great way to show off your key qualifications. If you’ve been awarded a rare
 scholarship, this is a great place to highlight it. But keep the skills section
-short and easy to read. &lt;/p&gt;
+short and easy to read.&lt;/p&gt;
 
 &lt;p&gt;Some employers search your resume for keywords (Java, AutoCAD, VHDL, etc.). Some
 do it visually and others with a tool. If you list a skill on your resume it is
@@ -532,9 +532,9 @@ like I was getting a deal so good it seemed like theft.&lt;/p&gt;
  
  <entry>
    <title>My Backup Strategy</title>
-   <link href="http://stephenholiday.com/articles/2014/backup-strategy"/>
+   <link href="http://stephenholiday.com/articles/2014/backup-strategy/index.html"/>
    <updated>2014-07-13T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2014/backup-strategy</id>
+   <id>http://stephenholiday/articles/2014/backup-strategy/backup-strategy</id>
    <content type="html">&lt;p&gt;I remember the first time I had a hard drive fail on me. I was pretty upset. It
 was a 6.8 GB drive that I scavenged in a garage sale like all of my
 Frankenstein’s monster computers. I had lost many documents and pictures before
@@ -636,9 +636,9 @@ chosen. This is probably unnecessary, but it doesn’t cost me anything extra.&l
  
  <entry>
    <title>How Project Rhino leverages Hadoop to build a graph of the music world</title>
-   <link href="http://stephenholiday.com/articles/2014/batch-graph-build-using-hadoop-and-titan"/>
+   <link href="http://stephenholiday.com/articles/2014/batch-graph-build-using-hadoop-and-titan/index.html"/>
    <updated>2014-03-27T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2014/batch-graph-build-using-hadoop-and-titan</id>
+   <id>http://stephenholiday/articles/2014/batch-graph-build-using-hadoop-and-titan/batch-graph-build-using-hadoop-and-titan</id>
    <content type="html">&lt;p&gt;&lt;img src=&quot;/media/img/rhino-graph-build/stephen-symposium.jpg&quot; style=&quot;margin:10px;float:left&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This last week &lt;a href=&quot;http://tony-dong.com&quot;&gt;Tony Dong&lt;/a&gt;, &lt;a href=&quot;http://www.linkedin.com/pub/omid-mortazavi/41/a97/5b0&quot;&gt;Omid Mortazavi&lt;/a&gt;, &lt;a href=&quot;http://www.linkedin.com/in/vineetnayak&quot;&gt;Vineet Nayak&lt;/a&gt;
@@ -899,9 +899,9 @@ However there were no longer Out of Memory errors.&lt;/p&gt;
  
  <entry>
    <title>SMTP Email Relay for GMail (TLS) with Oozie Using Postfix</title>
-   <link href="http://stephenholiday.com/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop"/>
+   <link href="http://stephenholiday.com/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop/index.html"/>
    <updated>2013-08-21T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop</id>
+   <id>http://stephenholiday/articles/2013/smtp-email-relay-for-gmail-oozie-hadoop/smtp-email-relay-for-gmail-oozie-hadoop</id>
    <content type="html">&lt;p&gt;As part of &lt;a href=&quot;htttp://tryrhino.com&quot;&gt;Project Rhino&lt;/a&gt;, I’ve been setting up Hadoop
 along with &lt;a href=&quot;http://oozie.apache.org&quot;&gt;Oozie&lt;/a&gt; to run our ETL pipeline.&lt;/p&gt;
 
@@ -977,9 +977,9 @@ configuration.&lt;/p&gt;
  
  <entry>
    <title>Automate Your iPod/iPhone/iPad's Media</title>
-   <link href="http://stephenholiday.com/articles/2012/automate-your-ipod"/>
+   <link href="http://stephenholiday.com/articles/2012/automate-your-ipod/index.html"/>
    <updated>2012-12-19T00:00:00-08:00</updated>
-   <id>http://stephenholiday/articles/2012/automate-your-ipod</id>
+   <id>http://stephenholiday/articles/2012/automate-your-ipod/automate-your-ipod</id>
    <content type="html">&lt;p&gt;I have a lot of music in iTunes. More than 20k songs.
 Beyond that I have a ton of audiobooks, movies and TV shows in iTunes for
 consuming when I’m traveling.&lt;/p&gt;
@@ -1090,9 +1090,9 @@ Create Smart Playlists and never leave home without an unwatched episode.&lt;/p&
  
  <entry>
    <title>Monitor Your Python App With FnordMetric and pyfnordmetric</title>
-   <link href="http://stephenholiday.com/articles/2012/monitor-your-python-app-with-fnordmetric"/>
+   <link href="http://stephenholiday.com/articles/2012/monitor-your-python-app-with-fnordmetric/index.html"/>
    <updated>2012-03-13T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2012/monitor-your-python-app-with-fnordmetric</id>
+   <id>http://stephenholiday/articles/2012/monitor-your-python-app-with-fnordmetric/monitor-your-python-app-with-fnordmetric</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/paulasmuth/fnordmetric&quot;&gt;FnordMetric&lt;/a&gt; is a super cool
 (and sexy) real-time event monitoring app.&lt;/p&gt;
 
@@ -1118,23 +1118,23 @@ It’s super easy to get running.&lt;/p&gt;
 
 &lt;p&gt;First you describe a gauge, basically a counter:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;gauge&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:logins_per_hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;:tick&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hour&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Logins per Hour&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;gauge :logins_per_hour,
+    :tick  =&amp;gt; 1.hour.to_i,
+    :title =&amp;gt; &amp;#39;Logins per Hour&amp;#39;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Then you need an event handler:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:api_login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;incr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:logins_per_hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;event(:api_login) { incr(:logins_per_hour) }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;And finally some way to display it&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;widget&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;API&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Logins Per Hour&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;:type&lt;/span&gt;             &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:timeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;:gauges&lt;/span&gt;           &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:logins_per_hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;:include_current&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;:autoupdate&lt;/span&gt;       &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# refresh graph every minute&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;widget &amp;#39;API&amp;#39;, {
+    :title            =&amp;gt; &amp;#39;Logins Per Hour&amp;#39;,
+    :type             =&amp;gt; :timeline,
+    :gauges           =&amp;gt; :logins_per_hour,
+    :include_current  =&amp;gt; true,
+    :autoupdate       =&amp;gt; 60 # refresh graph every minute
+  }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;You can have multiple time series per chart, auto-refreshing of data, top-lists, bar charts and more.&lt;/p&gt;
 
@@ -1152,19 +1152,19 @@ to get data in is to talk directly to the backend.&lt;/p&gt;
 
 &lt;p&gt;Just &lt;code&gt;easy_install pyfnordmetric&lt;/code&gt; and start using the &lt;code&gt;Fnordmetric&lt;/code&gt; module like so:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;fnordmetric&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Fnordmetric&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;from fnordmetric import Fnordmetric
 
-  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Fnordmetric&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;localhost&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6379&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Redis server&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;saw_unicorn&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  fnord = Fnordmetric(&amp;quot;localhost&amp;quot;, 6379) # Redis server
+  fnord.event(&amp;quot;saw_unicorn&amp;quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h2 id=&quot;tracking-users&quot;&gt;Tracking Users&lt;/h2&gt;
 &lt;p&gt;That’s pretty useful in it’s own right, but one of the cool features of
 FnordMetric is that it allows you to see what a specific visitor is doing on
 your site right now. For this there are a couple more features:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;session1234&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Stephen Holiday&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;session1234&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;fnord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_gravatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;stephen.holiday@gmail.com&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;session1234&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;fnord.event(&amp;quot;login&amp;quot;, &amp;quot;session1234&amp;quot;)
+  fnord.set_name(&amp;quot;Stephen Holiday&amp;quot;, &amp;quot;session1234&amp;quot;)
+  fnord.set_gravatar(&amp;quot;stephen.holiday@gmail.com&amp;quot;, &amp;quot;session1234&amp;quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;That code will automatically grab a users &lt;a href=&quot;http://en.gravatar.com/&quot;&gt;Gravatar&lt;/a&gt; if
 they have one and display it on the FnordMetric window:&lt;/p&gt;
@@ -1190,9 +1190,9 @@ in the works.&lt;/p&gt;
  
  <entry>
    <title>Stack Overflow Word Trends by Day</title>
-   <link href="http://stephenholiday.com/articles/2011/stack-overflow-by-day"/>
+   <link href="http://stephenholiday.com/articles/2011/stack-overflow-by-day/index.html"/>
    <updated>2011-12-02T00:00:00-08:00</updated>
-   <id>http://stephenholiday/articles/2011/stack-overflow-by-day</id>
+   <id>http://stephenholiday/articles/2011/stack-overflow-by-day/stack-overflow-by-day</id>
    <content type="html">&lt;p&gt;Here’s a quick hack to see how different words are used over time on &lt;a href=&quot;http://stackoverflow.com/&quot;&gt;StackOverflow&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Inspired by Google’s &lt;a href=&quot;http://books.google.com/ngrams&quot;&gt;Ngram Viewer&lt;/a&gt; I hacked together this page to show how different words on Stack Overflow vary over time.&lt;/p&gt;
@@ -1219,20 +1219,20 @@ in the works.&lt;/p&gt;
 
 &lt;p&gt;I used the data from Stack Overflow &lt;a href=&quot;http://blog.stackoverflow.com/category/cc-wiki-dump/&quot;&gt;Data Dump&lt;/a&gt;. I wrote some quick Python scripts to parse the data and get all of the words used in posts (questions and answers).&lt;/p&gt;
 
-&lt;p&gt;I have data for 2,3,4-grams but I haven’t loaded it up into the server yet because I want to clean up server and the client first. While this site is on Amazon’s S3, I’m a student and my server is single core Celeron with 2 GB of RAM. &lt;/p&gt;
+&lt;p&gt;I have data for 2,3,4-grams but I haven’t loaded it up into the server yet because I want to clean up server and the client first. While this site is on Amazon’s S3, I’m a student and my server is single core Celeron with 2 GB of RAM.&lt;/p&gt;
 
 &lt;h2 id=&quot;thoughts&quot;&gt;Thoughts?&lt;/h2&gt;
 &lt;p&gt;If you have any thoughts or suggestions, comment in the &lt;a href=&quot;http://news.ycombinator.com/item?id=3297851&quot;&gt;thread on HackerNews&lt;/a&gt; or send me an email (stephen.holiday@gmail.com).&lt;/p&gt;
 
-&lt;p&gt;&lt;span id=&quot;hnpoints&quot;&gt;This app got &amp;lt;iframe id=&#39;hnbutton&#39; src=&#39;http://hnapiwrapper.herokuapp.com/button.html?width=120&amp;amp;url=http://stephenholiday.com/articles/2011/stack-overflow-by-day/&amp;amp;title=Word Trends from Stack Overflow&#39; frameborder=&#39;0&#39; height=&#39;22&#39; width=&#39;90&#39;&amp;gt; &amp;lt;/iframe&amp;gt; on HN.&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span id=&quot;hnpoints&quot;&gt;This app got &amp;lt;iframe id='hnbutton' src='http://hnapiwrapper.herokuapp.com/button.html?width=120&amp;amp;url=http://stephenholiday.com/articles/2011/stack-overflow-by-day/&amp;amp;title=Word Trends from Stack Overflow' frameborder='0' height='22' width='90'&amp;gt; &amp;lt;/iframe&amp;gt; on HN.&lt;/span&gt;&lt;/p&gt;
 </content>
  </entry>
  
  <entry>
    <title>Gender Prediction with Python</title>
-   <link href="http://stephenholiday.com/articles/2011/gender-prediction-with-python"/>
+   <link href="http://stephenholiday.com/articles/2011/gender-prediction-with-python/index.html"/>
    <updated>2011-06-23T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2011/gender-prediction-with-python</id>
+   <id>http://stephenholiday/articles/2011/gender-prediction-with-python/gender-prediction-with-python</id>
    <content type="html">&lt;p&gt;Sometimes contact information is incomplete but can be inferred from existing data.
 Gender is often missing from data but easy to determine based on first name.&lt;/p&gt;
 
@@ -1272,13 +1272,13 @@ I grabbed training data from the US Census &lt;a href=&quot;http://www.census.go
 &lt;p&gt;Second, we need a feature extractor to take a name and spit out features we think may indicate the gender well.
 I wrote a simple extractor that takes the last and last two letters and spits them out as a feature as well as if the last letter is a vowel:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-py&quot; data-lang=&quot;py&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;_nameFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upper&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&amp;#39;last_letter&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&amp;#39;last_two&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:],&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&amp;#39;last_is_vowel&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;aeiouy&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-py&quot; data-lang=&quot;py&quot;&gt;def _nameFeatures(self,name):
+    name=name.upper()
+    return {
+        &amp;#39;last_letter&amp;#39;: name[-1],
+        &amp;#39;last_two&amp;#39; : name[-2:],
+        &amp;#39;last_is_vowel&amp;#39; : (name[-1] in &amp;#39;aeiouy&amp;#39;)
+    }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Third, we need to test the classifier.
 We need to be sure that we separate the training data set from the test data set.
@@ -1306,9 +1306,9 @@ If you find something that works better, please let me know and I’ll incorpora
  
  <entry>
    <title>FidoFetch Architecture</title>
-   <link href="http://stephenholiday.com/articles/2011/fidofetch-architecture"/>
+   <link href="http://stephenholiday.com/articles/2011/fidofetch-architecture/index.html"/>
    <updated>2011-04-25T00:00:00-07:00</updated>
-   <id>http://stephenholiday/articles/2011/fidofetch-architecture</id>
+   <id>http://stephenholiday/articles/2011/fidofetch-architecture/fidofetch-architecture</id>
    <content type="html">&lt;h2 id=&quot;whats-fidofetch&quot;&gt;What’s FidoFetch&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://fidofetch.ca&quot;&gt;FidoFetch&lt;/a&gt; is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Rss&quot; title=&quot;RSS&quot;&gt;RSS&lt;/a&gt;/&lt;a href=&quot;http://en.wikipedia.org/wiki/ATOM&quot; title=&quot;ATOM&quot;&gt;ATOM&lt;/a&gt; news reader service much like Google Reader.
@@ -1343,12 +1343,12 @@ But, I didn’t know what numbers I wanted to reach, I just wanted to get a work
 
 &lt;p&gt;Here were my main goals with the architecture of the system:&lt;/p&gt;
 
-&lt;h3 id=&quot;reading-articles-is-most-important&quot;&gt;1) Reading articles is most important&lt;/h3&gt;
+&lt;h3 id=&quot;1-reading-articles-is-most-important&quot;&gt;1) Reading articles is most important&lt;/h3&gt;
 &lt;p&gt;Being able to read and rate articles should be quick and responsive.
 The user interface should not lag despite a large load on the server.
 Having the most up to date articles is not as important.&lt;/p&gt;
 
-&lt;h3 id=&quot;elastic-server-capacity&quot;&gt;2) Elastic Server Capacity&lt;/h3&gt;
+&lt;h3 id=&quot;2-elastic-server-capacity&quot;&gt;2) Elastic Server Capacity&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/conditions-variable.gif&quot; style=&quot;margin-left:10px;float:right&quot; /&gt;
 I’m a student and while my co-op jobs have been quite good in terms of compensation, I don’t want to waste money on servers I don’t need.
 Right now this is just a personal project, not a business.
@@ -1363,7 +1363,7 @@ If the system detects a high load, it boots up another instance in a cloud.
 Getting more capacity through &lt;a href=&quot;http://aws.amazon.com/ec2/&quot;&gt;EC2&lt;/a&gt; or &lt;a href=&quot;http://www.rackspace.com/cloud/&quot;&gt;Rackspace&lt;/a&gt; isn’t hard at all to automate,
 the challenge is getting the software to make use of the additional capacity.&lt;/p&gt;
 
-&lt;h3 id=&quot;ability-to-try-different-recommendation-algorithms&quot;&gt;3) Ability to try different recommendation algorithms&lt;/h3&gt;
+&lt;h3 id=&quot;3-ability-to-try-different-recommendation-algorithms&quot;&gt;3) Ability to try different recommendation algorithms&lt;/h3&gt;
 &lt;p&gt;FidoFetch is part of a learning project for me.
 I don’t know what the best algorithm is for recommending articles in a news feed.
 But that’s part of the fun, it’s an experiment.&lt;/p&gt;
@@ -1372,7 +1372,7 @@ But that’s part of the fun, it’s an experiment.&lt;/p&gt;
 This would dictate that the architecture not be specific to any specific type of algorithm.
 This is also a problem I dealt with at &lt;a href=&quot;http://about-tagged.com/&quot;&gt;Tagged&lt;/a&gt; during &lt;a href=&quot;http://stephenholiday.com/resume/&quot;&gt;my internship&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id=&quot;let-others-design-the-reader&quot;&gt;4) Let others design the reader&lt;/h3&gt;
+&lt;h3 id=&quot;4-let-others-design-the-reader&quot;&gt;4) Let others design the reader&lt;/h3&gt;
 &lt;p&gt;I’m not a great visual designer. If you look at some of my projects it will become quite apparent.
 Some of them look the same in &lt;a href=&quot;http://www.jikos.cz/~mikulas/links/screenshots/png.html&quot;&gt;Links&lt;/a&gt; as they do in a graphical web browser…&lt;/p&gt;
 
@@ -1381,8 +1381,8 @@ Many people can make much more beautiful interfaces that would benefit from my p
 To that end, FidoFetch must be able to be used under someone else’s reader app (be it JavaScript, HTML5, BlackBerry, iOS, offline/desktop, Android, etc…).&lt;/p&gt;
 
 &lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-&lt;p&gt;## Queues ##
-&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/mailboxes.gif&quot; style=&quot;margin-right:10px;float:left&quot; /&gt;
+&lt;h2 id=&quot;queues&quot;&gt;Queues&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/mailboxes.gif&quot; style=&quot;margin-right:10px;float:left&quot; /&gt;
 Goal #1 would require the ability to prioritize different parts of the system and hold unimportant computation for later.
 This speaks to me as a great place to use a queue.
 A queue would allow feed fetching and recommendation to happen behind the scenes when the server isn’t busy.&lt;/p&gt;
@@ -1500,7 +1500,7 @@ I’ll cover those tasks later.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;blockquote&gt;
-    &lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/job-chain.png&quot; alt=&quot;FidoFetch&#39;s Job Chain&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;http://stephenholiday.com/media/img/fidofetch-architecture/job-chain.png&quot; alt=&quot;FidoFetch's Job Chain&quot; /&gt;&lt;/p&gt;
   &lt;/blockquote&gt;
 &lt;/blockquote&gt;
 
@@ -1523,7 +1523,7 @@ The system is, which we’ll talk about later in the &lt;em&gt;updateFeed&lt;/em
 Every 20 minutes (totally customizable), the system queues a job for each feed that there are subscribers (a list I maintain, lookups are in constant time).
 This happens with a python script. The twenty minutes is just a reasonable number I picked.&lt;/p&gt;
 
-&lt;h3 id=&quot;updateuserfeedsuserkey&quot;&gt;updateUserFeeds(user_key)&lt;/h3&gt;
+&lt;h3 id=&quot;updateuserfeedsuser_key&quot;&gt;updateUserFeeds(user_key)&lt;/h3&gt;
 
 &lt;p&gt;The updateUserFeeds task’s name is somewhat of a misnomer.
 Technically it doesn’t update the feeds of that user.
@@ -1539,7 +1539,7 @@ and reduces the list to those that haven’t been updated in over 15 minutes.
 The 15 minutes is again arbitrary, but is a reasonable number for current operation.
 Then, for each feed remaining, the worker places a job in the queue for updateFeed().&lt;/p&gt;
 
-&lt;h3 id=&quot;updatefeedfeedkey&quot;&gt;updateFeed(feed_key)&lt;/h3&gt;
+&lt;h3 id=&quot;updatefeedfeed_key&quot;&gt;updateFeed(feed_key)&lt;/h3&gt;
 
 &lt;p&gt;This worker does what it’s name implies. It updates the feed given to it.
 First it looks up in the database to see if the feed has been checked in the past 15 minutes.
@@ -1570,7 +1570,7 @@ This makes lookups very fast.&lt;/p&gt;
 
 &lt;p&gt;Now, for each article that was new, the worker saves the article data and queues a job in the prepareArticle(feed_key, article_key) queue.&lt;/p&gt;
 
-&lt;h3 id=&quot;preparearticlefeedkey-articlekey&quot;&gt;prepareArticle(feed_key, article_key)&lt;/h3&gt;
+&lt;h3 id=&quot;preparearticlefeed_key-article_key&quot;&gt;prepareArticle(feed_key, article_key)&lt;/h3&gt;
 
 &lt;p&gt;This workers is the first to do something a little more interesting than the previous ones.
 This worker is given an article for a given feed to work on.&lt;/p&gt;
@@ -1585,7 +1585,7 @@ That means that pre-processing an article is a perfect sub task to be done ahead
 
 &lt;p&gt;Once the preparation is complete, it just enqueues another job into the notifySubscribers(feed_key, article_key) queue.&lt;/p&gt;
 
-&lt;h3 id=&quot;notifysubscribersfeedkey-articlekey&quot;&gt;notifySubscribers(feed_key, article_key)&lt;/h3&gt;
+&lt;h3 id=&quot;notifysubscribersfeed_key-article_key&quot;&gt;notifySubscribers(feed_key, article_key)&lt;/h3&gt;
 
 &lt;p&gt;This worker is pretty simple.
 It looks up all the users who are subscribed to a given key.
@@ -1593,7 +1593,7 @@ I have such a list stored under the feed_key in the database so this is a consta
 
 &lt;p&gt;Then, for each person in the list, the article is added to the recommendArticle(article_key, user_key) queue.&lt;/p&gt;
 
-&lt;h3 id=&quot;recommendarticlearticlekey-userkey&quot;&gt;recommendArticle(article_key, user_key)&lt;/h3&gt;
+&lt;h3 id=&quot;recommendarticlearticle_key-user_key&quot;&gt;recommendArticle(article_key, user_key)&lt;/h3&gt;
 
 &lt;p&gt;This worker is the main point in the application.
 This is what makes FidoFetch smart.
@@ -1611,7 +1611,7 @@ It stores the recommendation in a articlesToRead list keyed by the user_key.&lt;
 &lt;p&gt;Not everything fits into the chain. There are a few tasks that need to be completed but don’t depend on other tasks.
 In other systems this may include cleaning up temporary files, updating server code etc.&lt;/p&gt;
 
-&lt;h3 id=&quot;regeneratemodelsuserkey&quot;&gt;regenerateModels(user_key)&lt;/h3&gt;
+&lt;h3 id=&quot;regeneratemodelsuser_key&quot;&gt;regenerateModels(user_key)&lt;/h3&gt;
 
 &lt;p&gt;For many algorithms, there can be a huge performance boost in pre-generating some sort of model every once in a while.
 Not all algorithms can do this but a lot can.
@@ -1621,7 +1621,7 @@ So each algorithm has the option to add itself to the list of things that should
 Regenerating just one of the models for my interests takes about 3 minutes if there is no other load.
 Putting this task in a distributed worker queue makes a lot of sense.&lt;/p&gt;
 
-&lt;h3 id=&quot;markarticlereadarticlekey-userkey&quot;&gt;markArticleRead(article_key, user_key)&lt;/h3&gt;
+&lt;h3 id=&quot;markarticlereadarticle_key-user_key&quot;&gt;markArticleRead(article_key, user_key)&lt;/h3&gt;
 
 &lt;p&gt;Once you read an article, there are a lot of things that change than just your articlesToRead list.
 There are other indexes that can quickly show what everyone else thought of a given article, what people think of certain feeds in general and so on.&lt;/p&gt;
@@ -1682,15 +1682,15 @@ I hope that you will also find it useful or that it at least gets your brain chu
 
 &lt;p&gt;So far FidoFetch’s architecture has been performing great. I expect there will be further iterations.&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading, please shoot me an &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#115;&amp;#116;&amp;#101;&amp;#112;&amp;#104;&amp;#101;&amp;#110;&amp;#046;&amp;#104;&amp;#111;&amp;#108;&amp;#105;&amp;#100;&amp;#097;&amp;#121;&amp;#064;&amp;#103;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;email&lt;/a&gt; with any thoughts.&lt;/p&gt;
+&lt;p&gt;Thanks for reading, please shoot me an &lt;a href=&quot;mailto:stephen.holiday@gmail.com&quot;&gt;email&lt;/a&gt; with any thoughts.&lt;/p&gt;
 </content>
  </entry>
  
  <entry>
    <title>Introduction To MapReduce</title>
-   <link href="http://stephenholiday.com/articles/2011/introduction-to-mapreduce"/>
+   <link href="http://stephenholiday.com/articles/2011/introduction-to-mapreduce/index.html"/>
    <updated>2011-03-12T00:00:00-08:00</updated>
-   <id>http://stephenholiday/articles/2011/introduction-to-mapreduce</id>
+   <id>http://stephenholiday/articles/2011/introduction-to-mapreduce/introduction-to-mapreduce</id>
    <content type="html">&lt;p&gt;Sometimes datasets are a little larger than what we can easily process on a laptop.
 In these cases it’s often helpful to harness the power of many machines to do processing of data.&lt;/p&gt;
 
@@ -1700,14 +1700,14 @@ distributed software using common programming constructs.&lt;/p&gt;
 
 &lt;p&gt;In python it’s not unusual to ‘map’ a function across a list:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-py&quot; data-lang=&quot;py&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Hi my&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;is&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;Stephen Holiday&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;swapcase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;hI MY&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;NAME&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;IS&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;sTEPHEN hOLIDAY&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-py&quot; data-lang=&quot;py&quot;&gt;&amp;gt;&amp;gt;&amp;gt; some_list = [&amp;#39;Hi my&amp;#39;, &amp;#39;name&amp;#39;, &amp;#39;is&amp;#39;, &amp;#39;Stephen Holiday&amp;#39;]
+&amp;gt;&amp;gt;&amp;gt; map(lambda x: x.swapcase(), some_list)
+[&amp;#39;hI MY&amp;#39;, &amp;#39;NAME&amp;#39;, &amp;#39;IS&amp;#39;, &amp;#39;sTEPHEN hOLIDAY&amp;#39;]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Similarly you can reduce a list by iterating over it and returning a single value each time:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; 
-&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&amp;gt;&amp;gt;&amp;gt; reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) 
+15&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;It turns out that these two concepts make it very easy for distributive systems to break up tasks.
 Since each map requires only the current item in the list, the above map operation could have occurred on 4 different machines.&lt;/p&gt;
@@ -1739,19 +1739,19 @@ Using a MapReduce infrastructure, we can easily deploy new jobs to the cluster.&
 
 &lt;p&gt;So our map function could be:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;map_convert_to_int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;def map_convert_to_int(input_string):
+    return int(input_string)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Now, let’s say we had some distributed map reduce framework (&lt;strong&gt;cough&lt;/strong&gt; hadoop), it could break up the list and send
 a portion of the list to each machine.&lt;/p&gt;
 
 &lt;p&gt;For simplicity, we’re only going to use the numbers 1-10, but this can easily be expanded.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;2&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;4&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;6&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;7&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;8&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;9&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;10&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;machine_1_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;2&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;7&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;machine_2_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;10&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;6&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;machine_3_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;5&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;machine_4_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;9&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;4&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;8&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;list=[&amp;#39;1&amp;#39;,&amp;#39;2&amp;#39;,&amp;#39;3&amp;#39;,&amp;#39;4&amp;#39;,&amp;#39;6&amp;#39;,&amp;#39;7&amp;#39;,&amp;#39;8&amp;#39;,&amp;#39;9&amp;#39;,&amp;#39;10&amp;#39;]
+machine_1_list=[&amp;#39;2&amp;#39;,&amp;#39;1&amp;#39;,&amp;#39;7&amp;#39;]
+machine_2_list=[&amp;#39;10&amp;#39;,&amp;#39;6&amp;#39;]
+machine_3_list=[&amp;#39;3&amp;#39;,&amp;#39;5&amp;#39;]
+machine_4_list=[&amp;#39;9&amp;#39;,&amp;#39;4&amp;#39;,&amp;#39;8&amp;#39;]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;So as you can see, each machine gets some subset of the list.
 The machine doesn’t care which ones it gets, the order, or the size since each map operation is independent.&lt;/p&gt;
@@ -1764,8 +1764,8 @@ Each machine now has a list of integers.&lt;/p&gt;
 
 &lt;p&gt;Our reducer could look like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;reduce_sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accumulator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accumulator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_value&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;def reduce_sum(accumulator,new_value):
+    return accumulator+new_value&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;This would be run against the list, with an accumulator value.
 Since addition is commutative and associative, it doesn’t matter what subset or order we run the reducer.&lt;/p&gt;
@@ -1787,17 +1787,17 @@ Different implementations have different additional features, but the basics are
  
  <entry>
    <title>Mining Jobmine - Fall 2010 - Part 3</title>
-   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-3"/>
+   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-3/index.html"/>
    <updated>2011-03-01T00:00:00-08:00</updated>
-   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-3</id>
+   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-3/mining-jobmine-fall-2010-part-3</id>
    <content type="html">&lt;p&gt;&lt;em&gt;This is the third part in a multi-part series, read the first part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;here&lt;/a&gt; and the second part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;JobMine is the tool we use at the &lt;a href=&quot;http://uwaterloo.ca&quot;&gt;University of Waterloo&lt;/a&gt; for our co-op.
 For each job in JobMine there is a description of the job written by the employer.
 In this article I’ll dig into the job descriptions applying some of the techniques I talked about in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;earlier&lt;/a&gt; &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;articles&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h2 id=&quot;unigrams&quot;&gt;Unigrams&lt;/h2&gt;
-&lt;p&gt;Just like I did in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;first article&lt;/a&gt;, I tokenized descriptions and collected the most common ones.&lt;/p&gt;
+&lt;p&gt;##Unigrams##
+Just like I did in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;first article&lt;/a&gt;, I tokenized descriptions and collected the most common ones.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;blockquote&gt;
@@ -1814,8 +1814,8 @@ In this article I’ll dig into the job descriptions applying some of the techni
 &lt;p&gt;Ugh, that’s not very useful at all! The most common tokens seem to be those that are most common in English in general.
 Thankfully, we have lists of such common words. They’re called stop words.&lt;/p&gt;
 
-&lt;h2 id=&quot;stop-words&quot;&gt;Stop Words&lt;/h2&gt;
-&lt;p&gt;Stop words are common words that don’t really give any insight into the text, like ‘the’, ‘and’, ‘or’ or ‘but’.
+&lt;p&gt;##Stop Words##
+Stop words are common words that don’t really give any insight into the text, like ‘the’, ‘and’, ‘or’ or ‘but’.
 Often people trying to classify text or extract meaning remove stop words from the text.
 The idea is that removing the stop words reduces noise in the data and compacts feature space.&lt;/p&gt;
 
@@ -1824,8 +1824,8 @@ The idea is that removing the stop words reduces noise in the data and compacts 
 &lt;p&gt;Now I need a list of stop words to remove.
 Since I’m a fan of the &lt;a href=&quot;http://www.nltk.org/&quot;&gt;NLTK&lt;/a&gt; (Natural Language Toolkit) for python, I’m going to use the built in stop word list.&lt;/p&gt;
 
-&lt;h3 id=&quot;nltk-stop-words&quot;&gt;NLTK Stop Words&lt;/h3&gt;
-&lt;p&gt;I’ve reproduced the list here so you can get an idea of what will be removed.
+&lt;p&gt;###NLTK Stop Words###
+I’ve reproduced the list here so you can get an idea of what will be removed.
 Again, please checkout the &lt;a href=&quot;http://www.nltk.org/&quot;&gt;NLTK website&lt;/a&gt; for more information.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;i           their	    doing	above	each
@@ -1856,8 +1856,8 @@ they    	does    	after	both	now
 them    	did
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&quot;unigrams---stop-words-removed&quot;&gt;Unigrams - Stop Words Removed&lt;/h2&gt;
-&lt;p&gt;So I removed all tokens that were in the stop word list inside my tokenizer function.&lt;/p&gt;
+&lt;p&gt;##Unigrams - Stop Words Removed##
+So I removed all tokens that were in the stop word list inside my tokenizer function.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;blockquote&gt;
@@ -1875,8 +1875,8 @@ them    	did
 I did not expect for ‘work’ to be the most common token in the job descriptions.
 ‘Experience’ and ‘development’ were not surprises.&lt;/p&gt;
 
-&lt;h2 id=&quot;bigrams&quot;&gt;Bigrams&lt;/h2&gt;
-&lt;p&gt;That covers what I talked about in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;first article&lt;/a&gt;.
+&lt;p&gt;##Bigrams##
+That covers what I talked about in the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;first article&lt;/a&gt;.
 Now I’m going to address the topics covered in the  the &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;second article&lt;/a&gt;, bigrams and trigrams.&lt;/p&gt;
 
 &lt;p&gt;Without further ado, here are the most common bigrams:&lt;/p&gt;
@@ -1910,8 +1910,8 @@ I think there’s some more interesting bigrams that are hidden in the noise.&lt
 
 &lt;p&gt;The bigrams that don’t contain stop words seem to be much more interesting. Seems like stop words are working.&lt;/p&gt;
 
-&lt;h2 id=&quot;trigrams&quot;&gt;Trigrams&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;Previously&lt;/a&gt;, trigrams were not that interesting in the titles.
+&lt;p&gt;##Trigrams##
+&lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2&quot;&gt;Previously&lt;/a&gt;, trigrams were not that interesting in the titles.
 I hypothesized that this was because the titles are so short, usually two to three words (I should run some stats on that…).
 Descriptions are often much longer so maybe they will be more interesting.&lt;/p&gt;
 
@@ -1946,8 +1946,8 @@ The people who run JobMine (CECS) put a notice in the job descriptions of positi
 It’s good to let people know about the possible issues with working internationally but it seems to mess with the data.
 We are really interested in what &lt;em&gt;employers&lt;/em&gt; write in the their job descriptions. So I’ll try to remove them.&lt;/p&gt;
 
-&lt;h2 id=&quot;trigrams-without-warning&quot;&gt;Trigrams without Warning&lt;/h2&gt;
-&lt;p&gt;So I modified my script to remove the CECS warning from the job descriptions and plotted both charts.
+&lt;p&gt;##Trigrams without Warning##
+So I modified my script to remove the CECS warning from the job descriptions and plotted both charts.
 (I really should have wrote my script to produce a chart at the end instead of sending the results to Excel)&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -1979,8 +1979,8 @@ We are really interested in what &lt;em&gt;employers&lt;/em&gt; write in the the
 &lt;p&gt;I’ve censored one of the trigrams as it would have given away one of the companies on JobMine and I don’t want to get in trouble with the university.
 In the future I’m going to try and play with public data sets so I don’t have this issue.&lt;/p&gt;
 
-&lt;h2 id=&quot;quadgrams&quot;&gt;Quadgrams&lt;/h2&gt;
-&lt;p&gt;Trigrams seem to be interesting, how about setting &lt;em&gt;n&lt;/em&gt; to 4 (quadgrams?).
+&lt;p&gt;##Quadgrams##
+Trigrams seem to be interesting, how about setting &lt;em&gt;n&lt;/em&gt; to 4 (quadgrams?).
 Quick changes in the script and away we go…&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -2014,8 +2014,8 @@ This makes sense as the chance that multiple employers will choose the exact sam
 decreases with higher &lt;em&gt;n&lt;/em&gt;. This is kind of like the randomly typing monkeys problem.
 However, I wouldn’t want to compare the employers to randomly typing monkeys…&lt;/p&gt;
 
-&lt;h2 id=&quot;next-time&quot;&gt;Next Time&lt;/h2&gt;
-&lt;p&gt;Looking at the descriptions seemed interesting to me but I’m definitely not done messing with this dataset yet.
+&lt;p&gt;##Next Time##
+Looking at the descriptions seemed interesting to me but I’m definitely not done messing with this dataset yet.
 Some other things I’m thinking of doing next include lengths of job descriptions, writing level (though that could be sticky) and maybe some other stats that step away from the text itself.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed this article, shoot me an email if you have something to say.&lt;/p&gt;
@@ -2024,15 +2024,15 @@ Some other things I’m thinking of doing next include lengths of job descriptio
  
  <entry>
    <title>Mining Jobmine - Fall 2010 - Part 2</title>
-   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2"/>
+   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2/index.html"/>
    <updated>2011-02-22T00:00:00-08:00</updated>
-   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-2</id>
+   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-2/mining-jobmine-fall-2010-part-2</id>
    <content type="html">&lt;p&gt;&lt;em&gt;This is the second part in a multi-part series, read the first part &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1&quot;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;JobMine is the tool we use at the &lt;a href=&quot;http://uwaterloo.ca&quot;&gt;University of Waterloo&lt;/a&gt; for our co-op.
 In this article, I show some more insightful data based on n-grams.&lt;/p&gt;
 
-&lt;h2 id=&quot;n-grams&quot;&gt;&lt;em&gt;n&lt;/em&gt;-grams&lt;/h2&gt;
+&lt;p&gt;##&lt;em&gt;n&lt;/em&gt;-grams##&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://secure.wikimedia.org/wikipedia/en/wiki/N-gram&quot;&gt;&lt;em&gt;n&lt;/em&gt;-grams&lt;/a&gt; are sequences of n consecutive words.
 They are quite simple but can provide a lot of insight into a collection of text.
@@ -2063,8 +2063,8 @@ A simple way to do this is with &lt;em&gt;n&lt;/em&gt;-grams.&lt;/p&gt;
 &lt;p&gt;Now that is all very interesting but it does not provide me with enough detail.
 I know most jobs in the categories I’m looking for involve software, but how many are listed as “software tester” and how many are “software developer”?&lt;/p&gt;
 
-&lt;h2 id=&quot;bigrams&quot;&gt;Bigrams&lt;/h2&gt;
-&lt;p&gt;So I ran through the titles and collected the top 25 bigrams…&lt;/p&gt;
+&lt;p&gt;##Bigrams##
+So I ran through the titles and collected the top 25 bigrams…&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;blockquote&gt;
@@ -2084,8 +2084,8 @@ I also find the distribution very interesting, it seems similar to that of the &
 
 &lt;p&gt;If I had more data, I’d really like to show the charts for the different job levels (In JobMine there are Junior, Intermediate and Senior classes on jobs).&lt;/p&gt;
 
-&lt;h2 id=&quot;trigrams&quot;&gt;Trigrams&lt;/h2&gt;
-&lt;p&gt;Bigrams were definitely more descriptive, so how about trigrams?&lt;/p&gt;
+&lt;p&gt;##Trigrams##
+Bigrams were definitely more descriptive, so how about trigrams?&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;blockquote&gt;
@@ -2102,8 +2102,8 @@ I also find the distribution very interesting, it seems similar to that of the &
 &lt;p&gt;Hmm, not really that interesting.
 Since titles are short, the number of trigrams that reoccur in titles is small.&lt;/p&gt;
 
-&lt;h2 id=&quot;next-time&quot;&gt;Next Time&lt;/h2&gt;
-&lt;p&gt;So we’ve looked at the titles, but what about the job descriptions themselves?&lt;/p&gt;
+&lt;p&gt;##Next Time##
+So we’ve looked at the titles, but what about the job descriptions themselves?&lt;/p&gt;
 
 &lt;p&gt;The next article will go into the meat of the job descriptions.
 Read it &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-3&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -2112,9 +2112,9 @@ Read it &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-
  
  <entry>
    <title>Mining Jobmine - Fall 2010 - Part 1</title>
-   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1"/>
+   <link href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1/index.html"/>
    <updated>2011-02-03T00:00:00-08:00</updated>
-   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-1</id>
+   <id>http://stephenholiday/articles/2011/mining-jobmine-fall-2010-part-1/mining-jobmine-fall-2010-part-1</id>
    <content type="html">&lt;p&gt;JobMine is the tool we use at the &lt;a href=&quot;http://uwaterloo.ca&quot;&gt;University of Waterloo&lt;/a&gt; for our co-op.
 In the system, there are thousands of job postings for various positions.
 Having access to a big database always gets my brain churning with possible alternative uses for the data contained within.&lt;/p&gt;
@@ -2179,13 +2179,13 @@ My &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-
  
  <entry>
    <title>New Site - Hello Hyde!</title>
-   <link href="http://stephenholiday.com/articles/2010/new-site"/>
+   <link href="http://stephenholiday.com/articles/2010/new-site/index.html"/>
    <updated>2010-11-21T00:00:00-08:00</updated>
-   <id>http://stephenholiday/articles/2010/new-site</id>
+   <id>http://stephenholiday/articles/2010/new-site/new-site</id>
    <content type="html">&lt;p&gt;I’ve switched to a new method of creating this site, now I’m using &lt;a href=&quot;http://ringce.com/hyde&quot;&gt;Hyde&lt;/a&gt;…&lt;/p&gt;
 
-&lt;h2 id=&quot;before&quot;&gt;Before&lt;/h2&gt;
-&lt;p&gt;I used to write all my site content in a giant PHP file with if statements for which page to show.&lt;/p&gt;
+&lt;p&gt;##Before##
+I used to write all my site content in a giant PHP file with if statements for which page to show.&lt;/p&gt;
 
 &lt;p&gt;I admit, it was ugly.&lt;/p&gt;
 
@@ -2193,7 +2193,7 @@ My &lt;a href=&quot;http://stephenholiday.com/articles/2011/mining-jobmine-fall-
 The real reason for using PHP was so I wouldn’t have to replicate all the boilerplate HTML on every page.
 I didn’t like the fact that I was using PHP just to switch pages, but hey it worked.&lt;/p&gt;
 
-&lt;h2 id=&quot;problems&quot;&gt;Problems&lt;/h2&gt;
+&lt;p&gt;##Problems##&lt;/p&gt;
 
 &lt;p&gt;I didn’t want to go with a full blown blogging/cms framework like Drupal or Wordpress.
 I just wanted a dead simple way of showing people what cool projects I was working on.&lt;/p&gt;
@@ -2205,18 +2205,18 @@ I want to build things and create cool things. Blogging just uses up my time.&lt
 The site has a static focus. Things don’t update all the time, but content does change.
 That’s one of the reasons this section is ‘Articles’ and not ‘Blog’.&lt;/p&gt;
 
-&lt;h2 id=&quot;make-a-wish&quot;&gt;Make a wish&lt;/h2&gt;
-&lt;p&gt;There had to be a better way than an ugly PHP file.
+&lt;p&gt;##Make a wish##
+There had to be a better way than an ugly PHP file.
 So I did what most people do when they wish a piece of software, I googled it.&lt;/p&gt;
 
 &lt;p&gt;And magically someone had built it. It was called &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyl&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Jekyl is awesome. But it’s written in Ruby. And I like python so I made a wish to google again and found my answer…&lt;/p&gt;
 
-&lt;h2 id=&quot;enter-hyde&quot;&gt;Enter Hyde&lt;/h2&gt;
-&lt;p&gt;And that answer was &lt;a href=&quot;http://ringce.com/hyde&quot;&gt;Hyde&lt;/a&gt;. It was essentially Jekyl but in Python! Perfect name.&lt;/p&gt;
+&lt;p&gt;##Enter Hyde##
+And that answer was &lt;a href=&quot;http://ringce.com/hyde&quot;&gt;Hyde&lt;/a&gt;. It was essentially Jekyl but in Python! Perfect name.&lt;/p&gt;
 
-&lt;p&gt;So instead of trying to rehash why Hyde is awesome I’ll point you to &lt;a href=&quot;http://stevelosh.com/blog/2010/01/moving-from-django-to-hyde/&quot;&gt;Steve Losh&lt;/a&gt;’s post. &lt;/p&gt;
+&lt;p&gt;So instead of trying to rehash why Hyde is awesome I’ll point you to &lt;a href=&quot;http://stevelosh.com/blog/2010/01/moving-from-django-to-hyde/&quot;&gt;Steve Losh&lt;/a&gt;’s post.&lt;/p&gt;
 </content>
  </entry>
  

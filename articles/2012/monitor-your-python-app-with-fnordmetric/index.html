@@ -92,23 +92,23 @@ It’s super easy to get running.</p>
 
 <p>First you describe a gauge, basically a counter:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gauge</span> <span class="ss">:logins_per_hour</span><span class="p">,</span>
-    <span class="ss">:tick</span>  <span class="o">=&gt;</span> <span class="mi">1</span><span class="o">.</span><span class="n">hour</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span>
-    <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Logins per Hour&#39;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">gauge :logins_per_hour,
+    :tick  =&gt; 1.hour.to_i,
+    :title =&gt; &#39;Logins per Hour&#39;</code></pre></figure>
 
 <p>Then you need an event handler:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">event</span><span class="p">(</span><span class="ss">:api_login</span><span class="p">)</span> <span class="p">{</span> <span class="n">incr</span><span class="p">(</span><span class="ss">:logins_per_hour</span><span class="p">)</span> <span class="p">}</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">event(:api_login) { incr(:logins_per_hour) }</code></pre></figure>
 
 <p>And finally some way to display it</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">widget</span> <span class="s1">&#39;API&#39;</span><span class="p">,</span> <span class="p">{</span>
-    <span class="ss">:title</span>            <span class="o">=&gt;</span> <span class="s1">&#39;Logins Per Hour&#39;</span><span class="p">,</span>
-    <span class="ss">:type</span>             <span class="o">=&gt;</span> <span class="ss">:timeline</span><span class="p">,</span>
-    <span class="ss">:gauges</span>           <span class="o">=&gt;</span> <span class="ss">:logins_per_hour</span><span class="p">,</span>
-    <span class="ss">:include_current</span>  <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
-    <span class="ss">:autoupdate</span>       <span class="o">=&gt;</span> <span class="mi">60</span> <span class="c1"># refresh graph every minute</span>
-  <span class="p">}</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">widget &#39;API&#39;, {
+    :title            =&gt; &#39;Logins Per Hour&#39;,
+    :type             =&gt; :timeline,
+    :gauges           =&gt; :logins_per_hour,
+    :include_current  =&gt; true,
+    :autoupdate       =&gt; 60 # refresh graph every minute
+  }</code></pre></figure>
 
 <p>You can have multiple time series per chart, auto-refreshing of data, top-lists, bar charts and more.</p>
 
@@ -126,19 +126,19 @@ to get data in is to talk directly to the backend.</p>
 
 <p>Just <code>easy_install pyfnordmetric</code> and start using the <code>Fnordmetric</code> module like so:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">fnordmetric</span> <span class="kn">import</span> <span class="n">Fnordmetric</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">from fnordmetric import Fnordmetric
 
-  <span class="n">fnord</span> <span class="o">=</span> <span class="n">Fnordmetric</span><span class="p">(</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">6379</span><span class="p">)</span> <span class="c"># Redis server</span>
-  <span class="n">fnord</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="s">&quot;saw_unicorn&quot;</span><span class="p">)</span></code></pre></div>
+  fnord = Fnordmetric(&quot;localhost&quot;, 6379) # Redis server
+  fnord.event(&quot;saw_unicorn&quot;)</code></pre></figure>
 
 <h2 id="tracking-users">Tracking Users</h2>
 <p>That’s pretty useful in it’s own right, but one of the cool features of
 FnordMetric is that it allows you to see what a specific visitor is doing on
 your site right now. For this there are a couple more features:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">fnord</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="s">&quot;login&quot;</span><span class="p">,</span> <span class="s">&quot;session1234&quot;</span><span class="p">)</span>
-  <span class="n">fnord</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s">&quot;Stephen Holiday&quot;</span><span class="p">,</span> <span class="s">&quot;session1234&quot;</span><span class="p">)</span>
-  <span class="n">fnord</span><span class="o">.</span><span class="n">set_gravatar</span><span class="p">(</span><span class="s">&quot;stephen.holiday@gmail.com&quot;</span><span class="p">,</span> <span class="s">&quot;session1234&quot;</span><span class="p">)</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python">fnord.event(&quot;login&quot;, &quot;session1234&quot;)
+  fnord.set_name(&quot;Stephen Holiday&quot;, &quot;session1234&quot;)
+  fnord.set_gravatar(&quot;stephen.holiday@gmail.com&quot;, &quot;session1234&quot;)</code></pre></figure>
 
 <p>That code will automatically grab a users <a href="http://en.gravatar.com/">Gravatar</a> if
 they have one and display it on the FnordMetric window:</p>
@@ -166,11 +166,11 @@ in the works.</p>
   <h3><em>Related Posts</em></h2>
   	<ul class="list-group">
     
-      <li class="list-group-item"><a href="/articles/2014/spaced-repetition"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/spaced-repetition/index.html"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job"><strong>That First Co-op Job</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job/index.html"><strong>That First Co-op Job</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/backup-strategy"><strong>My Backup Strategy</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/backup-strategy/index.html"><strong>My Backup Strategy</strong></a></li>
     
     </ul>
 </div>

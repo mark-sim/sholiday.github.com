@@ -73,8 +73,8 @@
 For each job in JobMine there is a description of the job written by the employer.
 In this article I’ll dig into the job descriptions applying some of the techniques I talked about in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">earlier</a> <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">articles</a>.</p>
 
-<h2 id="unigrams">Unigrams</h2>
-<p>Just like I did in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">first article</a>, I tokenized descriptions and collected the most common ones.</p>
+<p>##Unigrams##
+Just like I did in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">first article</a>, I tokenized descriptions and collected the most common ones.</p>
 
 <blockquote>
   <blockquote>
@@ -91,8 +91,8 @@ In this article I’ll dig into the job descriptions applying some of the techni
 <p>Ugh, that’s not very useful at all! The most common tokens seem to be those that are most common in English in general.
 Thankfully, we have lists of such common words. They’re called stop words.</p>
 
-<h2 id="stop-words">Stop Words</h2>
-<p>Stop words are common words that don’t really give any insight into the text, like ‘the’, ‘and’, ‘or’ or ‘but’.
+<p>##Stop Words##
+Stop words are common words that don’t really give any insight into the text, like ‘the’, ‘and’, ‘or’ or ‘but’.
 Often people trying to classify text or extract meaning remove stop words from the text.
 The idea is that removing the stop words reduces noise in the data and compacts feature space.</p>
 
@@ -101,8 +101,8 @@ The idea is that removing the stop words reduces noise in the data and compacts 
 <p>Now I need a list of stop words to remove.
 Since I’m a fan of the <a href="http://www.nltk.org/">NLTK</a> (Natural Language Toolkit) for python, I’m going to use the built in stop word list.</p>
 
-<h3 id="nltk-stop-words">NLTK Stop Words</h3>
-<p>I’ve reproduced the list here so you can get an idea of what will be removed.
+<p>###NLTK Stop Words###
+I’ve reproduced the list here so you can get an idea of what will be removed.
 Again, please checkout the <a href="http://www.nltk.org/">NLTK website</a> for more information.</p>
 
 <pre><code>i           their	    doing	above	each
@@ -133,8 +133,8 @@ they    	does    	after	both	now
 them    	did
 </code></pre>
 
-<h2 id="unigrams---stop-words-removed">Unigrams - Stop Words Removed</h2>
-<p>So I removed all tokens that were in the stop word list inside my tokenizer function.</p>
+<p>##Unigrams - Stop Words Removed##
+So I removed all tokens that were in the stop word list inside my tokenizer function.</p>
 
 <blockquote>
   <blockquote>
@@ -152,8 +152,8 @@ them    	did
 I did not expect for ‘work’ to be the most common token in the job descriptions.
 ‘Experience’ and ‘development’ were not surprises.</p>
 
-<h2 id="bigrams">Bigrams</h2>
-<p>That covers what I talked about in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">first article</a>.
+<p>##Bigrams##
+That covers what I talked about in the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-1">first article</a>.
 Now I’m going to address the topics covered in the  the <a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">second article</a>, bigrams and trigrams.</p>
 
 <p>Without further ado, here are the most common bigrams:</p>
@@ -187,8 +187,8 @@ I think there’s some more interesting bigrams that are hidden in the noise.</p
 
 <p>The bigrams that don’t contain stop words seem to be much more interesting. Seems like stop words are working.</p>
 
-<h2 id="trigrams">Trigrams</h2>
-<p><a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">Previously</a>, trigrams were not that interesting in the titles.
+<p>##Trigrams##
+<a href="http://stephenholiday.com/articles/2011/mining-jobmine-fall-2010-part-2">Previously</a>, trigrams were not that interesting in the titles.
 I hypothesized that this was because the titles are so short, usually two to three words (I should run some stats on that…).
 Descriptions are often much longer so maybe they will be more interesting.</p>
 
@@ -223,8 +223,8 @@ The people who run JobMine (CECS) put a notice in the job descriptions of positi
 It’s good to let people know about the possible issues with working internationally but it seems to mess with the data.
 We are really interested in what <em>employers</em> write in the their job descriptions. So I’ll try to remove them.</p>
 
-<h2 id="trigrams-without-warning">Trigrams without Warning</h2>
-<p>So I modified my script to remove the CECS warning from the job descriptions and plotted both charts.
+<p>##Trigrams without Warning##
+So I modified my script to remove the CECS warning from the job descriptions and plotted both charts.
 (I really should have wrote my script to produce a chart at the end instead of sending the results to Excel)</p>
 
 <blockquote>
@@ -256,8 +256,8 @@ We are really interested in what <em>employers</em> write in the their job descr
 <p>I’ve censored one of the trigrams as it would have given away one of the companies on JobMine and I don’t want to get in trouble with the university.
 In the future I’m going to try and play with public data sets so I don’t have this issue.</p>
 
-<h2 id="quadgrams">Quadgrams</h2>
-<p>Trigrams seem to be interesting, how about setting <em>n</em> to 4 (quadgrams?).
+<p>##Quadgrams##
+Trigrams seem to be interesting, how about setting <em>n</em> to 4 (quadgrams?).
 Quick changes in the script and away we go…</p>
 
 <blockquote>
@@ -291,8 +291,8 @@ This makes sense as the chance that multiple employers will choose the exact sam
 decreases with higher <em>n</em>. This is kind of like the randomly typing monkeys problem.
 However, I wouldn’t want to compare the employers to randomly typing monkeys…</p>
 
-<h2 id="next-time">Next Time</h2>
-<p>Looking at the descriptions seemed interesting to me but I’m definitely not done messing with this dataset yet.
+<p>##Next Time##
+Looking at the descriptions seemed interesting to me but I’m definitely not done messing with this dataset yet.
 Some other things I’m thinking of doing next include lengths of job descriptions, writing level (though that could be sticky) and maybe some other stats that step away from the text itself.</p>
 
 <p>Hope you enjoyed this article, shoot me an email if you have something to say.</p>
@@ -303,11 +303,11 @@ Some other things I’m thinking of doing next include lengths of job descriptio
   <h3><em>Related Posts</em></h2>
   	<ul class="list-group">
     
-      <li class="list-group-item"><a href="/articles/2014/spaced-repetition"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/spaced-repetition/index.html"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job"><strong>That First Co-op Job</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job/index.html"><strong>That First Co-op Job</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/backup-strategy"><strong>My Backup Strategy</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/backup-strategy/index.html"><strong>My Backup Strategy</strong></a></li>
     
     </ul>
 </div>

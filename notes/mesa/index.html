@@ -203,11 +203,16 @@ order)
 versions to keep around and when to create new deltas to subsume smaller
 deltas</p>
 
-        <p>Specifically:
-  * What deltas must be created before a version can be queried
-    * For performance, I assume
-  * When deltas should be created outside of the update path
-  * When deltas can be deleted</p>
+        <p>Specifically:</p>
+        <ul>
+          <li>What deltas must be created before a version can be queried
+            <ul>
+              <li>For performance, I assume</li>
+            </ul>
+          </li>
+          <li>When deltas should be created outside of the update path</li>
+          <li>When deltas can be deleted</li>
+        </ul>
       </li>
       <li>The authors note that even though a new base may have been generated,
 new deltas relative to the new base must also be created
@@ -250,7 +255,7 @@ independently</li>
               <li>It’s the only writer of the metadata in BigTable</li>
             </ul>
           </li>
-          <li>Controller listens to a metadata feed of table updates </li>
+          <li>Controller listens to a metadata feed of table updates</li>
           <li>Controller schedules the work to be done in different queues
             <ul>
               <li>There is a pool of workers for each job type

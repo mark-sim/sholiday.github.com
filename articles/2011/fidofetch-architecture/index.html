@@ -101,12 +101,12 @@ But, I didn’t know what numbers I wanted to reach, I just wanted to get a work
 
 <p>Here were my main goals with the architecture of the system:</p>
 
-<h3 id="reading-articles-is-most-important">1) Reading articles is most important</h3>
+<h3 id="1-reading-articles-is-most-important">1) Reading articles is most important</h3>
 <p>Being able to read and rate articles should be quick and responsive.
 The user interface should not lag despite a large load on the server.
 Having the most up to date articles is not as important.</p>
 
-<h3 id="elastic-server-capacity">2) Elastic Server Capacity</h3>
+<h3 id="2-elastic-server-capacity">2) Elastic Server Capacity</h3>
 <p><img src="http://stephenholiday.com/media/img/fidofetch-architecture/conditions-variable.gif" style="margin-left:10px;float:right" />
 I’m a student and while my co-op jobs have been quite good in terms of compensation, I don’t want to waste money on servers I don’t need.
 Right now this is just a personal project, not a business.
@@ -121,7 +121,7 @@ If the system detects a high load, it boots up another instance in a cloud.
 Getting more capacity through <a href="http://aws.amazon.com/ec2/">EC2</a> or <a href="http://www.rackspace.com/cloud/">Rackspace</a> isn’t hard at all to automate,
 the challenge is getting the software to make use of the additional capacity.</p>
 
-<h3 id="ability-to-try-different-recommendation-algorithms">3) Ability to try different recommendation algorithms</h3>
+<h3 id="3-ability-to-try-different-recommendation-algorithms">3) Ability to try different recommendation algorithms</h3>
 <p>FidoFetch is part of a learning project for me.
 I don’t know what the best algorithm is for recommending articles in a news feed.
 But that’s part of the fun, it’s an experiment.</p>
@@ -130,7 +130,7 @@ But that’s part of the fun, it’s an experiment.</p>
 This would dictate that the architecture not be specific to any specific type of algorithm.
 This is also a problem I dealt with at <a href="http://about-tagged.com/">Tagged</a> during <a href="http://stephenholiday.com/resume/">my internship</a>.</p>
 
-<h3 id="let-others-design-the-reader">4) Let others design the reader</h3>
+<h3 id="4-let-others-design-the-reader">4) Let others design the reader</h3>
 <p>I’m not a great visual designer. If you look at some of my projects it will become quite apparent.
 Some of them look the same in <a href="http://www.jikos.cz/~mikulas/links/screenshots/png.html">Links</a> as they do in a graphical web browser…</p>
 
@@ -139,8 +139,8 @@ Many people can make much more beautiful interfaces that would benefit from my p
 To that end, FidoFetch must be able to be used under someone else’s reader app (be it JavaScript, HTML5, BlackBerry, iOS, offline/desktop, Android, etc…).</p>
 
 <h2 id="solution">Solution</h2>
-<p>## Queues ##
-<img src="http://stephenholiday.com/media/img/fidofetch-architecture/mailboxes.gif" style="margin-right:10px;float:left" />
+<h2 id="queues">Queues</h2>
+<p><img src="http://stephenholiday.com/media/img/fidofetch-architecture/mailboxes.gif" style="margin-right:10px;float:left" />
 Goal #1 would require the ability to prioritize different parts of the system and hold unimportant computation for later.
 This speaks to me as a great place to use a queue.
 A queue would allow feed fetching and recommendation to happen behind the scenes when the server isn’t busy.</p>
@@ -281,7 +281,7 @@ The system is, which we’ll talk about later in the <em>updateFeed</em> worker 
 Every 20 minutes (totally customizable), the system queues a job for each feed that there are subscribers (a list I maintain, lookups are in constant time).
 This happens with a python script. The twenty minutes is just a reasonable number I picked.</p>
 
-<h3 id="updateuserfeedsuserkey">updateUserFeeds(user_key)</h3>
+<h3 id="updateuserfeedsuser_key">updateUserFeeds(user_key)</h3>
 
 <p>The updateUserFeeds task’s name is somewhat of a misnomer.
 Technically it doesn’t update the feeds of that user.
@@ -297,7 +297,7 @@ and reduces the list to those that haven’t been updated in over 15 minutes.
 The 15 minutes is again arbitrary, but is a reasonable number for current operation.
 Then, for each feed remaining, the worker places a job in the queue for updateFeed().</p>
 
-<h3 id="updatefeedfeedkey">updateFeed(feed_key)</h3>
+<h3 id="updatefeedfeed_key">updateFeed(feed_key)</h3>
 
 <p>This worker does what it’s name implies. It updates the feed given to it.
 First it looks up in the database to see if the feed has been checked in the past 15 minutes.
@@ -328,7 +328,7 @@ This makes lookups very fast.</p>
 
 <p>Now, for each article that was new, the worker saves the article data and queues a job in the prepareArticle(feed_key, article_key) queue.</p>
 
-<h3 id="preparearticlefeedkey-articlekey">prepareArticle(feed_key, article_key)</h3>
+<h3 id="preparearticlefeed_key-article_key">prepareArticle(feed_key, article_key)</h3>
 
 <p>This workers is the first to do something a little more interesting than the previous ones.
 This worker is given an article for a given feed to work on.</p>
@@ -343,7 +343,7 @@ That means that pre-processing an article is a perfect sub task to be done ahead
 
 <p>Once the preparation is complete, it just enqueues another job into the notifySubscribers(feed_key, article_key) queue.</p>
 
-<h3 id="notifysubscribersfeedkey-articlekey">notifySubscribers(feed_key, article_key)</h3>
+<h3 id="notifysubscribersfeed_key-article_key">notifySubscribers(feed_key, article_key)</h3>
 
 <p>This worker is pretty simple.
 It looks up all the users who are subscribed to a given key.
@@ -351,7 +351,7 @@ I have such a list stored under the feed_key in the database so this is a consta
 
 <p>Then, for each person in the list, the article is added to the recommendArticle(article_key, user_key) queue.</p>
 
-<h3 id="recommendarticlearticlekey-userkey">recommendArticle(article_key, user_key)</h3>
+<h3 id="recommendarticlearticle_key-user_key">recommendArticle(article_key, user_key)</h3>
 
 <p>This worker is the main point in the application.
 This is what makes FidoFetch smart.
@@ -369,7 +369,7 @@ It stores the recommendation in a articlesToRead list keyed by the user_key.</p>
 <p>Not everything fits into the chain. There are a few tasks that need to be completed but don’t depend on other tasks.
 In other systems this may include cleaning up temporary files, updating server code etc.</p>
 
-<h3 id="regeneratemodelsuserkey">regenerateModels(user_key)</h3>
+<h3 id="regeneratemodelsuser_key">regenerateModels(user_key)</h3>
 
 <p>For many algorithms, there can be a huge performance boost in pre-generating some sort of model every once in a while.
 Not all algorithms can do this but a lot can.
@@ -379,7 +379,7 @@ So each algorithm has the option to add itself to the list of things that should
 Regenerating just one of the models for my interests takes about 3 minutes if there is no other load.
 Putting this task in a distributed worker queue makes a lot of sense.</p>
 
-<h3 id="markarticlereadarticlekey-userkey">markArticleRead(article_key, user_key)</h3>
+<h3 id="markarticlereadarticle_key-user_key">markArticleRead(article_key, user_key)</h3>
 
 <p>Once you read an article, there are a lot of things that change than just your articlesToRead list.
 There are other indexes that can quickly show what everyone else thought of a given article, what people think of certain feeds in general and so on.</p>
@@ -440,7 +440,7 @@ I hope that you will also find it useful or that it at least gets your brain chu
 
 <p>So far FidoFetch’s architecture has been performing great. I expect there will be further iterations.</p>
 
-<p>Thanks for reading, please shoot me an <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#116;&#101;&#112;&#104;&#101;&#110;&#046;&#104;&#111;&#108;&#105;&#100;&#097;&#121;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">email</a> with any thoughts.</p>
+<p>Thanks for reading, please shoot me an <a href="mailto:stephen.holiday@gmail.com">email</a> with any thoughts.</p>
 
 </div>
 
@@ -448,11 +448,11 @@ I hope that you will also find it useful or that it at least gets your brain chu
   <h3><em>Related Posts</em></h2>
   	<ul class="list-group">
     
-      <li class="list-group-item"><a href="/articles/2014/spaced-repetition"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/spaced-repetition/index.html"><strong>Spaced Repetition: My Learning Secret</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job"><strong>That First Co-op Job</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/that-first-co-op-job/index.html"><strong>That First Co-op Job</strong></a></li>
     
-      <li class="list-group-item"><a href="/articles/2014/backup-strategy"><strong>My Backup Strategy</strong></a></li>
+      <li class="list-group-item"><a href="/articles/2014/backup-strategy/index.html"><strong>My Backup Strategy</strong></a></li>
     
     </ul>
 </div>
